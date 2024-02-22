@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "genericmodule",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/disabled/GenericModule",
+      "state" : {
+        "branch" : "master",
+        "revision" : "50fb5b74b334c39f5e3293e5c9853335f89e0381"
+      }
+    },
+    {
+      "identity" : "lottie-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/airbnb/lottie-ios",
+      "state" : {
+        "branch" : "master",
+        "revision" : "2f0f7610aec94261b6e58bd52a5ed2e1127eeb19"
+      }
+    }
+  ],
+  "version" : 2
+}
