@@ -6,16 +6,16 @@ import UIKit
 
 // swiftlint:disable identifier_name
 public struct RGB: Codable, Equatable {
-    var r: CGFloat
-    var g: CGFloat
-    var b: CGFloat
+    public var r: CGFloat
+    public var g: CGFloat
+    public var b: CGFloat
 
-    func yuv() -> YUV {
+    public func yuv() -> YUV {
         let luminance = (0.299 * r + 0.587 * g + 0.114 * b) // BT.601
         return YUV(y: luminance, u: b - luminance, v: r - luminance)
     }
 
-    func cmyk() -> CMYK {
+    public func cmyk() -> CMYK {
         let k = 1.0 - max(r, g, b)
         let c = (1.0 - r - k) / (1.0 - k)
         let m = (1.0 - g - k) / (1.0 - k)
@@ -25,22 +25,22 @@ public struct RGB: Codable, Equatable {
 }
 
 public struct HSB {
-    var h: CGFloat
-    var s: CGFloat
-    var b: CGFloat
+    public var h: CGFloat
+    public var s: CGFloat
+    public var b: CGFloat
 }
 
 public struct YUV {
-    var y: CGFloat
-    var u: CGFloat
-    var v: CGFloat
+    public var y: CGFloat
+    public var u: CGFloat
+    public var v: CGFloat
 }
 
 public struct CMYK {
-    var c: CGFloat
-    var m: CGFloat
-    var y: CGFloat
-    var k: CGFloat
+    public var c: CGFloat
+    public var m: CGFloat
+    public var y: CGFloat
+    public var k: CGFloat
 }
 // swiftlint:enable identifier_name
 

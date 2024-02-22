@@ -1,0 +1,14 @@
+{% include "header.stencil" %}
+
+import GenericModule
+
+protocol {{ name | upperFirstLetter }}ViewModelDelegate: AnyObject {
+    var state: {{ name | upperFirstLetter }}State { get }
+}
+
+final class {{ name | upperFirstLetter }}ViewModel: ViewModel {
+
+    init(delegate: {{ name | upperFirstLetter }}ViewModelDelegate) {
+        //
+    }
+}

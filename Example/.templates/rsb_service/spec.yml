@@ -1,0 +1,6 @@
+files:
+ - template: Code/Service.swift.stencil
+ - template: Code/ServiceImp.swift.stencil
+ - template: Code/Services.swift.stencil
+   output: Classes/BusinessLogic/Services/Services.swift
+mark: Classes/BusinessLogic/Services/Services.swift

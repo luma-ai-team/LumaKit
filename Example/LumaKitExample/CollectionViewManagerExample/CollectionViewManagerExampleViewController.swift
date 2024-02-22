@@ -51,9 +51,9 @@ final class CollectionViewManagerExampleViewController: UIViewController {
         aSection.insets.right = 20.0
 
         let bSection = BasicCollectionViewSection(items: [
-            BasicCollectionViewItem<TestCell>(viewModel: .init(color: 0xFFFF00)),
-            BasicCollectionViewItem<TestCell>(viewModel: .init(color: 0x00FFFF)),
-            BasicCollectionViewItem<TestCell>(viewModel: .init(color: 0xFF00FF))
+            BasicCollectionViewItem<LayoutCell>(viewModel: .init(color: 0xFFFF00)),
+            BasicCollectionViewItem<LayoutCell>(viewModel: .init(color: 0x00FFFF)),
+            BasicCollectionViewItem<LayoutCell>(viewModel: .init(color: 0xFF00FF))
         ])
 
         collectionViewManager.sections = [aSection, bSection]

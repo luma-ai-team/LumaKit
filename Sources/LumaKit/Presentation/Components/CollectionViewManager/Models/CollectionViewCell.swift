@@ -17,4 +17,11 @@ extension CollectionViewCell {
     public static func register(in collectionView: UICollectionView, withIdentifier identifier: String) {
         collectionView.register(Self.self, forCellWithReuseIdentifier: identifier)
     }
+
+    public static func systemLayoutSize(for viewModel: ViewModel, fitting size: CGSize, usingNib: Bool) -> CGSize {
+        let cell: Self = usingNib ? Self.fromNib() : Self()
+        cell.update(with: viewModel, attributes: .init())
+        cell.layout()
+        return cell.systemLayoutSizeFitting(size)
+    }
 }

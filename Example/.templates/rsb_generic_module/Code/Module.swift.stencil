@@ -1,0 +1,12 @@
+{% include "header.stencil" %}
+
+import GenericModule
+
+protocol {{ name | upperFirstLetter }}ModuleInput {}
+protocol {{ name | upperFirstLetter }}ModuleOutput {}
+
+typealias {{ name | upperFirstLetter }}ModuleDependencies = Any
+
+final class {{ name | upperFirstLetter }}Module: Module<{{ name | upperFirstLetter }}Presenter> {
+    //
+}

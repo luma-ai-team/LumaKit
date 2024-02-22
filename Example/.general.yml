@@ -1,0 +1,13 @@
+xcode:
+  company: Luma AI
+outputs:
+- templateName: rsb_generic_module
+  path: Classes/Presentation/Modules
+- templateName: rsb_service
+  path: Classes/BusinessLogic/Services
+services:
+  servicesPath: ./Classes/BusinessLogic/Services/Services.swift
+  serviceMarks:
+    serviceMark: '{{name | upperFirstLetter}}'
+    serviceMarkName: '{{name | lowerFirstLetter}}'
+    serviceMarkHas: '{% if isNewFile %}Has{{name | upperFirstLetter}}Service{% else %}                       Has{{name | upperFirstLetter}}Service{% endif %}'

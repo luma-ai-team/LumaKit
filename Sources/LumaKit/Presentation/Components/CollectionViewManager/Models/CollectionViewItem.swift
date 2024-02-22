@@ -7,6 +7,10 @@ import UIKit
 public struct CollectionViewCellAttributes {
     var indexPath: IndexPath = .init()
     var isSelected: Bool
+
+    public init() {
+        isSelected = false
+    }
 }
 
 public protocol CollectionViewItem: AnyObject {
@@ -30,7 +34,7 @@ extension CollectionViewItem {
     }
 
     public func size(in collectionView: UICollectionView,
-              at indexPath: IndexPath) -> CGSize {
+                     at indexPath: IndexPath) -> CGSize {
         return Cell.size(with: viewModel, fitting: collectionView.bounds.size, insets: collectionView.contentInset)
     }
 
@@ -67,7 +71,7 @@ extension CollectionViewItem {
 
 open class BasicCollectionViewItem<Cell: CollectionViewCell>: CollectionViewItem {
     public let viewModel: Cell.ViewModel
-    public var attributes: CollectionViewCellAttributes = .init(isSelected: false)
+    public var attributes: CollectionViewCellAttributes = .init()
 
     public var selectionHandler: ((BasicCollectionViewItem) -> Void)?
 

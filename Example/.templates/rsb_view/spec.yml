@@ -1,0 +1,3 @@
+files:
+ - template: preview/view/View.swift.stencil
+suffix: View

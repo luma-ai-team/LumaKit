@@ -1,0 +1,35 @@
+{% include "header.stencil" %}
+
+import GenericModule
+
+{%align%}final class {{ name | upperFirstLetter }}Presenter: Presenter<{%anchor%}{{ name | upperFirstLetter }}State,
+                                                                      {{ name | upperFirstLetter }}ViewController,
+                                                                      {{ name | upperFirstLetter }}ModuleInput,
+                                                                      {{ name | upperFirstLetter }}ModuleOutput,
+                                                                      {{ name | upperFirstLetter }}ModuleDependencies>{%endalign%} {
+    //
+}
+
+// MARK: - {{ name | upperFirstLetter }}ViewOutput
+
+extension {{ name | upperFirstLetter }}Presenter: {{ name | upperFirstLetter }}ViewOutput {
+    //
+}
+
+// MARK: - {{ name | upperFirstLetter }}ModuleInput
+
+extension {{ name | upperFirstLetter }}Presenter: {{ name | upperFirstLetter }}ModuleInput {
+    //
+}
+
+// MARK: - {{ name | upperFirstLetter }}ModuleOutput
+
+extension {{ name | upperFirstLetter }}Presenter: {{ name | upperFirstLetter }}ModuleOutput {
+    //
+}
+
+// MARK: - {{ name | upperFirstLetter }}ViewModelDelegate
+
+extension {{ name | upperFirstLetter }}Presenter: {{ name | upperFirstLetter }}ViewModelDelegate {
+    //
+}
