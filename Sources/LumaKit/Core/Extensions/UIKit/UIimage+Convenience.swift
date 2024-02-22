@@ -11,7 +11,7 @@ public extension UIImage {
     }
 
     func resizeLanczos(to size: CGSize) -> UIImage? {
-        guard let ciImage = CIImage(image: self) else {
+        guard let ciImage = CIImage(image: self, preservingOrientation: true) else {
             return nil
         }
         
