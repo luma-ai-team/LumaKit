@@ -172,4 +172,8 @@ extension CGRect {
         swap(&origin.x, &origin.y)
         swap(&size.width, &size.height)
     }
+
+    public func transposed() -> CGRect {
+        return .init(origin: origin.transposed(), size: size.transposed())
+    }
 }

@@ -51,4 +51,8 @@ extension CGSize {
     public func insetBy(dx: CGFloat, dy: CGFloat) -> CGSize {
         return .init(width: width - dx, height: height - dy)
     }
+
+    public func transposed() -> CGSize {
+        return CGSize(width: height, height: width)
+    }
 }
