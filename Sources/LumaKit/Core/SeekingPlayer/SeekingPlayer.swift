@@ -15,6 +15,18 @@ open class SeekingPlayer: AVPlayer {
         return rate != 0.0
     }
 
+    public var isFinished: Bool {
+        guard let item = currentItem else {
+            return true
+        }
+
+        if item.forwardPlaybackEndTime.isValid {
+            return currentTime() == item.forwardPlaybackEndTime
+        }
+
+        return item.duration == currentTime()
+    }
+
     open override func seek(to time: CMTime) {
         chaseTime = time
         seekToChaseTime(completion: nil)

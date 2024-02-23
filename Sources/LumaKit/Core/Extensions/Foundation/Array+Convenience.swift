@@ -5,9 +5,9 @@
 import Foundation
 
 extension Array where Element: Equatable {
-    mutating func removeAll(matching reference: Element) {
+    mutating func removeAll(matching value: Element) {
         removeAll { element in
-            element == reference
+            element == value
         }
     }
 }
@@ -27,14 +27,14 @@ extension Array where Element: AnyObject {
         }
     }
 
-    func firstIndex<T>(of reference: T) -> Int? {
+    func firstIndexWithReference<T>(to object: T) -> Int? {
         return firstIndex { (element: Element) in
-            return element as AnyObject === reference as AnyObject
+            return element as AnyObject === object as AnyObject
         }
     }
 
-    mutating func removeFirst<T>(_ reference: T) {
-        guard let index = firstIndex(of: reference) else {
+    mutating func removeFirstReference<T>(to object: T) {
+        guard let index = firstIndexWithReference(to: object) else {
             return
         }
 
@@ -53,6 +53,26 @@ extension Array where Element: Collection, Element.Index == Int {
         }
 
         return nil
+    }
+}
+
+extension Array {
+    mutating func shiftLeft() {
+        guard isEmpty == false else {
+            return
+        }
+
+        let element = removeFirst()
+        append(element)
+    }
+
+    mutating func shiftRight() {
+        guard isEmpty == false else {
+            return
+        }
+
+        let element = removeLast()
+        insert(element, at: 0)
     }
 }
 

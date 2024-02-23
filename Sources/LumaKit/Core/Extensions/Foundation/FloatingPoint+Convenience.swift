@@ -4,6 +4,10 @@
 
 extension FloatingPoint {
 
+    public func rounded(precision: Self) -> Self {
+        return (self / precision).rounded() * precision
+    }
+
     public func denormalized(from: Self, through: Self) -> Self {
         return from + (through - from) * self
     }
