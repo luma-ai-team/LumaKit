@@ -77,8 +77,45 @@ final class UIElementsViewController: UIViewController {
         let view = PlayerView()
         view.player = playerLooper.player
         view.bounds.size.height = 120.0
-        
-        playerLooper.player.play()
+        return view
+    }()
+
+    private lazy var animationSequenceViews: [UIView] = {
+        let colors: [UIColor] = [.red, .green, .blue, .black]
+        return colors.map { (color: UIColor) in
+            let view = UIView()
+            view.backgroundColor = color
+            return view
+        }
+    }()
+
+    private lazy var animationSequenceContainerView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .horizontal
+        view.distribution = .fillEqually
+        for subview in animationSequenceViews {
+            view.addArrangedSubview(subview)
+        }
+        view.bounds.size.height = 80.0
+        return view
+    }()
+
+    private lazy var passiveContainerViewLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.text = "PassiveContainerView allows its subviews to catch touch events, " +
+                     "but ignores touches to itself, bypassing them to superview."
+        return label
+    }()
+
+    private lazy var passiveContainerView: PassiveContainerView = {
+        let view = PassiveContainerView()
+        view.backgroundColor = .black.withAlphaComponent(0.05)
+        view.addSubview(passiveContainerViewLabel)
+        passiveContainerViewLabel.bindMarginsToSuperview()
+
+        view.bounds.size.height = 120.0
         return view
     }()
 
@@ -87,7 +124,7 @@ final class UIElementsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .white
+        title = "UIElements"
         view.addSubview(scrollView)
         scrollView.addSubview(containerView)
 
@@ -98,13 +135,57 @@ final class UIElementsViewController: UIViewController {
         containerView.addSubview(gradientButton)
         containerView.addSubview(shimmerButton)
         containerView.addSubview(playerView)
+        containerView.addSubview(animationSequenceContainerView)
+        containerView.addSubview(passiveContainerView)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        prepareElements()
+    }
+
+    private func prepareElements() {
+        playerLooper.player.play()
+        setupProgressViewAnimation()
+        setupAnimationSequence()
+    }
+
+    private func setupProgressViewAnimation() {
+        gradientProgressView.setProgress(progress: 0.0, animation: .none)
+        gradientProgressView.setProgress(progress: 1.0, animation: .spring(duration: 10.0))
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) {
+            self.setupProgressViewAnimation()
+        }
+    }
+
+    private func setupAnimationSequence() {
+        for view in animationSequenceViews {
+            view.alpha = 0.0
+        }
+
+        let sequence = AnimationSequence()
+        sequence.animate(withDuration: 0.5, animations: {
+            self.animationSequenceViews[0].alpha = 1.0
+        })
+        sequence.animate(withDuration: 0.5, animations: {
+            self.animationSequenceViews[1].alpha = 1.0
+        })
+        sequence.wait(forDuration: 1.0)
+        sequence.animate(withDuration: 0.5, animations: {
+            self.animationSequenceViews[2].alpha = 1.0
+        })
+        sequence.animate(withDuration: 0.5, animations: {
+            self.animationSequenceViews[3].alpha = 1.0
+        })
+        sequence.sync(setupAnimationSequence)
+        sequence.start()
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         scrollView.frame = view.bounds
-        containerView.frame = scrollView.bounds
+        containerView.frame = scrollView.bounds.inset(by: scrollView.safeAreaInsets)
 
         var offset: CGFloat = 16.0
         for element in containerView.subviews {

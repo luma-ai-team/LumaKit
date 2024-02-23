@@ -13,7 +13,7 @@ public final class PlayerLooper {
         }
     }
 
-    public let player: AVPlayer = .init()
+    public let player: SeekingPlayer = .init()
     private var playbackObserver: NSObjectProtocol?
     private(set) var isPlaying: Bool = false
 

@@ -26,7 +26,9 @@ class MainViewController: UIViewController {
     
     @IBAction func elementExampleButtonPressed(_ sender: UIButton) {
         let controller = UIElementsViewController()
-        present(controller, animated: true)
+        let navigationController = StyledNavigationController(rootViewController: controller,
+                                                              appearance: .init(barStyle: .blurred, color: .white))
+        present(navigationController, animated: true)
     }
     
     @IBAction func collectionViewExampleButtonPressed(_ sender: Any) {

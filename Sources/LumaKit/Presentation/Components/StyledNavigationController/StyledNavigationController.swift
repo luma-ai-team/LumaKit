@@ -56,6 +56,15 @@ open class StyledNavigationController: UINavigationController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
+        if navigationBar.compactAppearance == nil {
+            navigationBar.compactAppearance = navigationBar.standardAppearance
+        }
+        if navigationBar.scrollEdgeAppearance == nil {
+            navigationBar.scrollEdgeAppearance = navigationBar.standardAppearance
+        }
+        if navigationBar.compactScrollEdgeAppearance == nil {
+            navigationBar.compactScrollEdgeAppearance = navigationBar.standardAppearance
+        }
         updateStyle()
     }
 
@@ -82,8 +91,8 @@ open class StyledNavigationController: UINavigationController {
         switch appearance.barStyle {
         case .blurred:
             let blurEffect: UIBlurEffect.Style = appearance.color.yuv.y > 0.5 ? .light : .dark
-            navigationBarAppearance.backgroundEffect = .init(style: blurEffect)
             navigationBarAppearance.configureWithDefaultBackground()
+            navigationBarAppearance.backgroundEffect = .init(style: blurEffect)
             navigationBarAppearance.backgroundColor = appearance.color.withAlphaComponent(0.4)
         case .opaque:
             navigationBarAppearance.configureWithOpaqueBackground()
