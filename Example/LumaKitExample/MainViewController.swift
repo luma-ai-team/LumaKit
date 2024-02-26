@@ -12,10 +12,7 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        title = "Example"
     }
 
     // MARK: - Actions
@@ -26,13 +23,11 @@ class MainViewController: UIViewController {
     
     @IBAction func elementExampleButtonPressed(_ sender: UIButton) {
         let controller = UIElementsViewController()
-        let navigationController = StyledNavigationController(rootViewController: controller,
-                                                              appearance: .init(barStyle: .blurred, color: .white))
-        present(navigationController, animated: true)
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     @IBAction func collectionViewExampleButtonPressed(_ sender: Any) {
         let controller = CollectionViewManagerExampleViewController()
-        present(controller, animated: true)
+        navigationController?.pushViewController(controller, animated: true)
     }
 }

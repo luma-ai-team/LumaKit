@@ -4,15 +4,34 @@
 
 import Foundation
 
-protocol OptionalType {
+public protocol OptionalType {
     associatedtype T
     var optional: T? { get }
 }
 
 extension Optional: OptionalType {
-    typealias T = Wrapped
+    public enum OptionalError: LocalizedError {
+        case noValue(type: Wrapped.Type, hint: String?)
 
-    var optional: T? {
+        public var errorDescription: String? {
+            switch self {
+            case let .noValue(type: _, hint: hint):
+                return hint
+            }
+        }
+    }
+
+    public typealias T = Wrapped
+
+    public var optional: T? {
         return self
+    }
+
+    public func unwrap(hint: String? = nil) throws -> T {
+        guard let value = optional else {
+            throw OptionalError.noValue(type: T.self, hint: hint)
+        }
+
+        return value
     }
 }

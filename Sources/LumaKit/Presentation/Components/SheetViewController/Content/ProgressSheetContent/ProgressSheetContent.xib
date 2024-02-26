@@ -64,7 +64,7 @@
                                     <color key="trackTintColor" name="notActive"/>
                                 </progressView>
                             </subviews>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstItem="Jah-6d-R0f" firstAttribute="centerX" secondItem="0hc-4K-ND5" secondAttribute="centerX" id="4rs-Pa-5aG"/>
                                 <constraint firstAttribute="bottom" secondItem="Jah-6d-R0f" secondAttribute="bottom" id="GcR-00-baH"/>

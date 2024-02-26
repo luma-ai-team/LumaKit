@@ -11,6 +11,12 @@ open class GradientButton: BounceButton {
         }
     }
 
+    open override var isEnabled: Bool {
+        didSet {
+            gradientView.isEnabled = isEnabled
+        }
+    }
+
     private lazy var gradientView: GradientView = {
         let view = GradientView(gradient: gradient)
         view.isUserInteractionEnabled = false

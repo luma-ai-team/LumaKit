@@ -12,6 +12,12 @@ open class GradientView: UIView {
         }
     }
 
+    public var isEnabled: Bool = true {
+        didSet {
+            layout()
+        }
+    }
+
     public var gradient: Gradient {
         didSet {
             setNeedsLayout()
@@ -37,17 +43,29 @@ open class GradientView: UIView {
         guard let gradientLayer = layer as? CAGradientLayer else {
             return
         }
-        
+
         var colors = (isReversed ? gradient.colors.reversed() : gradient.colors)
         if colors.count == 1,
            let color = colors.first {
             colors.append(color)
         }
-        
+
+        let isDimmed = self.isDimmed || (isEnabled == false)
+        if isDimmed {
+            colors = colors.map { (color: UIColor) in
+                return .init(white: color.yuv.y, alpha: color.alpha)
+            }
+        }
+
         gradientLayer.colors = colors.map(\.cgColor)
         gradientLayer.startPoint = gradient.startPoint
         gradientLayer.endPoint = gradient.endPoint
         gradientLayer.locations = gradient.locations?.map(NSNumber.init)
+    }
+
+    open override func tintColorDidChange() {
+        super.tintColorDidChange()
+        layout()
     }
 }
 

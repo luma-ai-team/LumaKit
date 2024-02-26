@@ -6,6 +6,10 @@ import UIKit
 
 public extension UIView {
 
+    var isDimmed: Bool {
+        return tintAdjustmentMode == .dimmed
+    }
+
     // MARK: - Bounce Animation
 
     enum BounceAnimationStyle: CGFloat {
@@ -21,7 +25,7 @@ public extension UIView {
                               repeats: Bool = true) {
         let animationKey = "bounce"
         guard style != .none else {
-            layer.removeAnimation(forKey: animationKey)
+            removeBounceAnimation()
             return
         }
 
@@ -51,6 +55,11 @@ public extension UIView {
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             self.layer.add(animation, forKey: animationKey)
         }
+    }
+
+    func removeBounceAnimation() {
+        let animationKey = "bounce"
+        layer.removeAnimation(forKey: animationKey)
     }
 
     // MARK: - Spring Animation

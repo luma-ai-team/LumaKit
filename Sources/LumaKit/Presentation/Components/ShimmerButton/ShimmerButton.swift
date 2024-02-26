@@ -18,6 +18,13 @@ open class ShimmerButton: GradientButton {
         }
     }
 
+    open override var isEnabled: Bool {
+        didSet {
+            updateShimmerColor()
+            shimmerLayer.isHidden = isEnabled == false
+        }
+    }
+
     private lazy var shimmerLayer: CAGradientLayer = {
         let layer = CAGradientLayer()
         return layer
@@ -42,20 +49,16 @@ open class ShimmerButton: GradientButton {
 
         shimmerLayer.frame = bounds
         applyDiagonalShimmer()
-        applyBounceAnimation(style: bounceStyle)
+        applyBounceAnimation(style: isEnabled ? bounceStyle : .none)
     }
 
     private func applyDiagonalShimmer() {
         shimmerLayer.removeAllAnimations()
-        shimmerLayer.colors = [
-            shimmerColor.withAlphaComponent(0.0).cgColor,
-            shimmerColor.withAlphaComponent(0.0).cgColor,
-            shimmerColor.withAlphaComponent(0.1).cgColor,
-            shimmerColor.withAlphaComponent(0.6).cgColor,
-            shimmerColor.withAlphaComponent(0.1).cgColor,
-            shimmerColor.withAlphaComponent(0.0).cgColor,
-            shimmerColor.withAlphaComponent(0.0).cgColor
-        ]
+        guard isEnabled else {
+            return
+        }
+
+        updateShimmerColor()
 
         shimmerLayer.startPoint = .init(x: 0.0, y: 0.0)
         shimmerLayer.endPoint = .init(x: 1.0, y: 0.15)
@@ -68,6 +71,28 @@ open class ShimmerButton: GradientButton {
         animation.repeatCount = .infinity
         animation.isRemovedOnCompletion = false
         shimmerLayer.add(animation, forKey: animation.keyPath)
+    }
+
+    private func updateShimmerColor() {
+        let isDimmed = self.isDimmed || (isEnabled == false)
+        let color = isDimmed ?
+            UIColor(white: shimmerColor.yuv.y, alpha: shimmerColor.alpha) :
+            shimmerColor
+
+        shimmerLayer.colors = [
+            color.withAlphaComponent(0.0).cgColor,
+            color.withAlphaComponent(0.0).cgColor,
+            color.withAlphaComponent(0.1).cgColor,
+            color.withAlphaComponent(0.6).cgColor,
+            color.withAlphaComponent(0.1).cgColor,
+            color.withAlphaComponent(0.0).cgColor,
+            color.withAlphaComponent(0.0).cgColor
+        ]
+    }
+
+    open override func tintColorDidChange() {
+        super.tintColorDidChange()
+        updateShimmerColor()
     }
 }
 

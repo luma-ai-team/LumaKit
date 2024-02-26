@@ -119,15 +119,26 @@ final class UIElementsViewController: UIViewController {
         return view
     }()
 
+    private lazy var sheetButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Show Sheet", for: .normal)
+        button.addTarget(self, action: #selector(sheetButtonPressed), for: .touchUpInside)
+        button.bounds.size.height = 44.0
+        return button
+    }()
+
     // MARK: -
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = "UIElements"
+        view.backgroundColor = .white
+
         view.addSubview(scrollView)
         scrollView.addSubview(containerView)
 
+        containerView.addSubview(sheetButton)
         containerView.addSubview(bounceButton)
         containerView.addSubview(bounceLabel)
         containerView.addSubview(gradientView)
@@ -198,5 +209,15 @@ final class UIElementsViewController: UIViewController {
 
         containerView.frame.size.height = offset
         scrollView.contentSize = containerView.bounds.size
+    }
+
+    // MARK: - Actions
+
+    @objc private func sheetButtonPressed() {
+        let content = ProgressSheetContent(colorScheme: .init())
+        content.state = .progress("Doing stuff", 0.5)
+        
+        let controller = SheetViewController(content: content)
+        present(controller, animated: true)
     }
 }
