@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="Zdc-gI-xmJ">
-                                <rect key="frame" x="0.0" y="103" width="393" height="103"/>
+                                <rect key="frame" x="0.0" y="103.00000000000001" width="393" height="137.33333333333337"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vjK-Hj-lSv">
                                         <rect key="frame" x="0.0" y="0.0" width="393" height="34.333333333333336"/>
@@ -42,6 +42,14 @@
                                         <buttonConfiguration key="configuration" style="plain" title="CollectionView Example"/>
                                         <connections>
                                             <action selector="collectionViewExampleButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="m8f-3Y-sy0"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cDV-zv-BdE">
+                                        <rect key="frame" x="0.0" y="103" width="393" height="34.333333333333343"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="MediaPicker Example"/>
+                                        <connections>
+                                            <action selector="mediaPickerExampleButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3pe-GA-nBT"/>
                                         </connections>
                                     </button>
                                 </subviews>

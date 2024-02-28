@@ -21,14 +21,20 @@ final class CollectionViewManagerExampleViewController: AutoSelectionCollectionV
             BasicCollectionViewItem<TestCell>(viewModel: .init(color: 0xFF0000)),
             BasicCollectionViewItem<TestCell>(viewModel: .init(color: 0x00FF00)),
             BasicCollectionViewItem<TestCell>(viewModel: .init(color: 0x0000FF))
-        ])
+        ], selectionHandler: { (viewModel: TestViewModel) in
+            print(viewModel)
+        })
         aSection.insets.right = 20.0
 
-        let bSection = BasicCollectionViewSection(items: [
-            BasicCollectionViewItem<LayoutCell>(viewModel: .init(color: 0xFFFF00)),
-            BasicCollectionViewItem<LayoutCell>(viewModel: .init(color: 0x00FFFF)),
-            BasicCollectionViewItem<LayoutCell>(viewModel: .init(color: 0xFF00FF))
-        ])
+        let viewModels: [LayoutCell.ViewModel] = [
+            .init(color: 0xFFFF00),
+            .init(color: 0x00FFFF),
+            .init(color: 0xFF00FF)
+        ]
+        let bSection = BasicCollectionViewSection.uniform(cellType: LayoutCell.self,
+                                                          viewModels: viewModels) { (viewModel: TestViewModel) in
+            print(viewModel)
+        }
 
         manager.sections = [aSection, bSection]
         manager.select(aSection.items[1], scrollPosition: .centeredHorizontally)

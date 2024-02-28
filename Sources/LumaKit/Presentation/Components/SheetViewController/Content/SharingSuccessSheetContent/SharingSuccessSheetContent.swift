@@ -39,7 +39,7 @@ public final class SharingSuccessSheetContent: DismissableSheetContentViewContro
 
     public init(colorScheme: ColorScheme, title: String, shouldAskForAppReview: Bool) {
         self.shouldAskForAppReview = shouldAskForAppReview
-        super.init(colorScheme: colorScheme)
+        super.init(colorScheme: colorScheme, bundle: .module)
         self.title = title
     }
     

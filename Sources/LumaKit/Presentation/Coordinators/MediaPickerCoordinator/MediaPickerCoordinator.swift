@@ -112,7 +112,9 @@ extension MediaPickerCoordinator: PHPickerViewControllerDelegate {
 
         sheetViewController = makeSheetViewController()
         picker.present(sheetViewController, animated: true)
-        handle(result)
+        DispatchQueue.main.async {
+            self.handle(result)
+        }
     }
     
     private func handle(_ result: PHPickerResult) {

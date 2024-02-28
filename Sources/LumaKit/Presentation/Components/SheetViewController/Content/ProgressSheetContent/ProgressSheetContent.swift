@@ -48,7 +48,7 @@ public final class ProgressSheetContent: DismissableSheetContentViewController {
     
     public init(colorScheme: ColorScheme, state: State = .progress(.init(), 0.0)) {
         self.state = state
-        super.init(colorScheme: colorScheme)
+        super.init(colorScheme: colorScheme, bundle: .module)
     }
     
     required public init?(coder: NSCoder) {

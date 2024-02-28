@@ -7,6 +7,7 @@
 
 import UIKit
 import LumaKit
+import AVFoundation
 
 class MainViewController: UIViewController {
 
@@ -29,5 +30,29 @@ class MainViewController: UIViewController {
     @IBAction func collectionViewExampleButtonPressed(_ sender: Any) {
         let controller = CollectionViewManagerExampleViewController()
         navigationController?.pushViewController(controller, animated: true)
+    }
+
+    @IBAction func mediaPickerExampleButtonPressed(_ sender: Any) {
+        let coordinator = MediaPickerCoordinator(rootViewController: self, colorScheme: .init())
+        coordinator.output = self
+        coordinator.start()
+    }
+}
+
+// MARK: - MediaPickerCoordinatorOutput
+
+extension MainViewController: MediaPickerCoordinatorOutput {
+    func mediaPickerCoordinatorDidSelect(_ coordinator: MediaPickerCoordinator, image: UIImage) {
+        print(image)
+        coordinator.dismiss()
+    }
+    
+    func mediaPickerCoordinatorDidSelect(_ coordinator: MediaPickerCoordinator, asset: AVAsset) {
+        print(asset)
+        coordinator.dismiss()
+    }
+    
+    func mediaPickerCoordinatorDidCancel(_ coordinator: MediaPickerCoordinator) {
+        coordinator.dismiss()
     }
 }
