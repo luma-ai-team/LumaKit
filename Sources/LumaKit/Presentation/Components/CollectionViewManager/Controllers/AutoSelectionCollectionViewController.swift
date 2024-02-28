@@ -25,6 +25,10 @@ open class AutoSelectionCollectionViewController: CollectionViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
+
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = false
+
         scrollSelectCollectionViewLayout.scrollDirection = .horizontal
         manager.ignoresSelectionEventsDuringDragging = true
     }
