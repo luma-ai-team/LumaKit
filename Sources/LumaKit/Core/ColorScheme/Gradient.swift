@@ -72,4 +72,28 @@ public struct Gradient: Codable {
         try container.encode(colors.map(\.stringRepresentation), forKey: .colors)
         try container.encodeIfPresent(locations, forKey: .locations)
     }
+
+    public func color(atOffset offset: Float) -> UIColor? {
+        let offset = offset.clamped(min: 0.0, max: 1.0)
+
+        let maxIndex = Float(colors.count - 1)
+        let position = offset * maxIndex
+
+        let previousIndex = Int(offset * maxIndex)
+        guard let previousColor = colors[safe: previousIndex] else {
+            return nil
+        }
+
+        let nextIndex = Int(ceil(offset * maxIndex))
+        guard let nextColor = colors[safe: nextIndex] else {
+            return nil
+        }
+
+        let crossfade = CGFloat(position - Float(previousIndex))
+        let red = previousColor.rgb.r * (1.0 - crossfade) + nextColor.rgb.r * crossfade
+        let green = previousColor.rgb.g * (1.0 - crossfade) + nextColor.rgb.g * crossfade
+        let blue = previousColor.rgb.b * (1.0 - crossfade) + nextColor.rgb.b * crossfade
+        let alpha = previousColor.alpha * (1.0 - crossfade) + nextColor.alpha * crossfade
+        return .init(red: red, green: green, blue: blue, alpha: alpha)
+    }
 }
