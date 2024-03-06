@@ -4,7 +4,7 @@
 
 import Foundation
 
-extension Array where Element: Equatable {
+public extension Array where Element: Equatable {
     mutating func removeAll(matching value: Element) {
         removeAll { element in
             element == value
@@ -12,7 +12,7 @@ extension Array where Element: Equatable {
     }
 }
 
-extension Array {
+public extension Array {
     func sorted<T: Comparable>(by keyPath: KeyPath<Element, T>) -> Self {
         return sorted { (lhs: Element, rhs: Element) in
             return lhs[keyPath: keyPath] <= rhs[keyPath: keyPath]
@@ -20,7 +20,7 @@ extension Array {
     }
 }
 
-extension Array where Element: AnyObject {
+public extension Array where Element: AnyObject {
     func containsReference<T: AnyObject>(to object: T) -> Bool {
         return contains { (element: Element) in
             return element === object
@@ -42,7 +42,7 @@ extension Array where Element: AnyObject {
     }
 }
 
-extension Array where Element: Collection, Element.Index == Int {
+public extension Array where Element: Collection, Element.Index == Int {
     func firstIndexPath<T: Equatable>(with reference: T, at keyPath: KeyPath<Element.Element, T>) -> IndexPath? {
         for (sectionIndex, section) in self.enumerated() {
             guard let itemIndex = section.firstIndex(with: reference, at: keyPath) else {
@@ -56,7 +56,7 @@ extension Array where Element: Collection, Element.Index == Int {
     }
 }
 
-extension Array {
+public extension Array {
     mutating func shiftLeft() {
         guard isEmpty == false else {
             return

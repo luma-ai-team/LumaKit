@@ -25,7 +25,7 @@ public extension Collection where Index == Int {
     }
 }
 
-extension Collection {
+public extension Collection {
 
     // MARK: - First
 
@@ -128,7 +128,7 @@ extension Collection {
 
 // MARK: - Optional
 
-extension Collection where Element: OptionalType {
+public extension Collection where Element: OptionalType {
     func compact() -> [Element.T] {
         return compactMap { (element: Element) -> Element.T? in
             return element.optional
