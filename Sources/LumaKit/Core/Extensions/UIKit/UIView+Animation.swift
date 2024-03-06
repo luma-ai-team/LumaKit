@@ -147,3 +147,31 @@ public extension UIView {
         }
     }
 }
+
+public extension Array where Element == UIView {
+    func animateCascadeSpring(fromAlpha: CGFloat,
+                              toAlpha: CGFloat,
+                              delay: TimeInterval = 0.0,
+                              transitionDuration: TimeInterval = 1.0,
+                              stepDuration: TimeInterval = 0.2,
+                              completion: @escaping () -> Void) {
+        for view in self {
+            view.alpha = fromAlpha
+        }
+
+        var currentDelay = delay
+        for view in self {
+            let isTerminalView = view === self.last
+            UIView.defaultSpringAnimation(duration: transitionDuration, delay: currentDelay, animations: {
+                view.alpha = toAlpha
+            }, completion: { _ in
+                guard isTerminalView else {
+                    return
+                }
+
+                completion()
+            })
+            currentDelay += stepDuration
+        }
+    }
+}

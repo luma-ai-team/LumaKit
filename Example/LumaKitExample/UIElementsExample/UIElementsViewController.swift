@@ -148,6 +148,10 @@ final class UIElementsViewController: UIViewController {
         containerView.addSubview(playerView)
         containerView.addSubview(animationSequenceContainerView)
         containerView.addSubview(passiveContainerView)
+
+        containerView.subviews.animateCascadeSpring(fromAlpha: 0.0, toAlpha: 1.0, completion: {
+            print("Animation done")
+        })
     }
 
     override func viewDidAppear(_ animated: Bool) {
