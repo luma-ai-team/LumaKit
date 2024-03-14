@@ -35,10 +35,6 @@ public final class ShareCoordinator: Coordinator<UIViewController> {
         return PHPhotoLibrary.authorizationStatus(for: .addOnly) == .authorized
     }
 
-    public var topViewController: UIViewController {
-        return sheetViewController
-    }
-
     private lazy var progressContent: ProgressSheetContent = .init(colorScheme: colorScheme)
     private lazy var successContent: SharingSuccessSheetContent = {
         let content = SharingSuccessSheetContent(colorScheme: colorScheme,

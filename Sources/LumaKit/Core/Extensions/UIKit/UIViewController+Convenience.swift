@@ -10,6 +10,18 @@ public extension UIViewController {
         return isViewLoaded && view.window != nil
     }
 
+    var focusedViewController: UIViewController {
+        if let presentedViewController = presentedViewController {
+            return presentedViewController.focusedViewController
+        }
+        if let navigationController = self as? UINavigationController,
+           let topViewController = navigationController.topViewController {
+            let controller = topViewController.presentedViewController ?? topViewController
+            return controller.focusedViewController
+        }
+        return self
+    }
+
     func add(child: UIViewController) {
         addChild(child)
         view.addSubview(child.view)

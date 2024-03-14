@@ -19,10 +19,6 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
     public var shouldTreatLivePhotosAsVideos: Bool = true
     public weak var output: MediaPickerCoordinatorOutput?
 
-    public var topViewController: UIViewController {
-        return sheetViewController
-    }
-
     private lazy var mediaFetchService: MediaFetchService = .init()
 
     private lazy var loadingViewController: MediaPickerLoadingViewController = {
