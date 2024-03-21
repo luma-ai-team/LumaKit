@@ -101,7 +101,7 @@
                                     </constraints>
                                 </view>
                             </subviews>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstItem="TWc-hB-dcI" firstAttribute="centerX" secondItem="aTi-f9-ojW" secondAttribute="centerX" id="Eh0-nZ-WtE"/>
                                 <constraint firstItem="TWc-hB-dcI" firstAttribute="top" secondItem="aTi-f9-ojW" secondAttribute="top" id="KEX-Pd-k9D"/>
@@ -133,11 +133,8 @@
         <namedColor name="title">
             <color red="0.11400000005960464" green="0.16099999845027924" blue="0.32199999690055847" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemOrangeColor">
-            <color red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
