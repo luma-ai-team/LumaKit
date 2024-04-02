@@ -52,6 +52,10 @@ open class SheetViewController: UIViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
+        if traitCollection.userInterfaceIdiom == .pad {
+            modalTransitionStyle = .crossDissolve
+        }
+
         sheet.prefersScrollingExpandsWhenScrolledToEdge = false
         sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
 
@@ -97,6 +101,13 @@ open class SheetViewController: UIViewController {
                                        y: 0.0,
                                        width: containerView.bounds.width,
                                        height: containerView.bounds.height - view.bounds.height + 16.0)
+        }
+
+        if traitCollection.userInterfaceIdiom == .pad,
+           let window = view.window {
+            DispatchQueue.main.async {
+                self.sheet.presentedView?.center = window.bounds.center
+            }
         }
     }
 
