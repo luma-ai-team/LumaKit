@@ -13,4 +13,12 @@ public extension UIFont {
 
         return .init(descriptor: descriptor, size: font.pointSize)
     }
+
+    static func compatibleSystemFont(ofSize size: CGFloat, weight: Weight, width: Width) -> UIFont {
+        if #available(iOS 16.0, *) {
+            return .systemFont(ofSize: size, weight: weight, width: width)
+        } else {
+            return .systemFont(ofSize: size, weight: weight)
+        }
+    }
 }
