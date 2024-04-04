@@ -100,6 +100,16 @@ public final class ShareCoordinator: Coordinator<UIViewController> {
         }
     }
 
+    public func save(_ images: [UIImage]) {
+        performAssetChanges {
+            var request: PHAssetChangeRequest?
+            for image in images {
+                request = PHAssetChangeRequest.creationRequestForAsset(from: image)
+            }
+            return request
+        }
+    }
+
     public func save(_ asset: AVURLAsset) {
         performAssetChanges {
             return PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: asset.url)
