@@ -5,11 +5,10 @@
 import UIKit
 
 public struct CollectionViewCellAttributes {
-    var indexPath: IndexPath = .init()
-    var isSelected: Bool
+    public var indexPath: IndexPath = .init()
 
     public init() {
-        isSelected = false
+        //
     }
 }
 
@@ -57,11 +56,6 @@ extension CollectionViewItem {
         configure(cell, in: collectionView, indexPath: indexPath)
     }
 
-    public func configure(_ cell: Cell, in collectionView: UICollectionView, indexPath: IndexPath) {
-        attributes.isSelected = collectionView.indexPathsForSelectedItems?.contains(indexPath) == true
-        cell.update(with: viewModel, attributes: attributes)
-    }
-
     func handleCellSelection() {
         selectionHandler?(self)
     }
@@ -77,5 +71,9 @@ open class BasicCollectionViewItem<Cell: CollectionViewCell>: CollectionViewItem
 
     public init(viewModel: Cell.ViewModel) {
         self.viewModel = viewModel
+    }
+
+    public func configure(_ cell: Cell, in collectionView: UICollectionView, indexPath: IndexPath) {
+        cell.update(with: viewModel, attributes: attributes)
     }
 }
