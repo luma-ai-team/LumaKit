@@ -17,6 +17,7 @@ public final class CollectionViewManager: NSObject {
 
     public var ignoresSelectionEventsDuringDragging: Bool = false
     public var selectionHandler: ((any CollectionViewItem) -> Void)?
+    public var contextMenuHandler: ((IndexPath) -> UIContextMenuConfiguration?)?
 
     public init(collectionView: UICollectionView) {
         self.collectionView = collectionView
@@ -95,6 +96,16 @@ extension CollectionViewManager: UICollectionViewDelegate {
         if let layout = collectionView.collectionViewLayout as? SelectionAwareCollectionViewFlowLayout {
             layout.collectionViewDidSelect(collectionView, indexPath: indexPath)
         }
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, 
+                               contextMenuConfigurationForItemsAt indexPaths: [IndexPath],
+                               point: CGPoint) -> UIContextMenuConfiguration? {
+        guard let indexPath = indexPaths.first else {
+            return nil
+        }
+
+        return contextMenuHandler?(indexPath)
     }
 }
 
