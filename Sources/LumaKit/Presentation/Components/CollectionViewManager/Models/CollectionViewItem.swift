@@ -73,7 +73,7 @@ open class BasicCollectionViewItem<Cell: CollectionViewCell>: CollectionViewItem
         self.viewModel = viewModel
     }
 
-    public func configure(_ cell: Cell, in collectionView: UICollectionView, indexPath: IndexPath) {
+    open func configure(_ cell: Cell, in collectionView: UICollectionView, indexPath: IndexPath) {
         cell.update(with: viewModel, attributes: attributes)
     }
 }
