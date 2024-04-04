@@ -41,5 +41,6 @@ open class GradientButton: BounceButton {
     public override func layoutSubviews() {
         super.layoutSubviews()
         gradientView.frame = bounds
+        sendSubviewToBack(gradientView)
     }
 }
