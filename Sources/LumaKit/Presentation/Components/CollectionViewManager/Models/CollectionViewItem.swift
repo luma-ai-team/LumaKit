@@ -17,6 +17,7 @@ public protocol CollectionViewItem: AnyObject {
 
     var viewModel: Cell.ViewModel { get }
     var attributes: CollectionViewCellAttributes { get set }
+    var contextActions: [UIAction] { get }
 
     var selectionHandler: ((Self) -> Void)? { get set }
 
@@ -66,6 +67,7 @@ extension CollectionViewItem {
 open class BasicCollectionViewItem<Cell: CollectionViewCell>: CollectionViewItem {
     public let viewModel: Cell.ViewModel
     public var attributes: CollectionViewCellAttributes = .init()
+    public var contextActions: [UIAction] = []
 
     public var selectionHandler: ((BasicCollectionViewItem) -> Void)?
 

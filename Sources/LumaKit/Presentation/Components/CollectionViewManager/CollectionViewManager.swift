@@ -17,7 +17,6 @@ public final class CollectionViewManager: NSObject {
 
     public var ignoresSelectionEventsDuringDragging: Bool = false
     public var selectionHandler: ((any CollectionViewItem) -> Void)?
-    public var contextMenuHandler: ((IndexPath) -> UIContextMenuConfiguration?)?
 
     public init(collectionView: UICollectionView) {
         self.collectionView = collectionView
@@ -105,7 +104,14 @@ extension CollectionViewManager: UICollectionViewDelegate {
             return nil
         }
 
-        return contextMenuHandler?(indexPath)
+        let item = sections[indexPath.section].items[indexPath.row]
+        guard item.contextActions.isEmpty == false else {
+            return nil
+        }
+
+        return UIContextMenuConfiguration(actionProvider: { _ in
+            return UIMenu(children: item.contextActions)
+        })
     }
 }
 

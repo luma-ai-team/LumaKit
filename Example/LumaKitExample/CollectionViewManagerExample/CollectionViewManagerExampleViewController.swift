@@ -17,8 +17,15 @@ final class CollectionViewManagerExampleViewController: AutoSelectionCollectionV
     }
 
     private func setupCollection() {
+        let cellItemWithActions = BasicCollectionViewItem<TestCell>(viewModel: .init(color: 0xFF0000))
+        cellItemWithActions.contextActions = [
+            .init(title: "Do Something!", handler: { _ in
+                print("I did something")
+            })
+        ]
+
         let aSection = BasicCollectionViewSection(items: [
-            BasicCollectionViewItem<TestCell>(viewModel: .init(color: 0xFF0000)),
+            cellItemWithActions,
             BasicCollectionViewItem<TestCell>(viewModel: .init(color: 0x00FF00)),
             BasicCollectionViewItem<TestCell>(viewModel: .init(color: 0x0000FF))
         ], selectionHandler: { (viewModel: TestViewModel) in
