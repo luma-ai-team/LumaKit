@@ -90,7 +90,12 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
     }
 
     public func dismissSheet() {
-        sheetViewController.dismiss()
+        if let controller = sheetViewController.presentingViewController {
+            controller.dismiss(animated: true)
+        }
+        else {
+            sheetViewController.dismiss()
+        }
     }
 }
 
