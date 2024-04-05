@@ -88,6 +88,10 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         sheetContent.state = .custom(image, title, subtitle)
         sheetViewController.updateContent()
     }
+
+    public func dismissSheet() {
+        sheetViewController.dismiss()
+    }
 }
 
 // MARK: - PHPickerViewControllerDelegate
