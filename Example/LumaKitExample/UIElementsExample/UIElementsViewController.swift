@@ -29,6 +29,7 @@ final class UIElementsViewController: UIViewController {
 
     private lazy var bounceLabel: UILabel = {
         let label = UILabel()
+        label.font = .compatibleSystemFont(ofSize: 14.0, weight: .semibold, width: .compressed)
         label.text = "UILabel w/ BounceGestureRecognizer"
         label.textAlignment = .center
         label.isUserInteractionEnabled = true
