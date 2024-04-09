@@ -40,8 +40,8 @@ public extension UIFont {
 
     static func compatibleSystemFont(ofSize size: CGFloat,
                                      weight: Weight = .regular,
-                                     design: UIFontDescriptor.SystemDesign = .default,
-                                     width: CompatibleWidth = .standard) -> UIFont {
+                                     width: CompatibleWidth = .standard,
+                                     design: UIFontDescriptor.SystemDesign? = nil) -> UIFont {
         let font: UIFont
         if #available(iOS 16.0, *) {
             font = .systemFont(ofSize: size, weight: weight, width: width.systemWidth ?? .standard)
@@ -49,7 +49,8 @@ public extension UIFont {
             font = .systemFont(ofSize: size, weight: weight)
         }
 
-        guard let descriptor = font.fontDescriptor.withDesign(design) else {
+        guard let design = design,
+              let descriptor = font.fontDescriptor.withDesign(design) else {
             return font
         }
 
