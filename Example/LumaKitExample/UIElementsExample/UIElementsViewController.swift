@@ -44,6 +44,18 @@ final class UIElementsViewController: UIViewController {
         return view
     }()
 
+    private lazy var animatedGradientView: AnimatedGradientView = {
+        let view = AnimatedGradientView(gradient: .horizontal(colors: [.purple, .blue]))
+        view.intermediates = [
+            .horizontal(colors: [.red, .yellow, .black]),
+            .horizontal(colors: [.cyan, .green])
+        ]
+        view.stepDuration = 1.0
+        view.startAnimating()
+        view.bounds.size.height = 40.0
+        return view
+    }()
+
     private lazy var gradientProgressView: GradientProgressView = {
         let view = GradientProgressView(gradient: .horizontal(colors: [.blue, .yellow]))
         view.setProgress(progress: 0.5, animation: .none)
@@ -143,6 +155,7 @@ final class UIElementsViewController: UIViewController {
         containerView.addSubview(bounceButton)
         containerView.addSubview(bounceLabel)
         containerView.addSubview(gradientView)
+        containerView.addSubview(animatedGradientView)
         containerView.addSubview(gradientProgressView)
         containerView.addSubview(gradientButton)
         containerView.addSubview(shimmerButton)

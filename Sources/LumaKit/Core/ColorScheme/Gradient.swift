@@ -96,4 +96,15 @@ public struct Gradient: Codable {
         let alpha = previousColor.alpha * (1.0 - crossfade) + nextColor.alpha * crossfade
         return .init(red: red, green: green, blue: blue, alpha: alpha)
     }
+
+    public func breakdown(count: Int) -> [UIColor] {
+        guard count > 1 else {
+            return .init(colors.prefix(count))
+        }
+
+        return stride(from: 0, to: count, by: 1).compactMap { (index: Int) in
+            let offset = (Float(index) / Float(count - 1))
+            return color(atOffset: offset)
+        }
+    }
 }
