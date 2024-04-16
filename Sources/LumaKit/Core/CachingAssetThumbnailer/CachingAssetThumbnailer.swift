@@ -42,6 +42,7 @@ public final class CachingAssetThumbnailer {
         return generator !== prepareImageGenerator()
     }
 
+    @available(visionOS, unavailable)
     public func fetchImage(at time: CMTime) -> CGImage? {
         return Self.queue.sync {
             let cacheKey = self.makeCacheKey(for: time)

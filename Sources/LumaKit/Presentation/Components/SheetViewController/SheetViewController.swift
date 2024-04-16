@@ -56,7 +56,10 @@ open class SheetViewController: UIViewController {
             modalTransitionStyle = .crossDissolve
         }
 
+        #if os(visionOS)
+        #else
         sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+        #endif
         sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
 
         update(with: content)
@@ -141,8 +144,18 @@ open class SheetViewController: UIViewController {
 
     open func updateContent() {
         isModalInPresentation = content.isModal
+
+        #if os(visionOS)
+        updateGestureRecognizers()
+        #else
         if #available(iOS 16.0, *) {
-            sheet.detents = [.custom(resolver: content.heightResolver)]
+            sheet.detents = [.custom(resolver: { [weak content] (context: UISheetPresentationControllerDetentResolutionContext) in
+                guard let content = content else {
+                    return 0.0
+                }
+
+                return content.heightResolver(context.containerTraitCollection)
+            })]
         } else {
             sheet.detents = [.medium()]
         }
@@ -153,6 +166,7 @@ open class SheetViewController: UIViewController {
                 sheet.invalidateDetents()
             }
         }
+        #endif
     }
 
     open func dismiss() {

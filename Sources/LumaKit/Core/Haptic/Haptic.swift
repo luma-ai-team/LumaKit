@@ -4,6 +4,7 @@
 
 import UIKit
 
+@available(visionOS, unavailable)
 public enum Haptic {
     case impact(UIImpactFeedbackGenerator.FeedbackStyle)
     case notification(UINotificationFeedbackGenerator.FeedbackType)

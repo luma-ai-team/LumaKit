@@ -90,7 +90,10 @@ public final class ShareCoordinator: Coordinator<UIViewController> {
             SKStoreReviewController.requestReview(in: scene)
         }
         else {
+            #if os(visionOS)
+            #else
             SKStoreReviewController.requestReview()
+            #endif
         }
     }
 
