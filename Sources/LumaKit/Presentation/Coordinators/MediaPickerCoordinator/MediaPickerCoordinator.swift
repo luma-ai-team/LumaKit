@@ -8,15 +8,21 @@ import PhotosUI
 import GenericModule
 
 public protocol MediaPickerCoordinatorOutput: AnyObject {
-    func mediaPickerCoordinatorDidSelect(_ coordinator: MediaPickerCoordinator, image: UIImage)
-    func mediaPickerCoordinatorDidSelect(_ coordinator: MediaPickerCoordinator, asset: AVAsset)
+    func mediaPickerCoordinatorDidSelect(_ coordinator: MediaPickerCoordinator, items: [MediaFetchService.Item])
     func mediaPickerCoordinatorDidCancel(_ coordinator: MediaPickerCoordinator)
 }
 
 public final class MediaPickerCoordinator: Coordinator<UIViewController> {
-    public let colorScheme: ColorScheme
+    public enum SelectionStyle {
+        case basic(Int)
+        case ordered(Int)
+    }
 
+    public let colorScheme: ColorScheme
+    public var selectionStyle: SelectionStyle = .basic(1)
     public var shouldTreatLivePhotosAsVideos: Bool = true
+    public var filter: PHPickerFilter?
+
     public weak var output: MediaPickerCoordinatorOutput?
 
     private lazy var mediaFetchService: MediaFetchService = .init()
@@ -32,7 +38,6 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
 
     private lazy var pickerConfiguration: PHPickerConfiguration = {
         var configuration = PHPickerConfiguration(photoLibrary: .shared())
-        configuration.selectionLimit = 1
         configuration.preferredAssetRepresentationMode = .current
         if #available(iOS 17.0, *) {
             configuration.disabledCapabilities = [.sensitivityAnalysisIntervention]
@@ -42,14 +47,24 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
     
     public init(rootViewController: UIViewController, colorScheme: ColorScheme, filter: PHPickerFilter? = nil) {
         self.colorScheme = colorScheme
+        self.filter = filter
         super.init(rootViewController: rootViewController)
-        pickerConfiguration.filter = filter
     }
     
     public func start(completion: (() -> Void)? = nil) {
         retainedSelf = self
         loadingViewController.modalPresentationStyle = .fullScreen
         rootViewController.present(loadingViewController, animated: true)
+
+        pickerConfiguration.filter = filter
+        switch selectionStyle {
+        case .basic(let count):
+            pickerConfiguration.selection = .default
+            pickerConfiguration.selectionLimit = count
+        case .ordered(let count):
+            pickerConfiguration.selection = .ordered
+            pickerConfiguration.selectionLimit = count
+        }
 
         let pickerViewController = PHPickerViewController(configuration: pickerConfiguration)
         pickerViewController.delegate = self
@@ -103,7 +118,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
 
 extension MediaPickerCoordinator: PHPickerViewControllerDelegate {
     public func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        guard let result = results.first else {
+        guard results.isEmpty == false else {
             output?.mediaPickerCoordinatorDidCancel(self)
             return dismiss()
         }
@@ -118,52 +133,22 @@ extension MediaPickerCoordinator: PHPickerViewControllerDelegate {
         sheetViewController = makeSheetViewController()
         picker.present(sheetViewController, animated: true)
         DispatchQueue.main.async {
-            self.handle(result)
+            self.handle(results)
         }
     }
     
-    private func handle(_ result: PHPickerResult) {
-        if mediaFetchService.canLoadLivePhoto(for: result) {
-            if shouldTreatLivePhotosAsVideos {
-                fetchAsset(for: result)
-            }
-            else {
-                fetchImage(for: result)
-            }
-        }
-        else if mediaFetchService.canLoadImage(for: result) {
-            fetchImage(for: result)
-        }
-        else {
-            fetchAsset(for: result)
-        }
+    private func handle(_ results: [PHPickerResult]) {
+        mediaFetchService.fetchContents(for: results,
+                                        treatingLivePhotosAsVideos: shouldTreatLivePhotosAsVideos,
+                                        progress: progressHandler,
+                                        success: completionHandler,
+                                        failure: errorHandler)
     }
 
-    private func fetchAsset(for result: PHPickerResult) {
-        mediaFetchService.fetchAsset(for: result, progress: progressHandler, success: { [weak self] (asset: AVAsset) in
-            guard let self = self else {
-                return
-            }
-
-            self.handleFetchCompletion()
-            self.output?.mediaPickerCoordinatorDidSelect(self, asset: asset)
-        }, failure: errorHandler)
-    }
-
-    private func fetchImage(for result: PHPickerResult) {
-        mediaFetchService.fetchImage(for: result, progress: progressHandler, success: { [weak self] (image: UIImage) in
-            guard let self = self else {
-                return
-            }
-
-            self.handleFetchCompletion()
-            self.output?.mediaPickerCoordinatorDidSelect(self, image: image)
-        }, failure: errorHandler)
-    }
-
-    private func handleFetchCompletion() {
+    private func completionHandler(_ items: [MediaFetchService.Item]) {
         sheetContent.state = .progress("Fetching", 1.0)
         sheetViewController.updateContent()
+        output?.mediaPickerCoordinatorDidSelect(self, items: items)
     }
 
     private func progressHandler(_ progress: Double) {

@@ -34,6 +34,7 @@ class MainViewController: UIViewController {
 
     @IBAction func mediaPickerExampleButtonPressed(_ sender: Any) {
         let coordinator = MediaPickerCoordinator(rootViewController: self, colorScheme: .init())
+        coordinator.selectionStyle = .ordered(4)
         coordinator.output = self
         coordinator.start()
     }
@@ -42,13 +43,8 @@ class MainViewController: UIViewController {
 // MARK: - MediaPickerCoordinatorOutput
 
 extension MainViewController: MediaPickerCoordinatorOutput {
-    func mediaPickerCoordinatorDidSelect(_ coordinator: MediaPickerCoordinator, image: UIImage) {
-        print(image)
-        coordinator.dismiss()
-    }
-    
-    func mediaPickerCoordinatorDidSelect(_ coordinator: MediaPickerCoordinator, asset: AVAsset) {
-        print(asset)
+    func mediaPickerCoordinatorDidSelect(_ coordinator: MediaPickerCoordinator, items: [MediaFetchService.Item]) {
+        print(items)
         coordinator.dismiss()
     }
     

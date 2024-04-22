@@ -4,9 +4,26 @@
 
 import PhotosUI
 
-public final class MediaFetchService  {
+public final class MediaFetchService {
+    class RecursiveFetchContext {
+        let shouldTreatLivePhotosAsVideos: Bool
+
+        var index: Int = 0
+        var items: [Item] = []
+
+        init(shouldTreatLivePhotosAsVideos: Bool) {
+            self.shouldTreatLivePhotosAsVideos = shouldTreatLivePhotosAsVideos
+        }
+    }
+
+    public enum Item {
+        case image(UIImage)
+        case asset(AVAsset)
+    }
+
     public enum MediaFetchError: Error {
         case noContent
+        case recursiveFetchFailed
     }
 
     private var fetchProgress: Progress?
@@ -66,6 +83,72 @@ public final class MediaFetchService  {
         }
 
         startTimer(progress: progress)
+    }
+
+    public func fetchContents(for results: [PHPickerResult],
+                              treatingLivePhotosAsVideos: Bool = true,
+                              progress: @escaping (Double) -> Void,
+                              success: @escaping ([Item]) -> Void,
+                              failure: @escaping (Error) -> Void) {
+        let context = RecursiveFetchContext(shouldTreatLivePhotosAsVideos: treatingLivePhotosAsVideos)
+        recursiveFetch(for: results, context: context, progress: progress, success: success, failure: failure)
+    }
+
+    private func recursiveFetch(for results: [PHPickerResult],
+                                context: RecursiveFetchContext,
+                                progress: @escaping (Double) -> Void,
+                                success: @escaping ([Item]) -> Void,
+                                failure: @escaping (Error) -> Void) {
+        guard let result = results[safe: context.index] else {
+            return failure(MediaFetchError.recursiveFetchFailed)
+        }
+
+        let totalCount = results.count
+        let baseProgress = Double(context.index) / Double(totalCount)
+        fetchContent(for: result, progress: { (value: Double) in
+            let cumulativeValue = baseProgress + value / Double(totalCount)
+            progress(cumulativeValue)
+        }, success: { (item: Item) in
+            context.items.append(item)
+            context.index += 1
+            if context.items.count == results.count {
+                success(context.items)
+            }
+            else {
+                self.recursiveFetch(for: results, context: context, progress: progress, success: success, failure: failure)
+            }
+        }, failure: { (error: Error) in
+            failure(error)
+        })
+    }
+
+    public func fetchContent(for result: PHPickerResult, 
+                             treatingLivePhotoAsVideo: Bool = true,
+                             progress: @escaping (Double) -> Void,
+                             success: @escaping (Item) -> Void,
+                             failure: @escaping (Error) -> Void) {
+        if canLoadLivePhoto(for: result) {
+            if treatingLivePhotoAsVideo {
+                fetchLivePhotoContent(for: result, progress: progress, success: { (asset: AVAsset) in
+                    success(.asset(asset))
+                }, failure: failure)
+            }
+            else {
+                fetchImage(for: result, progress: progress, success: { (image: UIImage) in
+                    success(.image(image))
+                }, failure: failure)
+            }
+        }
+        else if canLoadImage(for: result) {
+            fetchImage(for: result, progress: progress, success: { (image: UIImage) in
+                success(.image(image))
+            }, failure: failure)
+        }
+        else {
+            fetchVideoAsset(for: result, progress: progress, success: { (asset: AVAsset) in
+                success(.asset(asset))
+            }, failure: failure)
+        }
     }
 
     public func cancel() {
