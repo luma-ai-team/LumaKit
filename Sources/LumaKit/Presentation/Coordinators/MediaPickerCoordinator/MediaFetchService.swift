@@ -19,6 +19,15 @@ public final class MediaFetchService {
     public enum Item {
         case image(UIImage)
         case asset(AVAsset)
+
+        func content<T>(as type: T.Type) -> T? {
+            switch self {
+            case .image(let image):
+                return image as? T
+            case .asset(let asset):
+                return asset as? T
+            }
+        }
     }
 
     public enum MediaFetchError: Error {
