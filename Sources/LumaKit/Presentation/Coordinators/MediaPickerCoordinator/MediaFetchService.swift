@@ -20,7 +20,7 @@ public final class MediaFetchService {
         case image(UIImage)
         case asset(AVAsset)
 
-        func content<T>(as type: T.Type) -> T? {
+        public func content<T>(as type: T.Type) -> T? {
             switch self {
             case .image(let image):
                 return image as? T
