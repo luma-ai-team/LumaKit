@@ -161,3 +161,15 @@ extension UIColor {
         self.init(red: rgb.r, green: rgb.g, blue: rgb.b, alpha: 1.0)
     }
 }
+
+// MARK: - Transformations
+
+extension UIColor {
+
+    public var complementary: UIColor {
+        var hsb = self.hsb
+        hsb.h += .pi
+        hsb.h = hsb.h.clamped(min: 0.0, max: 2.0 * .pi)
+        return .init(hue: hsb.h, saturation: hsb.s, brightness: hsb.b, alpha: alpha)
+    }
+}
