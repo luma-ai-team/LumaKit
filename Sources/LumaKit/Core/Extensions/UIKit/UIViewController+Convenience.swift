@@ -26,4 +26,10 @@ public extension UIViewController {
         addChild(child)
         view.addSubview(child.view)
     }
+
+    func add(child: UIViewController, to containerView: UIView, insets: UIEdgeInsets = .zero) {
+        addChild(child)
+        containerView.addSubview(child.view)
+        child.view.bindMarginsToSuperview(insets: insets)
+    }
 }
