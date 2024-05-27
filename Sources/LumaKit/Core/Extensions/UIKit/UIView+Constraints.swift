@@ -26,4 +26,10 @@ public extension UIView {
         centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
+    
+    func setAutolayoutSize(size: CGSize) {
+        translatesAutoresizingMaskIntoConstraints = false
+        widthAnchor.constraint(equalToConstant: size.width).isActive = true
+        heightAnchor.constraint(equalToConstant: size.height).isActive = true
+    }
 }
