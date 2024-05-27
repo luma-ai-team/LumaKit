@@ -38,6 +38,15 @@ final class UIElementsViewController: UIViewController {
         return label
     }()
 
+    private lazy var gradientLabel: GradientLabel = {
+        let view = GradientLabel()
+        view.text = "Gradient Label"
+        view.textAlignment = .center
+        view.gradient = .horizontal(colors: [.red, .green])
+        view.bounds.size.height = 40.0
+        return view
+    }()
+
     private lazy var gradientView: GradientView = {
         let view = GradientView(gradient: .horizontal(colors: [.purple, .blue]))
         view.bounds.size.height = 40.0
@@ -154,6 +163,7 @@ final class UIElementsViewController: UIViewController {
         containerView.addSubview(sheetButton)
         containerView.addSubview(bounceButton)
         containerView.addSubview(bounceLabel)
+        containerView.addSubview(gradientLabel)
         containerView.addSubview(gradientView)
         containerView.addSubview(animatedGradientView)
         containerView.addSubview(gradientProgressView)

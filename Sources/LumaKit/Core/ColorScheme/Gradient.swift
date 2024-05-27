@@ -107,4 +107,14 @@ public struct Gradient: Codable {
             return color(atOffset: offset)
         }
     }
+
+    public func resolveLocations() -> [Double] {
+        if let locations = locations {
+            return locations
+        }
+
+        let count = colors.count
+        let step = 1.0 / (Double(count) - 1)
+        return Array(stride(from: 0.0, through: 1.0, by: step))
+    }
 }
