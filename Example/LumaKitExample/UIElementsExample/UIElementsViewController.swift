@@ -33,7 +33,9 @@ final class UIElementsViewController: UIViewController {
         label.text = "UILabel w/ BounceGestureRecognizer"
         label.textAlignment = .center
         label.isUserInteractionEnabled = true
-        label.addGestureRecognizer(BounceGestureRecognizer())
+        label.addGestureRecognizer(BounceGestureRecognizer(handler: {
+            print("Bounced")
+        }))
         label.bounds.size.height = 60.0
         return label
     }()

@@ -5,8 +5,10 @@
 import UIKit
 
 open class BounceGestureRecognizer: UILongPressGestureRecognizer {
+    var handler: (() -> Void)?
 
-    public init() {
+    public init(handler: (() -> Void)? = nil) {
+        self.handler = handler
         super.init(target: nil, action: nil)
         minimumPressDuration = 0.0
         cancelsTouchesInView = false
@@ -21,6 +23,7 @@ open class BounceGestureRecognizer: UILongPressGestureRecognizer {
         }
         else if isFinished {
             animateView(isPressed: false)
+            handler?()
         }
     }
 
