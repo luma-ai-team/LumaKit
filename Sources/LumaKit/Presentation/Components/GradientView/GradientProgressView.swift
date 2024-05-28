@@ -29,7 +29,7 @@ public class GradientProgressView: UIView {
     public init(colorScheme: ColorScheme) {
         super.init(frame : .zero)
         backgroundColor = colorScheme.genericAction.inactive
-        gradient = colorScheme.gradient.primary
+        gradient = colorScheme.gradient
         setup()
     }
 
