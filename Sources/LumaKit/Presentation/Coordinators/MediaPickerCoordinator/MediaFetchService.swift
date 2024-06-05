@@ -240,6 +240,7 @@ public final class MediaFetchService {
             let filename = result.assetIdentifier ?? url.lastPathComponent
             let targetURL = URL(fileURLWithPath: NSTemporaryDirectory())
                 .appendingPathComponent(filename.replacingOccurrences(of: "/", with: "_"))
+                .appendingPathExtension(url.pathExtension)
             try? FileManager.default.removeItem(at: targetURL)
             try? FileManager.default.copyItem(at: url, to: targetURL)
 
