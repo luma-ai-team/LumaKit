@@ -75,7 +75,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
 
     private func makeSheetViewController() -> SheetViewController {
         sheetContent = .init(colorScheme: colorScheme)
-        sheetContent.state = .progress("", 0.0)
+        sheetContent.state = .progress("Fetching", 0.0)
         let controller = SheetViewController(content: sheetContent)
         controller.dismissHandler = { [weak self] in
             self?.mediaFetchService.cancel()
@@ -131,10 +131,9 @@ extension MediaPickerCoordinator: PHPickerViewControllerDelegate {
         }
 
         sheetViewController = makeSheetViewController()
-        picker.present(sheetViewController, animated: true)
-        DispatchQueue.main.async {
+        picker.present(sheetViewController, animated: true, completion: {
             self.handle(results)
-        }
+        })
     }
     
     private func handle(_ results: [PHPickerResult]) {
