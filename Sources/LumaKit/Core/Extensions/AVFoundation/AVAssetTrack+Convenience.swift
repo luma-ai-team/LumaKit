@@ -4,7 +4,7 @@
 
 import AVFoundation
 
-extension AVAssetTrack {
+public extension AVAssetTrack {
     
     var presentationSize: CGSize {
         return naturalSize.applying(preferredTransform).abs()
