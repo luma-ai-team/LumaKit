@@ -184,4 +184,8 @@ extension ScrollSelectCollectionViewLayout: SelectionAwareCollectionViewFlowLayo
         
         scroll(to: indexPath, animated: true)
     }
+
+    public func collectionViewDidDeselect(_ collectionView: UICollectionView, indexPath: IndexPath) {
+        //
+    }
 }

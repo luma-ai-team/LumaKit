@@ -17,4 +17,5 @@ public protocol ScrollAwareCollectionViewFlowLayout {
 
 public protocol SelectionAwareCollectionViewFlowLayout {
     func collectionViewDidSelect(_ collectionView: UICollectionView, indexPath: IndexPath)
+    func collectionViewDidDeselect(_ collectionView: UICollectionView, indexPath: IndexPath)
 }

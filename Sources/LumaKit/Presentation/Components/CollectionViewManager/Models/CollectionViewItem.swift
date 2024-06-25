@@ -20,6 +20,7 @@ public protocol CollectionViewItem: AnyObject {
     var contextActions: [UIAction] { get }
 
     var selectionHandler: ((Self) -> Void)? { get set }
+    var deselectionHandler: ((Self) -> Void)? { get set }
 
     func configure(_ cell: Cell, in collectionView: UICollectionView, indexPath: IndexPath)
 }
@@ -60,6 +61,10 @@ extension CollectionViewItem {
     func handleCellSelection() {
         selectionHandler?(self)
     }
+
+    func handleCellDeselection() {
+        deselectionHandler?(self)
+    }
 }
 
 // MARK: - BasicCollectionViewItem
@@ -70,6 +75,7 @@ open class BasicCollectionViewItem<Cell: CollectionViewCell>: CollectionViewItem
     public var contextActions: [UIAction] = []
 
     public var selectionHandler: ((BasicCollectionViewItem) -> Void)?
+    public var deselectionHandler: ((BasicCollectionViewItem) -> Void)?
 
     public init(viewModel: Cell.ViewModel) {
         self.viewModel = viewModel

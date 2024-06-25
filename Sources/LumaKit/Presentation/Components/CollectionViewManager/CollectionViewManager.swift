@@ -17,6 +17,7 @@ public final class CollectionViewManager: NSObject {
 
     public var ignoresSelectionEventsDuringDragging: Bool = false
     public var selectionHandler: ((any CollectionViewItem) -> Void)?
+    public var deselectionHandler: ((any CollectionViewItem) -> Void)?
 
     public init(collectionView: UICollectionView) {
         self.collectionView = collectionView
@@ -94,6 +95,16 @@ extension CollectionViewManager: UICollectionViewDelegate {
 
         if let layout = collectionView.collectionViewLayout as? SelectionAwareCollectionViewFlowLayout {
             layout.collectionViewDidSelect(collectionView, indexPath: indexPath)
+        }
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        let item = sections[indexPath.section].items[indexPath.row]
+        item.handleCellDeselection()
+        deselectionHandler?(item)
+
+        if let layout = collectionView.collectionViewLayout as? SelectionAwareCollectionViewFlowLayout {
+            layout.collectionViewDidDeselect(collectionView, indexPath: indexPath)
         }
     }
 
