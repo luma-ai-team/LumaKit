@@ -24,6 +24,7 @@ final class ExampleViewController: ViewController<ExampleViewModel, Any, Example
     override func viewDidLoad() {
         super.viewDidLoad {
             view.addSubview(titleLabel)
+            view.bounds.size.height = 200.0
         }
     }
 

@@ -6,17 +6,13 @@
 //
 
 import UIKit
+import LumaKit
 import GenericModule
 
-final class ExampleCoordinator: Coordinator<UIViewController> {
+final class ExampleCoordinator: SheetCoordinator<ExampleModule, ExamplePresenter> {
 
     deinit {
         print("ExampleCoordinator deinit")
-    }
-
-    func start() {
-        let module = ExampleModule(state: .init(), dependencies: [], output: self)
-        rootViewController.present(module.viewController, animated: true)
     }
 }
 

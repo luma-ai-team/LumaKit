@@ -19,7 +19,8 @@ class MainViewController: UIViewController {
     // MARK: - Actions
 
     @IBAction func moduleExampleButtonPressed(_ sender: UIButton) {
-        ExampleCoordinator(rootViewController: self).start()
+        let coordinator = ExampleCoordinator(rootViewController: self)
+        coordinator.start(with: .init(), dependencies: [])
     }
     
     @IBAction func elementExampleButtonPressed(_ sender: UIButton) {
