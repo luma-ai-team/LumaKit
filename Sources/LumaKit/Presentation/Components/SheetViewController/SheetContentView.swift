@@ -6,7 +6,7 @@ import UIKit
 
 @objc public protocol SheetContentHeightProvider {
     @available(iOS 16.0, *)
-    var heightResolver: (UITraitCollection) -> CGFloat { get }
+    var sheetHeightResolver: (UITraitCollection) -> CGFloat { get }
 }
 
 public protocol DismissableSheetContent: AnyObject {
@@ -20,7 +20,7 @@ public protocol SheetContent: AnyObject, SheetContentHeightProvider {
 
 extension UIView: SheetContentHeightProvider {
     @available(iOS 16.0, *)
-    public var heightResolver: (UITraitCollection) -> CGFloat {
+    public var sheetHeightResolver: (UITraitCollection) -> CGFloat {
         return { _ -> CGFloat in
             return self.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
         }
@@ -33,7 +33,7 @@ extension UIViewController: SheetContent {
     }
 
     @available(iOS 16.0, *)
-    public var heightResolver: (UITraitCollection) -> CGFloat {
-        return view.heightResolver
+    public var sheetHeightResolver: (UITraitCollection) -> CGFloat {
+        return view.sheetHeightResolver
     }
 }

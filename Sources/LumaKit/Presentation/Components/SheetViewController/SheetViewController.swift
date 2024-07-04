@@ -154,7 +154,7 @@ open class SheetViewController: UIViewController {
                     return 0.0
                 }
 
-                return content.heightResolver(context.containerTraitCollection)
+                return content.sheetHeightResolver(context.containerTraitCollection)
             })]
         } else {
             sheet.detents = [.medium()]

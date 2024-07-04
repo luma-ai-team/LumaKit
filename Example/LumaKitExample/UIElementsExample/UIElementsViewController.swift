@@ -151,6 +151,14 @@ final class UIElementsViewController: UIViewController {
         return button
     }()
 
+    private lazy var alertButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Show Alert", for: .normal)
+        button.addTarget(self, action: #selector(alertButtonPressed), for: .touchUpInside)
+        button.bounds.size.height = 44.0
+        return button
+    }()
+
     // MARK: -
 
     override func viewDidLoad() {
@@ -163,6 +171,7 @@ final class UIElementsViewController: UIViewController {
         scrollView.addSubview(containerView)
 
         containerView.addSubview(sheetButton)
+        containerView.addSubview(alertButton)
         containerView.addSubview(bounceButton)
         containerView.addSubview(bounceLabel)
         containerView.addSubview(gradientLabel)
@@ -249,5 +258,34 @@ final class UIElementsViewController: UIViewController {
         
         let controller = SheetViewController(content: content)
         present(controller, animated: true)
+    }
+
+    @objc private func alertButtonPressed() {
+        let content = ProgressAlertContent(colorScheme: .init())
+        content.state = .progress("Doing stuff", 0.0)
+
+        let controller = AlertViewController(content: content,
+                                             colorScheme: .init(),
+                                             action: .init(title: "Cancel", handler: { _ in
+            print("I'm an action! Yay!")
+        }))
+        present(controller, animated: true)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            content.state = .progress("Doing more stuff", 0.5)
+            controller.updateContent()
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            content.state = .progress("Finishing doing stuff", 1.0)
+            controller.updateContent()
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            content.state = .success("I'm done")
+            controller.update(with: controller.content, action: .init(title: "Done", handler: { _ in
+                print("Have a nice day!")
+            }))
+        }
     }
 }
