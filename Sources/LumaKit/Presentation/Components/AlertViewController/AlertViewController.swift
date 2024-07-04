@@ -64,6 +64,8 @@ open class AlertViewController: UIViewController {
     }
 
     open func update(with content: any AlertContent, action: UIAction? = nil) {
+        loadViewIfNeeded()
+
         if self.content !== content {
             content.view.frame.size.width = self.content.view.frame.size.width
             self.content.view.removeFromSuperview()

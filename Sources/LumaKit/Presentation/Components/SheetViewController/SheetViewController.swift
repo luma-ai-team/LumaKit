@@ -125,6 +125,8 @@ open class SheetViewController: UIViewController {
     }
 
     open func update(with content: any SheetContent) {
+        loadViewIfNeeded()
+
         if self.content !== content {
             content.view.frame.size.width = self.content.view.frame.size.width
             self.content.view.removeFromSuperview()
