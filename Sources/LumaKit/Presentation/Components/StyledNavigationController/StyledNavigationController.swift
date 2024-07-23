@@ -28,6 +28,14 @@ open class StyledNavigationController: UINavigationController {
         }
     }
 
+    open class var navigationBarClass: UINavigationBar.Type {
+        return UINavigationBar.self
+    }
+
+    open class var toolbarClass: UIToolbar.Type {
+        return UIToolbar.self
+    }
+
     open override var prefersStatusBarHidden: Bool {
         return appearance.isStatusBarHidden
     }
@@ -40,12 +48,12 @@ open class StyledNavigationController: UINavigationController {
 
     public init(appearance: Appearance) {
         self.appearance = appearance
-        super.init(nibName: nil, bundle: nil)
+        super.init(navigationBarClass: Self.navigationBarClass, toolbarClass: Self.toolbarClass)
     }
 
     public init(rootViewController: UIViewController, appearance: Appearance) {
         self.appearance = appearance
-        super.init(nibName: nil, bundle: nil)
+        super.init(navigationBarClass: Self.navigationBarClass, toolbarClass: Self.toolbarClass)
         viewControllers = [rootViewController]
     }
 
