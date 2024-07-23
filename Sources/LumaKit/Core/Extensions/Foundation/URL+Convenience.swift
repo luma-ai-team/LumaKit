@@ -17,7 +17,15 @@ extension URL {
         return self == URL.dummy
     }
 
+    public var isBundleRelative: Bool {
+        return bundleRelativeURL?.scheme == Self.bundleURLScheme
+    }
+
     public var bundleRelativeURL: URL? {
+        if scheme == Self.bundleURLScheme {
+            return self
+        }
+
         let bundleURL = Bundle.main.bundleURL.resolvingSymlinksInPath()
         guard path.starts(with: bundleURL.path) else {
             return nil
@@ -29,7 +37,15 @@ extension URL {
         return URL(string: "\(Self.bundleURLScheme)://\(relativePath ?? "")")
     }
 
+    public var isHomeRelative: Bool {
+        return homeRelativeURL?.scheme == Self.homeURLScheme
+    }
+
     public var homeRelativeURL: URL? {
+        if scheme == Self.homeURLScheme {
+            return self
+        }
+
         let homeURL = URL(fileURLWithPath: NSHomeDirectory()).resolvingSymlinksInPath()
         guard path.starts(with: homeURL.path) else {
             return nil

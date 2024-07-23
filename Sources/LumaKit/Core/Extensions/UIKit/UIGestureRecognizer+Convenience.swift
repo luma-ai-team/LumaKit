@@ -6,6 +6,10 @@ import UIKit
 
 public extension UIGestureRecognizer {
 
+    var isCancelled: Bool {
+        return state == .cancelled
+    }
+
     var isFinished: Bool {
         switch state {
         case .cancelled, .ended, .failed:
