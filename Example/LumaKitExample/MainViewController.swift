@@ -20,7 +20,7 @@ class MainViewController: UIViewController {
 
     @IBAction func moduleExampleButtonPressed(_ sender: UIButton) {
         let coordinator = ExampleCoordinator(rootViewController: self)
-        coordinator.start(with: .init(), dependencies: [])
+        _ = coordinator.start(with: .init(), dependencies: [])
     }
     
     @IBAction func elementExampleButtonPressed(_ sender: UIButton) {
