@@ -117,4 +117,16 @@ public struct Gradient: Codable {
         let step = 1.0 / (Double(count) - 1)
         return Array(stride(from: 0.0, through: 1.0, by: step))
     }
+
+    public func shifted(delta: Int) -> Gradient {
+        var colors: [UIColor] = colors
+        for _ in stride(from: 0, to: delta, by: 1) {
+            colors.shiftRight()
+        }
+        for _ in stride(from: 0, to: delta, by: -1) {
+            colors.shiftLeft()
+        }
+
+        return .init(startPoint: startPoint, endPoint: endPoint, colors: colors, locations: locations)
+    }
 }

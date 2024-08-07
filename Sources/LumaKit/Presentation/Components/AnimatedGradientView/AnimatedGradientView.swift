@@ -6,6 +6,12 @@ import UIKit
 
 open class AnimatedGradientView: GradientView {
 
+    public override var gradient: Gradient {
+        didSet {
+            intermediates = makeIntermediates(for: gradient)
+        }
+    }
+
     open var intermediates: [Gradient] = [] {
         didSet {
             updateAnimation()
@@ -20,6 +26,15 @@ open class AnimatedGradientView: GradientView {
 
     open private(set) var isAnimating: Bool = false
 
+    public override init(gradient: Gradient = .horizontal(colors: [.clear])) {
+        super.init(gradient: gradient)
+        intermediates = makeIntermediates(for: gradient)
+    }
+    
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     open override func didMoveToSuperview() {
         super.didMoveToSuperview()
         updateAnimation()
@@ -33,6 +48,16 @@ open class AnimatedGradientView: GradientView {
     open override func tintColorDidChange() {
         super.tintColorDidChange()
         updateAnimation()
+    }
+
+    private func makeIntermediates(for gradient: Gradient) -> [Gradient] {
+        let intermediateCount = gradient.colors.count - 1
+        var intermediates: [Gradient] = []
+        for index in stride(from: 0, to: intermediateCount, by: 1) {
+            intermediates.append(gradient.shifted(delta: index + 1))
+        }
+
+        return intermediates
     }
 
     func updateAnimation() {

@@ -56,11 +56,8 @@ final class UIElementsViewController: UIViewController {
     }()
 
     private lazy var animatedGradientView: AnimatedGradientView = {
-        let view = AnimatedGradientView(gradient: .horizontal(colors: [.purple, .blue]))
-        view.intermediates = [
-            .horizontal(colors: [.red, .yellow, .black]),
-            .horizontal(colors: [.cyan, .green])
-        ]
+        let gradient = Gradient.horizontal(colors: [.purple, .blue, .red, .black])
+        let view = AnimatedGradientView(gradient: gradient)
         view.stepDuration = 1.0
         view.startAnimating()
         view.bounds.size.height = 40.0
