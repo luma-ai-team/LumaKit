@@ -95,7 +95,7 @@ public final class MediaFetchService {
     }
 
     public func fetchContents(for results: [PHPickerResult],
-                              treatingLivePhotosAsVideos: Bool = true,
+                              treatingLivePhotosAsVideos: Bool,
                               progress: @escaping (Double) -> Void,
                               success: @escaping ([Item]) -> Void,
                               failure: @escaping (Error) -> Void) {
@@ -114,7 +114,9 @@ public final class MediaFetchService {
 
         let totalCount = results.count
         let baseProgress = Double(context.index) / Double(totalCount)
-        fetchContent(for: result, progress: { (value: Double) in
+        fetchContent(for: result,
+                     treatingLivePhotoAsVideo: context.shouldTreatLivePhotosAsVideos,
+           progress: { (value: Double) in
             let cumulativeValue = baseProgress + value / Double(totalCount)
             progress(cumulativeValue)
         }, success: { (item: Item) in
@@ -132,7 +134,7 @@ public final class MediaFetchService {
     }
 
     public func fetchContent(for result: PHPickerResult, 
-                             treatingLivePhotoAsVideo: Bool = true,
+                             treatingLivePhotoAsVideo: Bool,
                              progress: @escaping (Double) -> Void,
                              success: @escaping (Item) -> Void,
                              failure: @escaping (Error) -> Void) {
