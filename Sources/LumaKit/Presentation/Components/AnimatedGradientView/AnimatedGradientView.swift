@@ -32,7 +32,7 @@ open class AnimatedGradientView: GradientView {
     }
     
     required public init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
     open override func didMoveToSuperview() {
