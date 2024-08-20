@@ -4,6 +4,8 @@
 
 import UIKit
 
+typealias CollectionViewCellAttributes = CollectionViewItemAttributes
+
 public struct CollectionViewItemAttributes {
     public var indexPath: IndexPath = .init()
 
