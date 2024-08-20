@@ -129,4 +129,8 @@ public struct Gradient: Codable {
 
         return .init(startPoint: startPoint, endPoint: endPoint, colors: colors, locations: locations)
     }
+
+    public func inverted() -> Gradient {
+        return .init(startPoint: startPoint, endPoint: endPoint, colors: colors.reversed(), locations: locations)
+    }
 }
