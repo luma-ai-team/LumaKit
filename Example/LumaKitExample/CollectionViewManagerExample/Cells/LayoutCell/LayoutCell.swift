@@ -28,7 +28,7 @@ final class LayoutCell: UICollectionViewCell, CollectionViewCell {
                                 forCellWithReuseIdentifier: identifier)
     }
 
-    func update(with viewModel: TestViewModel, attributes: LumaKit.CollectionViewCellAttributes) {
+    func update(with viewModel: TestViewModel, attributes: LumaKit.CollectionViewItemAttributes) {
         valueLabel.text = "\(viewModel.color)"
     }
 }

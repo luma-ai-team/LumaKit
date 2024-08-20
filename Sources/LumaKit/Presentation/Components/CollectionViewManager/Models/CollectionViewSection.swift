@@ -7,6 +7,9 @@ import UIKit
 public protocol CollectionViewSection {
     var items: [any CollectionViewItem] { get }
     var insets: UIEdgeInsets { get }
+
+    var header: (any CollectionViewSupplementaryItem)? { get }
+    var footer: (any CollectionViewSupplementaryItem)? { get }
 }
 
 // MARK: - BasicCollectionViewSection
@@ -14,6 +17,9 @@ public protocol CollectionViewSection {
 open class BasicCollectionViewSection: CollectionViewSection {
     public let items: [any CollectionViewItem]
     public var insets: UIEdgeInsets = .zero
+
+    public var header: (any CollectionViewSupplementaryItem)?
+    public var footer: (any CollectionViewSupplementaryItem)?
 
     public init(items: [any CollectionViewItem]) {
         self.items = items

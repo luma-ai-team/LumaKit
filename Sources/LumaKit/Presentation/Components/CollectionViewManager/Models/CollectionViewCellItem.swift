@@ -4,7 +4,7 @@
 
 import UIKit
 
-public struct CollectionViewCellAttributes {
+public struct CollectionViewItemAttributes {
     public var indexPath: IndexPath = .init()
 
     public init() {
@@ -16,7 +16,7 @@ public protocol CollectionViewItem: AnyObject {
     associatedtype Cell: CollectionViewCell
 
     var viewModel: Cell.ViewModel { get }
-    var attributes: CollectionViewCellAttributes { get set }
+    var attributes: CollectionViewItemAttributes { get set }
     var contextActions: [UIAction] { get }
 
     var selectionHandler: ((Self) -> Void)? { get set }
@@ -71,7 +71,7 @@ extension CollectionViewItem {
 
 open class BasicCollectionViewItem<Cell: CollectionViewCell>: CollectionViewItem {
     public let viewModel: Cell.ViewModel
-    public var attributes: CollectionViewCellAttributes = .init()
+    public var attributes: CollectionViewItemAttributes = .init()
     public var contextActions: [UIAction] = []
 
     public var selectionHandler: ((BasicCollectionViewItem) -> Void)?

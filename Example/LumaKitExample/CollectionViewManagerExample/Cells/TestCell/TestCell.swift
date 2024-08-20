@@ -43,7 +43,7 @@ final class TestCell: UICollectionViewCell, CollectionViewCell {
         layer.borderColor = UIColor.black.cgColor
     }
 
-    func update(with viewModel: TestViewModel, attributes: LumaKit.CollectionViewCellAttributes) {
+    func update(with viewModel: TestViewModel, attributes: LumaKit.CollectionViewItemAttributes) {
         backgroundColor = .p3(rgb: viewModel.color)
     }
 }

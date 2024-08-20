@@ -10,7 +10,7 @@ public protocol CollectionViewCell: UICollectionViewCell {
     static func register(in collectionView: UICollectionView, withIdentifier identifier: String)
     static func size(with viewModel: ViewModel, fitting size: CGSize, insets: UIEdgeInsets) -> CGSize
 
-    func update(with viewModel: ViewModel, attributes: CollectionViewCellAttributes)
+    func update(with viewModel: ViewModel, attributes: CollectionViewItemAttributes)
 }
 
 extension CollectionViewCell {

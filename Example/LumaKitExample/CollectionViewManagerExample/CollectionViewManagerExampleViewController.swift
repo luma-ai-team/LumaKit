@@ -8,7 +8,7 @@
 import UIKit
 import LumaKit
 
-final class CollectionViewManagerExampleViewController: AutoSelectionCollectionViewController {
+final class CollectionViewManagerExampleViewController: CollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -32,6 +32,8 @@ final class CollectionViewManagerExampleViewController: AutoSelectionCollectionV
             print(viewModel)
         })
         aSection.insets.right = 20.0
+        aSection.header = BasicCollectionViewSupplementaryItem<HeaderView>(viewModel: "hello")
+        aSection.footer = BasicCollectionViewSupplementaryItem<HeaderView>(viewModel: "world")
 
         let viewModels: [LayoutCell.ViewModel] = [
             .init(color: 0xFFFF00),
@@ -42,6 +44,8 @@ final class CollectionViewManagerExampleViewController: AutoSelectionCollectionV
                                                           viewModels: viewModels) { (viewModel: TestViewModel) in
             print(viewModel)
         }
+        bSection.header = BasicCollectionViewSupplementaryItem<HeaderView>(viewModel: "header")
+        bSection.footer = BasicCollectionViewSupplementaryItem<HeaderView>(viewModel: "footer")
 
         manager.sections = [aSection, bSection]
         manager.select(aSection.items[1], scrollPosition: .centeredHorizontally)

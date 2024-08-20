@@ -32,6 +32,14 @@ public final class CollectionViewManager: NSObject {
             for item in section.items {
                 type(of: item).registerCell(in: collectionView)
             }
+
+            if let header = section.header {
+                type(of: header).registerView(in: collectionView, kind: UICollectionView.elementKindSectionHeader)
+            }
+
+            if let footer = section.footer {
+                type(of: footer).registerView(in: collectionView, kind: UICollectionView.elementKindSectionFooter)
+            }
         }
     }
 
@@ -82,6 +90,20 @@ extension CollectionViewManager: UICollectionViewDataSource {
         }
         
         return cell
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, 
+                               viewForSupplementaryElementOfKind kind: String,
+                               at indexPath: IndexPath) -> UICollectionReusableView {
+        let section = sections[indexPath.section]
+        switch kind {
+        case UICollectionView.elementKindSectionHeader:
+            return section.header?.dequeueView(in: collectionView, indexPath: indexPath, kind: kind) ?? .init()
+        case UICollectionView.elementKindSectionFooter:
+            return section.footer?.dequeueView(in: collectionView, indexPath: indexPath, kind: kind) ?? .init()
+        default:
+            return .init()
+        }
     }
 }
 
@@ -134,6 +156,28 @@ extension CollectionViewManager: UICollectionViewDelegateFlowLayout {
                                sizeForItemAt indexPath: IndexPath) -> CGSize {
         let item = sections[indexPath.section].items[indexPath.row]
         return item.size(in: collectionView, at: indexPath)
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, 
+                               layout collectionViewLayout: UICollectionViewLayout,
+                               referenceSizeForHeaderInSection index: Int) -> CGSize {
+        let section = sections[index]
+        guard let header = section.header else {
+            return .zero
+        }
+
+        return header.size(in: collectionView)
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, 
+                               layout collectionViewLayout: UICollectionViewLayout,
+                               referenceSizeForFooterInSection index: Int) -> CGSize {
+        let section = sections[index]
+        guard let footer = section.footer else {
+            return .zero
+        }
+
+        return footer.size(in: collectionView)
     }
 
     public func collectionView(_ collectionView: UICollectionView,
