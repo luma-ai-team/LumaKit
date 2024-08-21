@@ -55,7 +55,7 @@ public final class PlayerLooper {
     public func reset() {
         removeObservers()
         isPlaying = false
-        
+
         player.pause()
         player.replaceCurrentItem(with: nil)
     }
@@ -89,6 +89,10 @@ public final class PlayerLooper {
     }
 
     @objc private func willEnterForeground() {
+        guard player.currentItem != nil else {
+            return
+        }
+
         play()
     }
 
