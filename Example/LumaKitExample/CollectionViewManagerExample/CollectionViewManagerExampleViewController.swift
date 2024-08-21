@@ -47,7 +47,7 @@ final class CollectionViewManagerExampleViewController: CollectionViewController
         bSection.header = BasicCollectionViewSupplementaryItem<HeaderView>(viewModel: "header")
         bSection.footer = BasicCollectionViewSupplementaryItem<HeaderView>(viewModel: "footer")
 
-        manager.sections = [aSection, bSection]
+        manager.update(with: [aSection, bSection])
         manager.select(aSection.items[1], scrollPosition: .centeredHorizontally)
         manager.selectionHandler = { (item: CollectionViewCellItem) in
             print(item.viewModel)

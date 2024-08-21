@@ -102,11 +102,11 @@ extension CollectionViewManager {
             }
         }
 
-        self.sections = sections
         collectionView.performBatchUpdates({
             collectionView.deleteSections(deletedSections)
             collectionView.deleteItems(at: deletedIndexPaths)
 
+            self.sections = sections
             collectionView.insertSections(addedSections)
             collectionView.insertItems(at: insertedIndexPaths)
         }, completion: { _ in
