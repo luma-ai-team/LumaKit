@@ -150,14 +150,20 @@ extension CollectionViewManager: UICollectionViewDelegate {
     public func collectionView(_ collectionView: UICollectionView, 
                                willDisplay cell: UICollectionViewCell,
                                forItemAt indexPath: IndexPath) {
-        let item = sections[indexPath.section].items[indexPath.row]
+        guard let item = sections[safe: indexPath.section]?.items[safe: indexPath.row] else {
+            return
+        }
+        
         item.willDisplay(cell, in: collectionView, indexPath: indexPath)
     }
 
     public func collectionView(_ collectionView: UICollectionView, 
                                didEndDisplaying cell: UICollectionViewCell,
                                forItemAt indexPath: IndexPath) {
-        let item = sections[indexPath.section].items[indexPath.row]
+        guard let item = sections[safe: indexPath.section]?.items[safe: indexPath.row] else {
+            return
+        }
+
         item.didEndDisplay(cell, in: collectionView, indexPath: indexPath)
     }
 }
