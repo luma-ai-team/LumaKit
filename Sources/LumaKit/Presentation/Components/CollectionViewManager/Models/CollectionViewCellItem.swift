@@ -5,6 +5,7 @@
 import UIKit
 
 public typealias CollectionViewCellAttributes = CollectionViewItemAttributes
+public typealias CollectionViewItem = CollectionViewCellItem
 
 public struct CollectionViewItemAttributes {
     public var indexPath: IndexPath = .init()
@@ -14,7 +15,7 @@ public struct CollectionViewItemAttributes {
     }
 }
 
-public protocol CollectionViewItem: AnyObject {
+public protocol CollectionViewCellItem: AnyObject {
     associatedtype Cell: CollectionViewCell
 
     var viewModel: Cell.ViewModel { get }
@@ -25,10 +26,13 @@ public protocol CollectionViewItem: AnyObject {
     var deselectionHandler: ((Self) -> Void)? { get set }
 
     func configure(_ cell: Cell, in collectionView: UICollectionView, indexPath: IndexPath)
+
+    func willDisplay(_ cell: Cell, in collectionView: UICollectionView, indexPath: IndexPath)
+    func didEndDisplay(_ cell: Cell, in collectionView: UICollectionView, indexPath: IndexPath)
 }
 
-extension CollectionViewItem {
-    public func matches(_ rhs: any CollectionViewItem) -> Bool {
+extension CollectionViewCellItem {
+    public func matches(_ rhs: any CollectionViewCellItem) -> Bool {
         return viewModel == (rhs.viewModel as? Cell.ViewModel)
     }
 
@@ -60,6 +64,30 @@ extension CollectionViewItem {
         configure(cell, in: collectionView, indexPath: indexPath)
     }
 
+    public func willDisplay(_ cell: UICollectionViewCell, in collectionView: UICollectionView, indexPath: IndexPath) {
+        guard let cell = cell as? Cell else {
+            return
+        }
+        
+        willDisplay(cell, in: collectionView, indexPath: indexPath)
+    }
+
+    public func willDisplay(_ cell: Cell, in collectionView: UICollectionView, indexPath: IndexPath) {}
+
+    public func didEndDisplay(_ cell: UICollectionViewCell, in collectionView: UICollectionView, indexPath: IndexPath) {
+        guard let cell = cell as? Cell else {
+            return
+        }
+
+        didEndDisplay(cell, in: collectionView, indexPath: indexPath)
+    }
+
+    public func didEndDisplay(_ cell: Cell, in collectionView: UICollectionView, indexPath: IndexPath) {}
+
+    public func cast(_ cell: UICollectionViewCell) -> Cell? {
+        return cell as? Cell
+    }
+
     func handleCellSelection() {
         selectionHandler?(self)
     }
@@ -71,7 +99,7 @@ extension CollectionViewItem {
 
 // MARK: - BasicCollectionViewItem
 
-open class BasicCollectionViewItem<Cell: CollectionViewCell>: CollectionViewItem {
+open class BasicCollectionViewItem<Cell: CollectionViewCell>: CollectionViewCellItem {
     public let viewModel: Cell.ViewModel
     public var attributes: CollectionViewItemAttributes = .init()
     public var contextActions: [UIAction] = []
@@ -85,5 +113,13 @@ open class BasicCollectionViewItem<Cell: CollectionViewCell>: CollectionViewItem
 
     open func configure(_ cell: Cell, in collectionView: UICollectionView, indexPath: IndexPath) {
         cell.update(with: viewModel, attributes: attributes)
+    }
+
+    open func willDisplay(_ cell: Cell, in collectionView: UICollectionView, indexPath: IndexPath) {
+        //
+    }
+
+    open func didEndDisplay(_ cell: Cell, in collectionView: UICollectionView, indexPath: IndexPath) {
+        //
     }
 }

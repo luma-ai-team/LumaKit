@@ -5,7 +5,7 @@
 import UIKit
 
 public protocol CollectionViewSection {
-    var items: [any CollectionViewItem] { get }
+    var items: [any CollectionViewCellItem] { get }
     var insets: UIEdgeInsets { get }
 
     var header: (any CollectionViewSupplementaryItem)? { get }
@@ -15,17 +15,17 @@ public protocol CollectionViewSection {
 // MARK: - BasicCollectionViewSection
 
 open class BasicCollectionViewSection: CollectionViewSection {
-    public let items: [any CollectionViewItem]
+    public let items: [any CollectionViewCellItem]
     public var insets: UIEdgeInsets = .zero
 
     public var header: (any CollectionViewSupplementaryItem)?
     public var footer: (any CollectionViewSupplementaryItem)?
 
-    public init(items: [any CollectionViewItem]) {
+    public init(items: [any CollectionViewCellItem]) {
         self.items = items
     }
 
-    public init<T: CollectionViewItem>(items: [T], selectionHandler: @escaping (T.Cell.ViewModel) -> Void) {
+    public init<T: CollectionViewCellItem>(items: [T], selectionHandler: @escaping (T.Cell.ViewModel) -> Void) {
         self.items = items
         for item in items {
             item.selectionHandler = { _ in

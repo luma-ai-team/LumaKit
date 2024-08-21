@@ -49,7 +49,7 @@ final class CollectionViewManagerExampleViewController: CollectionViewController
 
         manager.sections = [aSection, bSection]
         manager.select(aSection.items[1], scrollPosition: .centeredHorizontally)
-        manager.selectionHandler = { (item: CollectionViewItem) in
+        manager.selectionHandler = { (item: CollectionViewCellItem) in
             print(item.viewModel)
         }
     }

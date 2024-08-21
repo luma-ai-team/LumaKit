@@ -16,8 +16,8 @@ public final class CollectionViewManager: NSObject {
     unowned var collectionView: UICollectionView
 
     public var ignoresSelectionEventsDuringDragging: Bool = false
-    public var selectionHandler: ((any CollectionViewItem) -> Void)?
-    public var deselectionHandler: ((any CollectionViewItem) -> Void)?
+    public var selectionHandler: ((any CollectionViewCellItem) -> Void)?
+    public var deselectionHandler: ((any CollectionViewCellItem) -> Void)?
 
     public init(collectionView: UICollectionView) {
         self.collectionView = collectionView
@@ -52,7 +52,7 @@ public final class CollectionViewManager: NSObject {
         collectionView.selectItem(at: indexPath, animated: animated, scrollPosition: scrollPosition)
     }
 
-    public func select(_ target: any CollectionViewItem,
+    public func select(_ target: any CollectionViewCellItem,
                        scrollPosition: UICollectionView.ScrollPosition = [],
                        animated: Bool = true) {
         for (sectionIndex, section) in sections.enumerated() {
@@ -145,6 +145,20 @@ extension CollectionViewManager: UICollectionViewDelegate {
         return UIContextMenuConfiguration(actionProvider: { _ in
             return UIMenu(children: item.contextActions)
         })
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, 
+                               willDisplay cell: UICollectionViewCell,
+                               forItemAt indexPath: IndexPath) {
+        let item = sections[indexPath.section].items[indexPath.row]
+        item.willDisplay(cell, in: collectionView, indexPath: indexPath)
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, 
+                               didEndDisplaying cell: UICollectionViewCell,
+                               forItemAt indexPath: IndexPath) {
+        let item = sections[indexPath.section].items[indexPath.row]
+        item.didEndDisplay(cell, in: collectionView, indexPath: indexPath)
     }
 }
 
