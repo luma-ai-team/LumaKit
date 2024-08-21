@@ -35,6 +35,10 @@ public final class PlayerLooper {
     }
 
     public func play() {
+        if player.currentItem == nil {
+            setup()
+        }
+
         player.play()
     }
 
@@ -46,6 +50,14 @@ public final class PlayerLooper {
     public func stop() {
         isPlaying = false
         player.pause()
+    }
+
+    public func reset() {
+        removeObservers()
+        isPlaying = false
+        
+        player.pause()
+        player.replaceCurrentItem(with: nil)
     }
 
     public func refresh() {
