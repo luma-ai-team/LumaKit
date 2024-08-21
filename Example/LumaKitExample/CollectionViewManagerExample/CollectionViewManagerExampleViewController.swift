@@ -52,5 +52,42 @@ final class CollectionViewManagerExampleViewController: CollectionViewController
         manager.selectionHandler = { (item: CollectionViewCellItem) in
             print(item.viewModel)
         }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.performPartialUpdate()
+        }
+    }
+
+    func performPartialUpdate() {
+        let cellItemWithActions = BasicCollectionViewItem<TestCell>(viewModel: .init(color: 0xFF0000))
+        cellItemWithActions.contextActions = [
+            .init(title: "Do Something!", handler: { _ in
+                print("I did something")
+            })
+        ]
+
+        let aSection = BasicCollectionViewSection(items: [
+            cellItemWithActions,
+            BasicCollectionViewItem<TestCell>(viewModel: .init(color: 0x000000)),
+            BasicCollectionViewItem<TestCell>(viewModel: .init(color: 0x0000FF))
+        ], selectionHandler: { (viewModel: TestViewModel) in
+            print(viewModel)
+        })
+        aSection.insets.right = 20.0
+        aSection.header = BasicCollectionViewSupplementaryItem<HeaderView>(viewModel: "hello")
+        aSection.footer = BasicCollectionViewSupplementaryItem<HeaderView>(viewModel: "world")
+
+        let viewModels: [LayoutCell.ViewModel] = [
+            .init(color: 0xFFFF00),
+            .init(color: 0xFFFFFF)
+        ]
+        let bSection = BasicCollectionViewSection.uniform(cellType: LayoutCell.self,
+                                                          viewModels: viewModels) { (viewModel: TestViewModel) in
+            print(viewModel)
+        }
+        bSection.header = BasicCollectionViewSupplementaryItem<HeaderView>(viewModel: "schmeader")
+        bSection.footer = BasicCollectionViewSupplementaryItem<HeaderView>(viewModel: "footer")
+
+        manager.update(with: [aSection, bSection])
     }
 }

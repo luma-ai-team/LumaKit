@@ -9,7 +9,7 @@ public final class CollectionViewManager: NSObject {
     public var sections: [CollectionViewSection] = [] {
         didSet {
             registerCellsIfNeeded()
-            collectionView.reloadData()
+            reloadDataIfNeeded()
         }
     }
 
@@ -18,6 +18,8 @@ public final class CollectionViewManager: NSObject {
     public var ignoresSelectionEventsDuringDragging: Bool = false
     public var selectionHandler: ((any CollectionViewCellItem) -> Void)?
     public var deselectionHandler: ((any CollectionViewCellItem) -> Void)?
+
+    internal var shouldIgnoreReloadRequests: Bool = false
 
     public init(collectionView: UICollectionView) {
         self.collectionView = collectionView
@@ -41,6 +43,14 @@ public final class CollectionViewManager: NSObject {
                 type(of: footer).registerView(in: collectionView, kind: UICollectionView.elementKindSectionFooter)
             }
         }
+    }
+
+    private func reloadDataIfNeeded() {
+        guard shouldIgnoreReloadRequests == false else {
+            return
+        }
+
+        collectionView.reloadData()
     }
 
     public func select(_ indexPath: IndexPath, scrollPosition: UICollectionView.ScrollPosition = [], animated: Bool = true) {
@@ -71,6 +81,7 @@ public final class CollectionViewManager: NSObject {
         collectionView.scrollToItem(at: selectedIndexPath, at: scrollPosition, animated: false)
     }
 }
+
 
 // MARK: - UICollectionViewDataSource
 
