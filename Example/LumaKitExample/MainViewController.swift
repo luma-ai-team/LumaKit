@@ -39,6 +39,12 @@ class MainViewController: UIViewController {
         coordinator.output = self
         coordinator.start()
     }
+
+    @IBAction func playerExampleButtonPressed(_ sender: Any) {
+        let controller = PlayersExampleViewController()
+        navigationController?.pushViewController(controller, animated: true)
+    }
+    
 }
 
 // MARK: - MediaPickerCoordinatorOutput
