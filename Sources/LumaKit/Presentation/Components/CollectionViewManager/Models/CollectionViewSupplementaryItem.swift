@@ -17,8 +17,8 @@ public protocol CollectionViewSupplementaryItem: AnyObject {
 }
 
 extension CollectionViewSupplementaryItem {
-    public func matches(_ rhs: any CollectionViewSupplementaryItem) -> Bool {
-        return viewModel == (rhs.viewModel as? View.ViewModel)
+    public func matches(_ rhs: (any CollectionViewSupplementaryItem)?) -> Bool {
+        return viewModel == (rhs?.viewModel as? View.ViewModel)
     }
 
     static func registerView(in collectionView: UICollectionView, kind: String) {

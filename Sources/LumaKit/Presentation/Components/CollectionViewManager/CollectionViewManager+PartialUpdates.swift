@@ -51,14 +51,14 @@ extension CollectionViewManager {
         shouldIgnoreReloadRequests = true
 
         let sectionCount = max(self.sections.count, sections.count)
-        var oldCellItemCollections = self.sections.map(\.items)
-        for _ in stride(from: oldCellItemCollections.count, to: sectionCount, by: 1) {
-            oldCellItemCollections.append([])
+        var oldSections: [CollectionViewSection?] = self.sections
+        for _ in stride(from: oldSections.count, to: sectionCount, by: 1) {
+            oldSections.append(nil)
         }
 
-        var newCellItemCollections = sections.map(\.items)
-        for _ in stride(from: newCellItemCollections.count, to: sectionCount, by: 1) {
-            newCellItemCollections.append([])
+        var newSections: [CollectionViewSection?] = sections
+        for _ in stride(from: newSections.count, to: sectionCount, by: 1) {
+            newSections.append(nil)
         }
 
         var deletedSections: IndexSet = .init()
@@ -66,20 +66,33 @@ extension CollectionViewManager {
 
         var deletedIndexPaths: [IndexPath] = []
         var insertedIndexPaths: [IndexPath] = []
+        var reloadedSectionsIndexSet: IndexSet = .init()
 
-        for (index, (old, new)) in zip(oldCellItemCollections, newCellItemCollections).enumerated() {
-            if new.isEmpty {
+        for (index, (old, new)) in zip(oldSections, newSections).enumerated() {
+            guard let new = new else {
                 deletedSections.insert(index)
                 continue
             }
 
-            if old.isEmpty {
+            guard let old = old else {
                 addedSections.insert(index)
                 continue
             }
 
-            let difference = new.difference(from: old) { (lhs: any CollectionViewCellItem, 
-                                                          rhs: any CollectionViewCellItem) in
+            if new.header !== old.header,
+               new.header?.matches(old.header) != true {
+                reloadedSectionsIndexSet.insert(index)
+                continue
+            }
+
+            if new.footer !== old.footer,
+               new.footer?.matches(old.footer) != true {
+                reloadedSectionsIndexSet.insert(index)
+                continue
+            }
+
+            let difference = new.items.difference(from: old.items) { (lhs: any CollectionViewCellItem,
+                                                                      rhs: any CollectionViewCellItem) in
                 return lhs.matches(rhs)
             }
 
@@ -107,6 +120,10 @@ extension CollectionViewManager {
             collectionView.deleteItems(at: deletedIndexPaths)
 
             self.sections = sections
+            if reloadedSectionsIndexSet.isEmpty == false {
+                collectionView.reloadSections(reloadedSectionsIndexSet)
+            }
+
             collectionView.insertSections(addedSections)
             collectionView.insertItems(at: insertedIndexPaths)
         }, completion: { _ in
