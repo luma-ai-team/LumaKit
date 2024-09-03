@@ -53,7 +53,7 @@ open class GradientView: UIView {
         let isDimmed = self.isDimmed || (isEnabled == false)
         if isDimmed {
             colors = colors.map { (color: UIColor) in
-                return .init(white: color.yuv.y, alpha: color.alpha)
+                return .init(white: 0.75 * color.yuv.y, alpha: color.alpha)
             }
         }
 
