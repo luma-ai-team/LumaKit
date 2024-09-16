@@ -17,6 +17,10 @@ open class PlayerView: UIView {
         }
         set {
             playerLayer.player = newValue
+            if let item = newValue?.currentItem {
+                synchronizationLayer = .init(playerItem: item)
+                setNeedsLayout()
+            }
         }
     }
 
@@ -29,8 +33,21 @@ open class PlayerView: UIView {
         }
     }
 
+    var isReadyForDisplay: Bool {
+        return playerLayer.isReadyForDisplay == true
+    }
+
     public var playerLayer: AVPlayerLayer! {
         return layer as? AVPlayerLayer
+    }
+
+    public var synchronizationLayer: AVSynchronizedLayer = .init() {
+        didSet {
+            oldValue.removeFromSuperlayer()
+            layer.addSublayer(synchronizationLayer)
+            setNeedsLayout()
+            layoutIfNeeded()
+        }
     }
 
     public override init(frame: CGRect) {
@@ -45,6 +62,15 @@ open class PlayerView: UIView {
 
     private func setup() {
         videoGravity = .resizeAspectFill
+    }
+
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        synchronizationLayer.frame = bounds
+        CATransaction.commit()
     }
 
     public func waitForReadyState(on queue: DispatchQueue = .global(qos: .background),
