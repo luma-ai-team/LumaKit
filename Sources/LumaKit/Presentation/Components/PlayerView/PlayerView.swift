@@ -33,7 +33,7 @@ open class PlayerView: UIView {
         }
     }
 
-    var isReadyForDisplay: Bool {
+    public var isReadyForDisplay: Bool {
         return playerLayer.isReadyForDisplay == true
     }
 
