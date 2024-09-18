@@ -17,10 +17,6 @@ open class PlayerView: UIView {
         }
         set {
             playerLayer.player = newValue
-            if let item = newValue?.currentItem {
-                synchronizationLayer = .init(playerItem: item)
-                setNeedsLayout()
-            }
         }
     }
 
@@ -62,6 +58,7 @@ open class PlayerView: UIView {
 
     private func setup() {
         videoGravity = .resizeAspectFill
+        layer.addSublayer(synchronizationLayer)
     }
 
     open override func layoutSubviews() {
