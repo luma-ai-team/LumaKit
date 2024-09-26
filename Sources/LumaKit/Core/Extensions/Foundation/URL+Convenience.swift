@@ -26,7 +26,7 @@ extension URL {
             return self
         }
 
-        let bundleURL = Bundle.main.bundleURL.resolvingSymlinksInPath()
+        let bundleURL = (Bundle.main.resourceURL ?? Bundle.main.bundleURL).resolvingSymlinksInPath()
         guard path.starts(with: bundleURL.path) else {
             return nil
         }
@@ -63,7 +63,7 @@ extension URL {
 
     public static func resolving(relativeURL: URL) -> URL {
         if relativeURL.scheme == bundleURLScheme {
-            let bundleURL = Bundle.main.bundleURL
+            let bundleURL = Bundle.main.resourceURL ?? Bundle.main.bundleURL
             return bundleURL.appendingPathComponent(relativeURL.path)
         }
 
