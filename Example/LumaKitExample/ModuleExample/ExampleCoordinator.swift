@@ -17,9 +17,20 @@ final class ExampleCoordinator: SheetCoordinator<ExampleModule, ExamplePresenter
 
     lazy var lazyAsyncCollection: LazyCollection<String, String> = .init()
 
-    lazy var transientTask: TransientTask = .init({
-        try await Task.sleep(nanoseconds: 10_000_000_000)
+    lazy var transientTask: TransientTask = .init({ [weak self] in
+        repeat {
+            try await Task.sleep(nanoseconds: 1_000_000_000)
+            self?.pipe.send(Int.random(in: 0...100))
+        } while true
     })
+
+    lazy var anotherTransientTask: TransientTask = .init { [weak self] in
+        for await value in try self.unwrap().pipe.stream {
+            print(value)
+        }
+    }
+
+    lazy var pipe: AsyncPipe<Int> = .init()
 
     deinit {
         print("ExampleCoordinator deinit")
@@ -27,6 +38,8 @@ final class ExampleCoordinator: SheetCoordinator<ExampleModule, ExamplePresenter
 
     override func start(with state: Module<ExamplePresenter>.State, dependencies: ExampleModuleDependencies) -> ExampleModule {
         transientTask()
+        anotherTransientTask()
+
         Task {
             print("Waiting for some stuff to be completed")
             print(try await lazyAsyncValue.fetch())
