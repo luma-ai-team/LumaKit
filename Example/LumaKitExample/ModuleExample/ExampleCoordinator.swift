@@ -17,11 +17,16 @@ final class ExampleCoordinator: SheetCoordinator<ExampleModule, ExamplePresenter
 
     lazy var lazyAsyncCollection: LazyCollection<String, String> = .init()
 
+    lazy var transientTask: TransientTask = .init({
+        try await Task.sleep(nanoseconds: 10_000_000_000)
+    })
+
     deinit {
         print("ExampleCoordinator deinit")
     }
 
     override func start(with state: Module<ExamplePresenter>.State, dependencies: ExampleModuleDependencies) -> ExampleModule {
+        transientTask()
         Task {
             print("Waiting for some stuff to be completed")
             print(try await lazyAsyncValue.fetch())
