@@ -5,7 +5,7 @@
 //  Created by Anton Kormakov on 02.10.2024.
 //
 
-public final class TransientTask {
+public final class TransientTask: Sendable {
     let task: Task<Void, Error>
 
     public init(_ operation: @escaping () async throws -> Void) {
