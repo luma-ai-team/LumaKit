@@ -25,12 +25,18 @@ final class ExampleCoordinator: SheetCoordinator<ExampleModule, ExamplePresenter
     })
 
     lazy var anotherTransientTask: TransientTask = .init { [weak self] in
-        for await value in try self.unwrap().pipe.stream {
-            print(value)
+        for await value in try self.unwrap().pipe.makeStream() {
+            print("Task 1", value)
         }
     }
 
-    lazy var pipe: AsyncPipe<Int> = .init()
+    lazy var oneMoreTransientTask: TransientTask = .init { [weak self] in
+        for await value in try self.unwrap().pipe.makeStream() {
+            print("Task 2", value)
+        }
+    }
+
+    lazy var pipe: AsyncPipe<Int> = .init(value: 0)
 
     deinit {
         print("ExampleCoordinator deinit")
@@ -39,6 +45,7 @@ final class ExampleCoordinator: SheetCoordinator<ExampleModule, ExamplePresenter
     override func start(with state: Module<ExamplePresenter>.State, dependencies: ExampleModuleDependencies) -> ExampleModule {
         transientTask()
         anotherTransientTask()
+        oneMoreTransientTask()
 
         Task {
             print("Waiting for some stuff to be completed")

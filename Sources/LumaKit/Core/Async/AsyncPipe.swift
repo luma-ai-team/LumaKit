@@ -5,38 +5,58 @@
 //  Created by Anton Kormakov on 02.10.2024.
 //
 
-public protocol AsyncSink {
+import Foundation
+
+public protocol AsyncSink: Actor {
     associatedtype T
     func send(_ value: T)
 }
 
-public protocol AsyncSource {
+public protocol AsyncSource: Actor {
     associatedtype T
-    var stream: AsyncStream<T> { get }
+    func makeStream() -> AsyncStream<T>
 }
 
-public final class AsyncPipe<T>: AsyncSink, AsyncSource {
-    public let stream: AsyncStream<T>
-    var sink: AsyncStream<T>.Continuation
+public actor AsyncPipe<T>: AsyncSink, AsyncSource {
+    public private(set) var value: T
+    var sinks: [String: AsyncStream<T>.Continuation] = [:]
 
-    public init(bufferingPolicy: AsyncStream<T>.Continuation.BufferingPolicy = .bufferingNewest(1)) {
-        var sink: AsyncStream<T>.Continuation!
-        stream = .init (bufferingPolicy: bufferingPolicy) { (continuation: AsyncStream<T>.Continuation) in
-            sink = continuation
-        }
-
-        self.sink = sink
+    public init(value: T) {
+        self.value = value
     }
 
-    deinit {
-        sink.finish()
+    public func makeStream() -> AsyncStream<T> {
+        return .init(bufferingPolicy: .bufferingNewest(1)) { (continuation: AsyncStream<T>.Continuation) in
+            self.register(continuation)
+        }
+    }
+
+    private func register(_ sink: AsyncStream<T>.Continuation) {
+        let identifier = UUID().uuidString
+        sinks[identifier] = sink
+        sink.yield(value)
+
+        sink.onTermination = { (termination: AsyncStream<T>.Continuation.Termination) in
+            Task {
+                await self.removeSink(withIdentifier: identifier)
+            }
+        }
+    }
+
+    private func removeSink(withIdentifier identifier: String) {
+        sinks[identifier] = nil
     }
 
     public func send(_ value: T) {
-        sink.yield(value)
+        self.value = value
+        for sink in sinks.values {
+            sink.yield(value)
+        }
     }
 
     public func finish() {
-        sink.finish()
+        for sink in sinks.values {
+            sink.finish()
+        }
     }
 }
