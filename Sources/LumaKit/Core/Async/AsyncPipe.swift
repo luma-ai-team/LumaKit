@@ -19,7 +19,7 @@ public protocol AsyncSource: Actor {
 
 public actor AsyncPipe<T>: AsyncSink, AsyncSource {
     public private(set) var value: T
-    var sinks: [String: AsyncStream<T>.Continuation] = [:]
+    private var sinks: [UUID: AsyncStream<T>.Continuation] = [:]
 
     public init(value: T) {
         self.value = value
@@ -32,7 +32,7 @@ public actor AsyncPipe<T>: AsyncSink, AsyncSource {
     }
 
     private func register(_ sink: AsyncStream<T>.Continuation) {
-        let identifier = UUID().uuidString
+        let identifier = UUID()
         sinks[identifier] = sink
         sink.yield(value)
 
@@ -43,7 +43,7 @@ public actor AsyncPipe<T>: AsyncSink, AsyncSource {
         }
     }
 
-    private func removeSink(withIdentifier identifier: String) {
+    private func removeSink(withIdentifier identifier: UUID) {
         sinks[identifier] = nil
     }
 
