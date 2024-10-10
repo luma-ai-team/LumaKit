@@ -18,9 +18,10 @@ public extension NibBackedView where Self: UIView {
                      bundle: Bundle(for: Self.self))
     }
 
-    func loadFromNib() {
+    @discardableResult
+    func loadFromNib() -> UIView? {
         guard let contentView: UIView = Self.nib.instantiate(owner: self) else {
-            return
+            return nil
         }
 
         contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -32,5 +33,7 @@ public extension NibBackedView where Self: UIView {
             contentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0),
             contentView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0)
         ])
+
+        return contentView
     }
 }
