@@ -23,18 +23,30 @@ open class GradientView: UIView {
             setNeedsLayout()
         }
     }
- 
+
+    public var dimmedGradient: Gradient? {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+
     override open class var layerClass: AnyClass {
         return CAGradientLayer.self
     }
 
-    public init(gradient: Gradient = .horizontal(colors: [.clear])) {
+    public init(gradient: GradientPair) {
+        self.gradient = gradient.active
+        self.dimmedGradient = gradient.inactive
+        super.init(frame: .zero)
+    }
+
+    public init(gradient: Gradient = .solid(color: .clear)) {
         self.gradient = gradient
         super.init(frame: .zero)
     }
 
     required public init?(coder: NSCoder) {
-        self.gradient = .horizontal(colors: [.clear])
+        self.gradient = .solid(color: .clear)
         super.init(coder: coder)
     }
 
@@ -44,17 +56,20 @@ open class GradientView: UIView {
             return
         }
 
+        let isDimmed = self.isDimmed || (isEnabled == false)
+
+        let gradient: Gradient
+        if isDimmed {
+            gradient = dimmedGradient ?? self.gradient.dimmed()
+        }
+        else {
+            gradient = self.gradient
+        }
+
         var colors = (isReversed ? gradient.colors.reversed() : gradient.colors)
         if colors.count == 1,
            let color = colors.first {
             colors.append(color)
-        }
-
-        let isDimmed = self.isDimmed || (isEnabled == false)
-        if isDimmed {
-            colors = colors.map { (color: UIColor) in
-                return .init(white: 0.75 * color.yuv.y, alpha: color.alpha)
-            }
         }
 
         gradientLayer.colors = colors.map(\.cgColor)
@@ -66,6 +81,11 @@ open class GradientView: UIView {
     open override func tintColorDidChange() {
         super.tintColorDidChange()
         layout()
+    }
+
+    public func update(with gradientPair: GradientPair) {
+        gradient = gradientPair.active
+        dimmedGradient = gradientPair.inactive
     }
 }
 

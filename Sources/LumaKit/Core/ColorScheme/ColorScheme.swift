@@ -24,17 +24,17 @@ public final class ColorPair {
 // MARK: - GradientPair
 
 public final class GradientPair {
-    public let primary: Gradient
-    public let secondary: Gradient
+    public let active: Gradient
+    public let inactive: Gradient
 
     public init(gradient: Gradient) {
-        primary = gradient
-        secondary = gradient
+        active = gradient
+        inactive = gradient.dimmed()
     }
 
-    public init(primary: Gradient, secondary: Gradient) {
-        self.primary = primary
-        self.secondary = secondary
+    public init(active: Gradient, inactive: Gradient) {
+        self.active = active
+        self.inactive = inactive
     }
 }
 
@@ -72,7 +72,7 @@ public final class ColorScheme {
     public var genericAction: ActionColor = .init(active: .black, inactive: .lightGray)
     public var premiumAction: ActionColor = .init(color: .white)
     public var destructiveAction: ActionColor = .init(color: .systemRed)
-    public var gradient: Gradient = .horizontal(colors: [.lightGray, .darkGray])
+    public var gradient: GradientPair = .init(gradient: .horizontal(colors: [.lightGray, .darkGray]))
 
     public init() {}
 }

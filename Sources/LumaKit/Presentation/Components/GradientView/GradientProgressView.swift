@@ -24,12 +24,23 @@ public class GradientProgressView: UIView {
         }
     }
 
+    public var dimmedGradient: Gradient? {
+        get {
+            return gradientView.dimmedGradient
+        }
+        set {
+            gradientView.dimmedGradient = newValue
+            layout()
+        }
+    }
+
     private lazy var gradientView: GradientView = .init()
 
     public init(colorScheme: ColorScheme) {
         super.init(frame : .zero)
         backgroundColor = colorScheme.genericAction.inactive
-        gradient = colorScheme.gradient
+        gradient = colorScheme.gradient.active
+        dimmedGradient = colorScheme.gradient.inactive
         setup()
     }
 

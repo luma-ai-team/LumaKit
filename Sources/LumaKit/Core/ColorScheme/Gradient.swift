@@ -17,6 +17,12 @@ public struct Gradient: Codable {
     public var colors: [UIColor]
     public var locations: [Double]?
 
+    public static func solid(color: UIColor) -> Gradient {
+        return .init(startPoint: .init(x: 0.0, y: 0.5),
+                     endPoint: .init(x: 1.0, y: 0.5),
+                     colors: [color])
+    }
+
     public static func horizontal(colors: [UIColor], locations: [Double]? = nil) -> Gradient {
         return .init(startPoint: .init(x: 0.0, y: 0.5),
                      endPoint: .init(x: 1.0, y: 0.5),
@@ -132,5 +138,12 @@ public struct Gradient: Codable {
 
     public func inverted() -> Gradient {
         return .init(startPoint: startPoint, endPoint: endPoint, colors: colors.reversed(), locations: locations)
+    }
+
+    public func dimmed() -> Gradient {
+        let colors = colors.map { (color: UIColor) -> UIColor in
+            return .init(white: 0.75 * color.yuv.y, alpha: 0.5 * color.alpha)
+        }
+        return .init(startPoint: startPoint, endPoint: endPoint, colors: colors, locations: locations)
     }
 }

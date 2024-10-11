@@ -74,7 +74,7 @@ final class UIElementsViewController: UIViewController {
 
     private lazy var gradientButton: GradientButton = {
         let button = GradientButton()
-        button.gradient = .diagonalLTR(colors: [.yellow, .red])
+        button.gradient = .diagonalLTR(colors: [.init(rgb: 0xC2185B)])
         button.setTitle("GradientButton", for: .normal)
         button.bounds.size.height = 60.0
         return button
