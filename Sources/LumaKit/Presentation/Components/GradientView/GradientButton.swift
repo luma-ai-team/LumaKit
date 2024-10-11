@@ -73,7 +73,7 @@ open class GradientButton: BounceButton {
         updateTitleAlphaIfNeeded()
     }
 
-    public func update(with gradientPair: GradientPair) {
+    public func updateGradient(with gradientPair: GradientPair) {
         gradient = gradientPair.active
         dimmedGradient = gradientPair.inactive
     }
