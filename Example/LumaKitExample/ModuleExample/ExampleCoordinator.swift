@@ -60,6 +60,7 @@ final class ExampleCoordinator: SheetCoordinator<ExampleModule, ExamplePresenter
         return super.start(with: state, dependencies: dependencies)
     }
 
+    @Sendable
     private func fetchRandomValue(key: String) async throws -> String {
         try await Task.sleep(nanoseconds: 1_000_000_000)
         return "\(key): some value (totally random)"

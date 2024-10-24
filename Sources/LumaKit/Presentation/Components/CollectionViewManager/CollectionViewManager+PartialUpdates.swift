@@ -10,6 +10,7 @@ import UIKit
 // MARK: - Partial Updates
 
 extension CollectionViewManager {
+    
     public func insert(_ section: CollectionViewSection, atIndex index: Int) {
         shouldIgnoreReloadRequests = true
         sections.insert(section, at: index)

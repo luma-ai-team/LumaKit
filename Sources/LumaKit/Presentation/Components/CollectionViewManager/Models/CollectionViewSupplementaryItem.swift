@@ -13,6 +13,7 @@ public protocol CollectionViewSupplementaryItem: AnyObject {
     var viewModel: View.ViewModel { get }
     var attributes: CollectionViewItemAttributes { get set }
 
+    @MainActor
     func configure(_ view: View, in collectionView: UICollectionView, indexPath: IndexPath)
 }
 
@@ -21,14 +22,17 @@ extension CollectionViewSupplementaryItem {
         return viewModel == (rhs?.viewModel as? View.ViewModel)
     }
 
+    @MainActor
     static func registerView(in collectionView: UICollectionView, kind: String) {
         View.register(in: collectionView, withIdentifier: "\(View.self)", kind: kind)
     }
 
+    @MainActor
     public func size(in collectionView: UICollectionView) -> CGSize {
         return View.size(with: viewModel, fitting: collectionView.bounds.size, insets: collectionView.contentInset)
     }
 
+    @MainActor
     public func dequeueView(in collectionView: UICollectionView, indexPath: IndexPath, kind: String) -> View? {
         guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                          withReuseIdentifier: "\(View.self)",
@@ -41,6 +45,7 @@ extension CollectionViewSupplementaryItem {
         return view
     }
 
+    @MainActor
     public func configure(in collectionView: UICollectionView, indexPath: IndexPath, kind: String) {
         guard let view = collectionView.supplementaryView(forElementKind: kind, at: indexPath) as? View else {
             return

@@ -7,6 +7,7 @@ import UIKit
 import LumaKit
 import GenericModule
 
+@MainActor
 protocol ExampleViewOutput: ViewOutput {
     func randomValueEventTriggered()
 }

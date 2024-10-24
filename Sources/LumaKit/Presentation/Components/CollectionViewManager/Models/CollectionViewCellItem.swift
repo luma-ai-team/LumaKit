@@ -25,9 +25,13 @@ public protocol CollectionViewCellItem: AnyObject {
     var selectionHandler: ((Self) -> Void)? { get set }
     var deselectionHandler: ((Self) -> Void)? { get set }
 
+    @MainActor
     func configure(_ cell: Cell, in collectionView: UICollectionView, indexPath: IndexPath)
 
+    @MainActor
     func willDisplay(_ cell: Cell, in collectionView: UICollectionView, indexPath: IndexPath)
+
+    @MainActor
     func didEndDisplay(_ cell: Cell, in collectionView: UICollectionView, indexPath: IndexPath)
 }
 
@@ -36,15 +40,18 @@ extension CollectionViewCellItem {
         return viewModel == (rhs.viewModel as? Cell.ViewModel)
     }
 
+    @MainActor
     static func registerCell(in collectionView: UICollectionView) {
         Cell.register(in: collectionView, withIdentifier: "\(Cell.self)")
     }
 
+    @MainActor
     public func size(in collectionView: UICollectionView,
                      at indexPath: IndexPath) -> CGSize {
         return Cell.size(with: viewModel, fitting: collectionView.bounds.size, insets: collectionView.contentInset)
     }
 
+    @MainActor
     public func dequeueCell(in collectionView: UICollectionView, indexPath: IndexPath) -> Cell? {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(Cell.self)",
                                                             for: indexPath) as? Cell else {
@@ -56,6 +63,7 @@ extension CollectionViewCellItem {
         return cell
     }
 
+    @MainActor
     public func configure(in collectionView: UICollectionView, indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? Cell else {
             return
@@ -64,6 +72,7 @@ extension CollectionViewCellItem {
         configure(cell, in: collectionView, indexPath: indexPath)
     }
 
+    @MainActor
     public func willDisplay(_ cell: UICollectionViewCell, in collectionView: UICollectionView, indexPath: IndexPath) {
         guard let cell = cell as? Cell else {
             return
@@ -72,8 +81,10 @@ extension CollectionViewCellItem {
         willDisplay(cell, in: collectionView, indexPath: indexPath)
     }
 
+    @MainActor
     public func willDisplay(_ cell: Cell, in collectionView: UICollectionView, indexPath: IndexPath) {}
 
+    @MainActor
     public func didEndDisplay(_ cell: UICollectionViewCell, in collectionView: UICollectionView, indexPath: IndexPath) {
         guard let cell = cell as? Cell else {
             return
@@ -82,16 +93,19 @@ extension CollectionViewCellItem {
         didEndDisplay(cell, in: collectionView, indexPath: indexPath)
     }
 
+    @MainActor
     public func didEndDisplay(_ cell: Cell, in collectionView: UICollectionView, indexPath: IndexPath) {}
 
     public func cast(_ cell: UICollectionViewCell) -> Cell? {
         return cell as? Cell
     }
 
+    @MainActor
     func handleCellSelection() {
         selectionHandler?(self)
     }
 
+    @MainActor
     func handleCellDeselection() {
         deselectionHandler?(self)
     }
@@ -111,14 +125,17 @@ open class BasicCollectionViewItem<Cell: CollectionViewCell>: CollectionViewCell
         self.viewModel = viewModel
     }
 
+    @MainActor
     open func configure(_ cell: Cell, in collectionView: UICollectionView, indexPath: IndexPath) {
         cell.update(with: viewModel, attributes: attributes)
     }
 
+    @MainActor
     open func willDisplay(_ cell: Cell, in collectionView: UICollectionView, indexPath: IndexPath) {
         //
     }
 
+    @MainActor
     open func didEndDisplay(_ cell: Cell, in collectionView: UICollectionView, indexPath: IndexPath) {
         //
     }

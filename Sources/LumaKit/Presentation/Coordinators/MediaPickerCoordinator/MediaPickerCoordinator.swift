@@ -7,6 +7,7 @@ import AVFoundation
 import PhotosUI
 import GenericModule
 
+@MainActor
 public protocol MediaPickerCoordinatorOutput: AnyObject {
     func mediaPickerCoordinatorDidSelect(_ coordinator: MediaPickerCoordinator, items: [MediaFetchService.Item])
     func mediaPickerCoordinatorDidCancel(_ coordinator: MediaPickerCoordinator)

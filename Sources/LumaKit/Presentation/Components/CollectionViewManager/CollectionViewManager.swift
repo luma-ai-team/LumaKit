@@ -4,6 +4,7 @@
 
 import UIKit
 
+@MainActor
 public final class CollectionViewManager: NSObject {
 
     public var sections: [CollectionViewSection] = [] {

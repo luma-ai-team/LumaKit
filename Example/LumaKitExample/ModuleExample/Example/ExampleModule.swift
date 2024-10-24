@@ -5,7 +5,10 @@
 
 import GenericModule
 
+@MainActor
 protocol ExampleModuleInput {}
+
+@MainActor
 protocol ExampleModuleOutput {
     func exampleModuleDidSomeStuff(_ sender: ExampleModuleInput)
 }

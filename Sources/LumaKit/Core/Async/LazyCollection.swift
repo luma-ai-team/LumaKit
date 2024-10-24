@@ -8,7 +8,7 @@
 import Foundation
 
 public final actor LazyCollection<Key: Hashable, Value> {
-    public typealias Provider = (Key) async throws -> Value
+    public typealias Provider = @Sendable (Key) async throws -> Value
 
     lazy var map: [Key: Lazy<Value>] = [:]
     public init() {}

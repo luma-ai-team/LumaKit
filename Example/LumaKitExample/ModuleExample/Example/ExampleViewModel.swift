@@ -5,6 +5,7 @@
 import UIKit
 import GenericModule
 
+@MainActor
 protocol ExampleViewModelDelegate: AnyObject {
     var state: ExampleState { get }
 }

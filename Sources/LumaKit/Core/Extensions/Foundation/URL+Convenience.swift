@@ -8,8 +8,8 @@
 import Foundation
 
 extension URL {
-    public static var root: URL = URL(fileURLWithPath: "/")
-    public static var dummy: URL = URL(fileURLWithPath: "/luma-kit-dummy")
+    public static let root: URL = URL(fileURLWithPath: "/")
+    public static let dummy: URL = URL(fileURLWithPath: "/luma-kit-dummy")
     static var bundleURLScheme: String = "bundle"
     static var homeURLScheme: String = "home"
 
