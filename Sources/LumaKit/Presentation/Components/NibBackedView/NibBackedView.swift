@@ -8,6 +8,7 @@
 import UIKit
 import GenericModule
 
+@MainActor
 public protocol NibBackedView {
     static var nib: ViewNib { get }
 }
