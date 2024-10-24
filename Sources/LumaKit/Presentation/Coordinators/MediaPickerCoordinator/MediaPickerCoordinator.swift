@@ -53,8 +53,6 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
     
     public func start(completion: (() -> Void)? = nil) {
         retainedSelf = self
-        loadingViewController.modalPresentationStyle = .fullScreen
-        rootViewController.present(loadingViewController, animated: true)
 
         pickerConfiguration.filter = filter
         switch selectionStyle {
@@ -69,8 +67,12 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         let pickerViewController = PHPickerViewController(configuration: pickerConfiguration)
         pickerViewController.delegate = self
         pickerViewController.modalTransitionStyle = .crossDissolve
-        pickerViewController.modalPresentationStyle = loadingViewController.modalPresentationStyle
-        loadingViewController.present(pickerViewController, animated: true, completion: completion)
+        pickerViewController.modalPresentationStyle = .fullScreen
+        
+        loadingViewController.modalPresentationStyle = .fullScreen
+        rootViewController.present(loadingViewController, animated: true) {
+            self.loadingViewController.present(pickerViewController, animated: true, completion: completion)
+        }
     }
 
     private func makeSheetViewController() -> SheetViewController {
