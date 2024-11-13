@@ -10,7 +10,7 @@ import UIKit
 public extension UIImage.Configuration {
     static func symbol(size: CGFloat,
                        weight: UIImage.SymbolWeight = .regular,
-                       palette: [UIColor]?) -> UIImage.SymbolConfiguration {
+                       palette: [UIColor]? = nil) -> UIImage.SymbolConfiguration {
         var configuration = UIImage.SymbolConfiguration(pointSize: size, weight: weight)
         if let palette = palette {
             let colorConfiguration = UIImage.SymbolConfiguration(paletteColors: palette)
