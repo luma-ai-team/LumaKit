@@ -2,6 +2,8 @@
 //  Copyright © 2024 Luma AI. All rights reserved.
 //
 
+import Foundation
+
 open class ServiceFactory {
     typealias WeakObject = WeakRef<AnyObject>
     typealias ScopeStorage = [String: WeakObject]
@@ -51,6 +53,11 @@ open class ServiceFactory {
      - Returns: An instance of a service.
      */
     public func provide<Service: ServiceInitializable>(_ service: Service.Type, scope: Scope) -> Service {
+        objc_sync_enter(self)
+        defer {
+            objc_sync_exit(self)
+        }
+
         let identifier = String(describing: service)
         let context = self.context ?? Context(scope: scope)
         guard let dependencies = Self(context: context) as? Service.Dependencies else {
