@@ -37,6 +37,9 @@ final class ExampleCoordinator: SheetCoordinator<ExampleModule, ExamplePresenter
     }
 
     lazy var pipe: AsyncPipe<Int> = .init(value: 0)
+    lazy var streamTask: StreamTask<Int> = .init(pipe: pipe) { (value: Int) in
+        print("Stream Task", value)
+    }
 
     deinit {
         print("ExampleCoordinator deinit")
@@ -46,6 +49,7 @@ final class ExampleCoordinator: SheetCoordinator<ExampleModule, ExamplePresenter
         transientTask()
         anotherTransientTask()
         oneMoreTransientTask()
+        streamTask()
 
         Task {
             print("Waiting for some stuff to be completed")
