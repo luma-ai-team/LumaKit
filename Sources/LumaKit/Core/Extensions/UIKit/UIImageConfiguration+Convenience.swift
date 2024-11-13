@@ -19,4 +19,8 @@ public extension UIImage.Configuration {
 
         return configuration
     }
+
+    static func symbol(style: UIFont.TextStyle, scale: UIImage.SymbolScale = .default) -> UIImage.SymbolConfiguration {
+        return UIImage.SymbolConfiguration(textStyle: style, scale: scale)
+    }
 }

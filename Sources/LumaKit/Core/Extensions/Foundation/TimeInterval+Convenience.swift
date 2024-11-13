@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension TimeInterval {
+public extension TimeInterval {
 
     func toShortTimecodeString(fallback: String = "--:--") -> String {
         guard isNaN == false,
