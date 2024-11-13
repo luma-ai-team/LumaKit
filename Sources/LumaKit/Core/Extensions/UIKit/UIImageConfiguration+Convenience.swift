@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension UIImage.Configuration {
+public extension UIImage.Configuration {
     static func symbol(size: CGFloat,
                        weight: UIImage.SymbolWeight = .regular,
                        palette: [UIColor]?) -> UIImage.SymbolConfiguration {
