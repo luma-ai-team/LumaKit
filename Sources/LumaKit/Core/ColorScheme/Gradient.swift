@@ -146,4 +146,27 @@ public struct Gradient: Codable {
         }
         return .init(startPoint: startPoint, endPoint: endPoint, colors: colors, locations: locations)
     }
+
+    public func draw(in rect: CGRect) {
+        guard let context = UIGraphicsGetCurrentContext() else {
+            return
+        }
+
+        let colors = colors.map(\.cgColor) as CFArray
+        let locations = (locations ?? []).map { (location: Double) in
+            return CGFloat(location)
+        }
+
+        guard let gradient = CGGradient(colorsSpace: CGColorSpaceCreateDeviceRGB(),
+                                        colors: colors,
+                                        locations: locations.isEmpty ? nil : locations) else {
+            return
+        }
+
+        context.clip(to: rect)
+        context.drawLinearGradient(gradient,
+                                   start: rect.origin + startPoint * rect.size,
+                                   end: rect.origin + endPoint * rect.size,
+                                   options: [])
+    }
 }
