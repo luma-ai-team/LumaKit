@@ -16,6 +16,9 @@ public final class CollectionViewManager: NSObject {
 
     unowned var collectionView: UICollectionView
 
+    @available(macCatalyst, introduced: 15.0)
+    public var simulatesiOSMultiSelectionBehavior: Bool = false
+
     public var ignoresSelectionEventsDuringDragging: Bool = false
     public var selectionHandler: ((any CollectionViewCellItem) -> Void)?
     public var deselectionHandler: ((any CollectionViewCellItem) -> Void)?
@@ -178,6 +181,36 @@ extension CollectionViewManager: UICollectionViewDelegate {
 
         item.didEndDisplay(cell, in: collectionView, indexPath: indexPath)
     }
+
+    #if targetEnvironment(macCatalyst)
+    public func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        guard simulatesiOSMultiSelectionBehavior else {
+            return true
+        }
+
+        if let selectedIndexPaths = collectionView.indexPathsForSelectedItems,
+           selectedIndexPaths.contains(indexPath) {
+            collectionView.deselectItem(at: indexPath, animated: false)
+            self.collectionView(collectionView, didDeselectItemAt: indexPath)
+        }
+        else {
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+            self.collectionView(collectionView, didSelectItemAt: indexPath)
+        }
+
+        return false
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
+        guard simulatesiOSMultiSelectionBehavior else {
+            return true
+        }
+
+        collectionView.deselectItem(at: indexPath, animated: false)
+        self.collectionView(collectionView, didDeselectItemAt: indexPath)
+        return false
+    }
+    #endif
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout

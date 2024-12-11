@@ -21,7 +21,7 @@ open class CollectionViewController: UIViewController {
         return manager
     }()
 
-    lazy var collectionView: UICollectionView = {
+    public private(set) lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         return collectionView

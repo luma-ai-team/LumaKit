@@ -53,6 +53,11 @@ final class CollectionViewManagerExampleViewController: CollectionViewController
             print(item.viewModel)
         }
 
+        #if targetEnvironment(macCatalyst)
+        collectionView.allowsMultipleSelection = true
+        manager.simulatesiOSMultiSelectionBehavior = true
+        #endif
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.performPartialUpdate()
         }
