@@ -71,13 +71,18 @@ final class CollectionViewManagerExampleViewController: CollectionViewController
             })
         ]
 
+        let lazyCellItem = LazyCollectionViewItem<LayoutCell>(viewModel: .init(color: 0xFFFFFF))
+        lazyCellItem.registerLazyKeyPath(\.lazyValue, provider: {
+            try await Task.sleep(for: .seconds(3.0))
+            return "Hello world"
+        })
+
         let aSection = BasicCollectionViewSection(items: [
             cellItemWithActions,
             BasicCollectionViewItem<TestCell>(viewModel: .init(color: 0x000000)),
-            BasicCollectionViewItem<TestCell>(viewModel: .init(color: 0x0000FF))
-        ], selectionHandler: { (viewModel: TestViewModel) in
-            print(viewModel)
-        })
+            BasicCollectionViewItem<TestCell>(viewModel: .init(color: 0x0000FF)),
+            lazyCellItem
+        ])
         aSection.insets.right = 20.0
         aSection.header = BasicCollectionViewSupplementaryItem<HeaderView>(viewModel: "hello")
         aSection.footer = BasicCollectionViewSupplementaryItem<HeaderView>(viewModel: "world")

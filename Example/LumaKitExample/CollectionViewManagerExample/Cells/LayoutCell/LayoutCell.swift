@@ -29,6 +29,6 @@ final class LayoutCell: UICollectionViewCell, CollectionViewCell {
     }
 
     func update(with viewModel: TestViewModel, attributes: LumaKit.CollectionViewItemAttributes) {
-        valueLabel.text = "\(viewModel.color)"
+        valueLabel.text = "\(viewModel.color) - \(viewModel.lazyValue ?? "null")"
     }
 }

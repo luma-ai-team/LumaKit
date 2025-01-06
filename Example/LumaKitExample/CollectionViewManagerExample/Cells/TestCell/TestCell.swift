@@ -10,6 +10,7 @@ import LumaKit
 
 struct TestViewModel: Equatable {
     let color: UInt32
+    var lazyValue: String?
 }
 
 final class TestCell: UICollectionViewCell, CollectionViewCell {
