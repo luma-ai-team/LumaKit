@@ -9,10 +9,14 @@ import UIKit
 import AVFoundation
 
 public final class AssetProvider {
-    public final class Asset<T> {
+    public final class Asset<T>: Equatable {
         public let source: URL
         public private(set) var cached: T?
         private let provider: () async throws -> T
+
+        public static func == (lhs: Asset<T>, rhs: Asset<T>) -> Bool {
+            return lhs.source == rhs.source
+        }
 
         init(source: URL, cached: T?, provider: @escaping () async throws -> T) {
             self.source = source
@@ -68,6 +72,10 @@ public final class AssetProvider {
 
     private func download(_ url: URL, identifier: String, pathExtension: String? = nil) async throws -> URL {
         return try await fetchers.fetch(for: url, provider: { _ in
+            if url.isFileURL {
+                return url
+            }
+
             let targetURL = self.makeLocalAssetURL(withIdentifier: identifier, pathExtension: pathExtension)
             if self.fileManager.fileExists(atPath: targetURL.path) {
                 return targetURL
