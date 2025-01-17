@@ -5,6 +5,11 @@
 import UIKit
 
 @MainActor
+public protocol CollectionViewManagerScrollDelegate: AnyObject {
+    func collectionViewDidScroll(_ collectionView: UICollectionView)
+}
+
+@MainActor
 public final class CollectionViewManager: NSObject {
 
     public var sections: [CollectionViewSection] = [] {
@@ -22,6 +27,8 @@ public final class CollectionViewManager: NSObject {
     public var ignoresSelectionEventsDuringDragging: Bool = false
     public var selectionHandler: ((any CollectionViewCellItem) -> Void)?
     public var deselectionHandler: ((any CollectionViewCellItem) -> Void)?
+
+    public var scrollDelegate: CollectionViewManagerScrollDelegate?
 
     internal var shouldIgnoreReloadRequests: Bool = false
 
@@ -263,6 +270,8 @@ extension CollectionViewManager: UIScrollViewDelegate {
         if let layout = collectionView.collectionViewLayout as? ScrollAwareCollectionViewFlowLayout {
             layout.collectionViewDidScroll(collectionView)
         }
+
+        scrollDelegate?.collectionViewDidScroll(collectionView)
     }
 
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
