@@ -566,8 +566,10 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W7RHRYCY4R;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LumaKitExample/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Take Photos";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -600,8 +602,10 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W7RHRYCY4R;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LumaKitExample/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Take Photos";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

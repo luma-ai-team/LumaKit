@@ -19,10 +19,18 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         case ordered(Int)
     }
 
+    public enum Source {
+        case camera
+        case library
+    }
+
     public let colorScheme: ColorScheme
     public var selectionStyle: SelectionStyle = .basic(1)
     public var shouldTreatLivePhotosAsVideos: Bool = true
     public var filter: PHPickerFilter?
+
+    public var sources: [Source] = [.library]
+    public var sourcePickerBottomView: UIView?
 
     public weak var output: MediaPickerCoordinatorOutput?
 
@@ -35,6 +43,8 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
 
     private lazy var sheetContent: ProgressSheetContent = .init(colorScheme: colorScheme)
     private lazy var sheetViewController: SheetViewController = makeSheetViewController()
+    private var sourcePickerViewController: SheetViewController?
+
     private var retainedSelf: MediaPickerCoordinator?
 
     private lazy var pickerConfiguration: PHPickerConfiguration = {
@@ -55,6 +65,33 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
     public func start(completion: (() -> Void)? = nil) {
         retainedSelf = self
 
+        if sources.first == sources.last {
+            let source = sources.first ?? .library
+            start(source: source, completion: completion)
+        }
+        else {
+            let content = MediaPickerSourceViewController(sources: sources)
+            content.userContent = sourcePickerBottomView
+            content.colorScheme = colorScheme
+            content.delegate = self
+
+            let controller = SheetViewController(content: content)
+            rootViewController.present(controller, animated: true)
+            sourcePickerViewController = controller
+            completion?()
+        }
+    }
+
+    private func start(source: Source, completion: (() -> Void)? = nil) {
+        switch source {
+        case .library:
+            startLibrary(completion: completion)
+        case .camera:
+            startCamera(completion: completion)
+        }
+    }
+
+    private func startLibrary(completion: (() -> Void)? = nil) {
         pickerConfiguration.filter = filter
         switch selectionStyle {
         case .basic(let count):
@@ -69,11 +106,18 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         pickerViewController.delegate = self
         pickerViewController.modalTransitionStyle = .crossDissolve
         pickerViewController.modalPresentationStyle = .fullScreen
-        
+
         loadingViewController.modalPresentationStyle = .fullScreen
-        rootViewController.present(loadingViewController, animated: true) {
+        topViewController.present(loadingViewController, animated: true) {
             self.loadingViewController.present(pickerViewController, animated: true, completion: completion)
         }
+    }
+
+    private func startCamera(completion: (() -> Void)? = nil) {
+        let controller = UIImagePickerController()
+        controller.sourceType = .camera
+        controller.delegate = self
+        topViewController.present(controller, animated: true)
     }
 
     private func makeSheetViewController() -> SheetViewController {
@@ -89,6 +133,13 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
     public func dismiss() {
         retainedSelf = nil
         if rootViewController.presentedViewController === loadingViewController {
+            rootViewController.dismiss(animated: true)
+        }
+        else if rootViewController.presentedViewController is UIImagePickerController {
+            rootViewController.dismiss(animated: true)
+        }
+        else if let sourcePickerViewController = self.sourcePickerViewController,
+                rootViewController.presentedViewController == sourcePickerViewController {
             rootViewController.dismiss(animated: true)
         }
     }
@@ -161,5 +212,32 @@ extension MediaPickerCoordinator: PHPickerViewControllerDelegate {
     private func errorHandler(_ error: Error) {
         sheetContent.state = .failure(error)
         sheetViewController.updateContent()
+    }
+}
+
+// MARK: - UIImagePickerControllerDelegate
+
+extension MediaPickerCoordinator: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    public func imagePickerController(_ picker: UIImagePickerController,
+                                      didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        guard let image = (info[.editedImage] ?? info[.originalImage]) as? UIImage else {
+            output?.mediaPickerCoordinatorDidCancel(self)
+            return dismiss()
+        }
+
+        output?.mediaPickerCoordinatorDidSelect(self, items: [.image(image)])
+    }
+
+    public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        output?.mediaPickerCoordinatorDidCancel(self)
+        return dismiss()
+    }
+}
+
+// MARK: - MediaPickerSourceViewDelegate
+
+extension MediaPickerCoordinator: MediaPickerSourceViewDelegate {
+    public func mediaPickerSourceViewDidRequest(_ sender: MediaPickerSourceViewController, source: Source) {
+        start(source: source)
     }
 }
