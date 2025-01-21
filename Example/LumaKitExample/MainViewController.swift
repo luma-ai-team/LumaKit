@@ -40,7 +40,7 @@ class MainViewController: UIViewController {
 
         let coordinator = MediaPickerCoordinator(rootViewController: self, colorScheme: .init())
         //coordinator.sourcePickerBottomView = view
-        coordinator.sources = [.camera]
+        coordinator.sources = [.library, .camera]
         coordinator.selectionStyle = .ordered(4)
         coordinator.output = self
         coordinator.start()

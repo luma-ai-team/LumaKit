@@ -17,7 +17,7 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="393" height="289"/>
+            <rect key="frame" x="0.0" y="0.0" width="393" height="295"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose Source:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QVN-d8-EaU" userLabel="titleLabel">
@@ -33,7 +33,7 @@
                     </constraints>
                 </stackView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bJE-mS-9OQ" userLabel="userContentView">
-                    <rect key="frame" x="15" y="157" width="363" height="102"/>
+                    <rect key="frame" x="0.0" y="131" width="393" height="134"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
             </subviews>
@@ -42,16 +42,16 @@
                 <constraint firstItem="bLm-21-VeV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="97Z-yX-cdF"/>
                 <constraint firstItem="QVN-d8-EaU" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="24" id="AAP-Yp-ch9"/>
                 <constraint firstAttribute="bottom" secondItem="bJE-mS-9OQ" secondAttribute="bottom" constant="30" id="LOH-ic-gHI"/>
-                <constraint firstItem="bJE-mS-9OQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="Sfa-YO-P9w"/>
-                <constraint firstAttribute="trailing" secondItem="bJE-mS-9OQ" secondAttribute="trailing" constant="15" id="VAp-CK-0rp"/>
+                <constraint firstItem="bJE-mS-9OQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Sfa-YO-P9w"/>
+                <constraint firstAttribute="trailing" secondItem="bJE-mS-9OQ" secondAttribute="trailing" id="VAp-CK-0rp"/>
                 <constraint firstAttribute="trailing" secondItem="bLm-21-VeV" secondAttribute="trailing" constant="15" id="dx8-tF-kmb"/>
                 <constraint firstAttribute="trailing" secondItem="QVN-d8-EaU" secondAttribute="trailing" constant="15" id="rON-jG-Kcp"/>
-                <constraint firstItem="bJE-mS-9OQ" firstAttribute="top" secondItem="bLm-21-VeV" secondAttribute="bottom" constant="34" id="sNO-WC-ahU"/>
+                <constraint firstItem="bJE-mS-9OQ" firstAttribute="top" secondItem="bLm-21-VeV" secondAttribute="bottom" constant="8" id="sNO-WC-ahU"/>
                 <constraint firstItem="QVN-d8-EaU" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="sQg-y2-cQb"/>
                 <constraint firstItem="bLm-21-VeV" firstAttribute="top" secondItem="QVN-d8-EaU" secondAttribute="bottom" constant="12" id="y5j-e2-LmK"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="96.946564885496173" y="298.23943661971833"/>
+            <point key="canvasLocation" x="96.946564885496173" y="300.35211267605638"/>
         </view>
     </objects>
 </document>
