@@ -8,6 +8,11 @@
 import UIKit
 
 open class LazyCollectionViewItem<Cell: CollectionViewCell>: CollectionViewCellItem {
+    public enum UpdateMethod {
+        case reload
+        case reconfigure
+    }
+
     final class LazyKeyPath {
         private let handler: (inout Cell.ViewModel) async -> Bool
 
@@ -35,6 +40,7 @@ open class LazyCollectionViewItem<Cell: CollectionViewCell>: CollectionViewCellI
     public var viewModel: Cell.ViewModel
     public var attributes: CollectionViewItemAttributes = .init()
     public var contextActions: [UIAction] = []
+    public var updateMethod: UpdateMethod = .reload
 
     public var selectionHandler: ((LazyCollectionViewItem) -> Void)?
     public var deselectionHandler: ((LazyCollectionViewItem) -> Void)?
@@ -61,10 +67,19 @@ open class LazyCollectionViewItem<Cell: CollectionViewCell>: CollectionViewCellI
                     return
                 }
 
-                let isSelected = collectionView.indexPathsForSelectedItems?.contains(indexPath)
-                collectionView.reloadItems(at: [indexPath])
-                if isSelected == true {
-                    collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+                switch updateMethod {
+                case .reload:
+                    let isSelected = collectionView.indexPathsForSelectedItems?.contains(indexPath)
+                    collectionView.reloadItems(at: [indexPath])
+                    if isSelected == true {
+                        collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+                    }
+                case .reconfigure:
+                    guard let cell = collectionView.cellForItem(at: indexPath) as? Cell else {
+                        return
+                    }
+
+                    cell.update(with: viewModel, attributes: attributes)
                 }
             }
         }
