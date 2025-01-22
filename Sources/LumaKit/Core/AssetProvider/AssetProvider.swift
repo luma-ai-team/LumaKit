@@ -112,6 +112,16 @@ public final class AssetProvider {
         return nil
     }
 
+    public func cacheImage(_ image: UIImage, at url: URL, identifier: String? = nil) async {
+        let cacheKey = identifier ?? url.lastPathComponent
+        if let data = image.pngData() {
+            let localURL = self.makeLocalAssetURL(withIdentifier: cacheKey, pathExtension: "png")
+            try? data.write(to: localURL)
+        }
+
+        imageCache.setObject(image, forKey: cacheKey as NSString)
+    }
+
     public func fetchImageAsset(at url: URL,
                                 identifier: String? = nil,
                                 provider: @escaping () async throws -> UIImage) -> Asset<UIImage> {
