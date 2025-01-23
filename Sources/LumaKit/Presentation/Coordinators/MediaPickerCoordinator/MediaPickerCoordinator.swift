@@ -117,10 +117,49 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
     }
 
     private func startCamera(animated: Bool, completion: (() -> Void)? = nil) {
+        let authorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
+        switch authorizationStatus {
+        case .notDetermined:
+            Task {
+                let isGranted = await AVCaptureDevice.requestAccess(for: .video)
+                if isGranted {
+                    startCamera(animated: true)
+                }
+                else {
+                    showCameraPermissionsDeniedAlert()
+                }
+            }
+            return
+        case .denied:
+            return showCameraPermissionsDeniedAlert()
+        default:
+            break
+        }
+
         let controller = UIImagePickerController()
         controller.sourceType = .camera
         controller.delegate = self
         topViewController.present(controller, animated: animated, completion: completion)
+    }
+
+    private func showCameraPermissionsDeniedAlert() {
+        let controller = UIAlertController(title: "Camera Access Denied",
+                                           message: "Please enable camera access in settings to use this feature.",
+                                           preferredStyle: .alert)
+
+        let dismissAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        controller.addAction(dismissAction)
+
+        let settingsAction = UIAlertAction(title: "Open Settings", style: .default) { _ in
+            guard let url = URL(string: UIApplication.openSettingsURLString) else {
+                return
+            }
+
+            UIApplication.shared.open(url)
+        }
+        controller.addAction(settingsAction)
+
+        topViewController.present(controller, animated: true)
     }
 
     private func makeSheetViewController() -> SheetViewController {
