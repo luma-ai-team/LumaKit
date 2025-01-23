@@ -10,6 +10,21 @@ public extension UIImage {
         return size.aspect
     }
 
+    func flipHorizontally() -> UIImage? {
+        guard let ciImage = CIImage(image: self, preservingOrientation: true) else {
+            return nil
+        }
+
+        var result = ciImage.transformed(by: .init(scaleX: -1.0, y: 1.0))
+        result = result.transformed(by: .init(translationX: -result.extent.minX, y: -result.extent.minY))
+
+        guard let cgImage = CIContext().createCGImage(result, from: result.extent) else {
+            return nil
+        }
+
+        return .init(cgImage: cgImage)
+    }
+
     func resizeLanczos(to size: CGSize) -> UIImage? {
         guard let ciImage = CIImage(image: self, preservingOrientation: true) else {
             return nil

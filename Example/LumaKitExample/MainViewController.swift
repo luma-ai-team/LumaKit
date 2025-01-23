@@ -50,7 +50,6 @@ class MainViewController: UIViewController {
         let controller = PlayersExampleViewController()
         navigationController?.pushViewController(controller, animated: true)
     }
-    
 }
 
 // MARK: - MediaPickerCoordinatorOutput

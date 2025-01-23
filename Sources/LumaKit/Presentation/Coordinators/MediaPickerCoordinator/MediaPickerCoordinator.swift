@@ -30,6 +30,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
     public var filter: PHPickerFilter?
 
     public var sources: [Source] = [.library]
+    public var shouldApplyFrontCameraFlipWorkaround: Bool = true
     public private(set) var activeSource: Source?
     public var sourcePickerBottomView: UIView?
 
@@ -136,7 +137,8 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
             break
         }
 
-        let controller = UIImagePickerController()
+        let controller = CameraViewController()
+        controller.shouldApplyFrontCameraFlipWorkaround = shouldApplyFrontCameraFlipWorkaround
         controller.sourceType = .camera
         controller.delegate = self
         topViewController.present(controller, animated: animated, completion: completion)
@@ -282,9 +284,15 @@ extension MediaPickerCoordinator: PHPickerViewControllerDelegate {
 extension MediaPickerCoordinator: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     public func imagePickerController(_ picker: UIImagePickerController,
                                       didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        guard let image = (info[.editedImage] ?? info[.originalImage]) as? UIImage else {
+        guard var image = (info[.editedImage] ?? info[.originalImage]) as? UIImage else {
             output?.mediaPickerCoordinatorDidCancel(self)
             return dismiss()
+        }
+
+        if shouldApplyFrontCameraFlipWorkaround,
+           picker.cameraDevice == .front,
+           let flippedImage = image.flipHorizontally() {
+            image = flippedImage
         }
 
         output?.mediaPickerCoordinatorDidSelect(self, items: [.image(image)])
