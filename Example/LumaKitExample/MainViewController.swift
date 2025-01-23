@@ -58,7 +58,10 @@ class MainViewController: UIViewController {
 extension MainViewController: MediaPickerCoordinatorOutput {
     func mediaPickerCoordinatorDidSelect(_ coordinator: MediaPickerCoordinator, items: [MediaFetchService.Item]) {
         print(items)
-        coordinator.dismiss()
+
+        coordinator.show(image: nil, title: "hello", subtitle: "world") {
+            coordinator.dismiss()
+        }
     }
     
     func mediaPickerCoordinatorDidCancel(_ coordinator: MediaPickerCoordinator) {

@@ -73,7 +73,7 @@ final class CollectionViewManagerExampleViewController: CollectionViewController
 
         let lazyCellItem = LazyCollectionViewItem<LayoutCell>(viewModel: .init(color: 0xFFFFFF))
         lazyCellItem.registerLazyKeyPath(\.lazyValue, provider: {
-            try await Task.sleep(for: .seconds(3.0))
+            //try await Task.sleep(for: .seconds(3.0))
             return "Hello world"
         })
 

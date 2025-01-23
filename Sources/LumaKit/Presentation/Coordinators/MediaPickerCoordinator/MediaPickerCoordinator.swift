@@ -30,6 +30,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
     public var filter: PHPickerFilter?
 
     public var sources: [Source] = [.library]
+    public private(set) var activeSource: Source?
     public var sourcePickerBottomView: UIView?
 
     public weak var output: MediaPickerCoordinatorOutput?
@@ -43,6 +44,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
 
     private lazy var sheetContent: ProgressSheetContent = .init(colorScheme: colorScheme)
     private lazy var sheetViewController: SheetViewController = makeSheetViewController()
+    private var sheetDismissHandler: (() -> Void)?
     private var sourcePickerViewController: SheetViewController?
 
     private var retainedSelf: MediaPickerCoordinator?
@@ -82,16 +84,17 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         }
     }
 
-    private func start(source: Source, completion: (() -> Void)? = nil) {
+    private func start(source: Source, animated: Bool = true, completion: (() -> Void)? = nil) {
+        activeSource = source
         switch source {
         case .library:
-            startLibrary(completion: completion)
+            startLibrary(animated: animated, completion: completion)
         case .camera:
-            startCamera(completion: completion)
+            startCamera(animated: animated, completion: completion)
         }
     }
 
-    private func startLibrary(completion: (() -> Void)? = nil) {
+    private func startLibrary(animated: Bool, completion: (() -> Void)? = nil) {
         pickerConfiguration.filter = filter
         switch selectionStyle {
         case .basic(let count):
@@ -109,15 +112,15 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
 
         loadingViewController.modalPresentationStyle = .fullScreen
         topViewController.present(loadingViewController, animated: true) {
-            self.loadingViewController.present(pickerViewController, animated: true, completion: completion)
+            self.loadingViewController.present(pickerViewController, animated: animated, completion: completion)
         }
     }
 
-    private func startCamera(completion: (() -> Void)? = nil) {
+    private func startCamera(animated: Bool, completion: (() -> Void)? = nil) {
         let controller = UIImagePickerController()
         controller.sourceType = .camera
         controller.delegate = self
-        topViewController.present(controller, animated: true)
+        topViewController.present(controller, animated: animated, completion: completion)
     }
 
     private func makeSheetViewController() -> SheetViewController {
@@ -125,9 +128,20 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         sheetContent.state = .progress("Fetching", 0.0)
         let controller = SheetViewController(content: sheetContent)
         controller.dismissHandler = { [weak self] in
+            self?.sheetDismissHandler?()
+            self?.sheetDismissHandler = nil
+
             self?.mediaFetchService.cancel()
         }
         return controller
+    }
+
+    private func presentSheetIfNeeded() {
+        guard sheetViewController.isVisible == false else {
+            return
+        }
+
+        topViewController.present(sheetViewController, animated: true)
     }
 
     public func dismiss() {
@@ -144,16 +158,23 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         }
     }
 
-    public func show(title: String, progress: Double) {
+    public func show(title: String, progress: Double, dismissHandler: (() -> Void)? = nil) {
+        self.sheetDismissHandler = dismissHandler
+        presentSheetIfNeeded()
+
         sheetContent.state = .progress(title, progress)
         sheetViewController.updateContent()
     }
 
-    public func show(_ error: Error) {
+    public func show(_ error: Error, dismissHandler: (() -> Void)? = nil) {
+        self.sheetDismissHandler = dismissHandler
         errorHandler(error)
     }
 
-    public func show(image: UIImage?, title: String, subtitle: String) {
+    public func show(image: UIImage?, title: String, subtitle: String, dismissHandler: (() -> Void)? = nil) {
+        self.sheetDismissHandler = dismissHandler
+        presentSheetIfNeeded()
+
         sheetContent.state = .custom(image, title, subtitle)
         sheetViewController.updateContent()
     }
@@ -210,6 +231,8 @@ extension MediaPickerCoordinator: PHPickerViewControllerDelegate {
     }
 
     private func errorHandler(_ error: Error) {
+        presentSheetIfNeeded()
+
         sheetContent.state = .failure(error)
         sheetViewController.updateContent()
     }
