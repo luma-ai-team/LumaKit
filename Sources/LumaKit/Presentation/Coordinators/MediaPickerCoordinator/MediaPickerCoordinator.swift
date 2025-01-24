@@ -79,6 +79,9 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
             content.delegate = self
 
             let controller = SheetViewController(content: content)
+            controller.dismissHandler = { [weak self] in
+                self?.retainedSelf = nil
+            }
             rootViewController.present(controller, animated: true)
             sourcePickerViewController = controller
             completion?()

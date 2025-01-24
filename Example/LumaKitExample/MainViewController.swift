@@ -34,12 +34,7 @@ class MainViewController: UIViewController {
     }
 
     @IBAction func mediaPickerExampleButtonPressed(_ sender: Any) {
-        let view = UIView()
-        view.backgroundColor = .red
-        view.heightAnchor.constraint(equalToConstant: 120.0).isActive = true
-
         let coordinator = MediaPickerCoordinator(rootViewController: self, colorScheme: .init())
-        //coordinator.sourcePickerBottomView = view
         coordinator.sources = [.library, .camera]
         coordinator.selectionStyle = .ordered(4)
         coordinator.output = self
