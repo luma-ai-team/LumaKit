@@ -20,7 +20,8 @@ public final class SharingSuccessSheetContent: DismissableSheetContentViewContro
         let symbolConfiguration = fontConfiguration.applying(colorConfiguration)
         return UIImage(systemName: "checkmark.circle.fill", withConfiguration: symbolConfiguration) ?? .init()
     }()
-
+    
+    @IBOutlet public weak var titleStackView: UIStackView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
@@ -32,6 +33,8 @@ public final class SharingSuccessSheetContent: DismissableSheetContentViewContro
     
     @IBOutlet weak var starsView: LottieAnimationView!
 
+    
+    
     private lazy var tapGestureRecoginzer: UITapGestureRecognizer = .init(target: self,
                                                                           action: #selector(viewTapped))
 
