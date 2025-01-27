@@ -183,7 +183,7 @@ final class UIElementsViewController: UIViewController {
     }
 
     private func prepareElements() {
-        playerLooper.player.play()
+        playerLooper.play()
         setupProgressViewAnimation()
         setupAnimationSequence()
     }

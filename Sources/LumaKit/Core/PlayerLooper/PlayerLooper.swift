@@ -14,7 +14,7 @@ public final class PlayerLooper {
     }
 
     public let player: SeekingPlayer = .init()
-    private var playbackObserver: NSObjectProtocol?
+    private var playbackObserver: NSKeyValueObservation?
     private(set) var isPlaying: Bool = false
 
     public init(url: URL) {
@@ -35,6 +35,7 @@ public final class PlayerLooper {
     }
 
     public func play() {
+        isPlaying = true
         if player.currentItem == nil {
             setup()
         }
@@ -44,7 +45,9 @@ public final class PlayerLooper {
 
     public func rewind() {
         player.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: .zero)
-        player.play()
+        if isPlaying {
+            player.play()
+        }
     }
 
     public func stop() {
@@ -67,11 +70,15 @@ public final class PlayerLooper {
     private func setupObservers() {
         removeObservers()
 
-        let notificationCenter = NotificationCenter.default
-        playbackObserver = notificationCenter.addObserver(forName: .AVPlayerItemDidPlayToEndTime,
-                                                          object: player.currentItem,
-                                                          queue: .main) { [weak self] _ in
-            self?.rewind()
+        playbackObserver = player.observe(\.rate, options: [.new]) { [weak self] (player: SeekingPlayer,
+                                                                                  change: NSKeyValueObservedChange<Float>) in
+            guard let self = self,
+                  self.isPlaying,
+                  change.newValue == 0.0 else {
+                return
+            }
+
+            self.rewind()
         }
 
         NotificationCenter.default.addObserver(self,
@@ -98,7 +105,7 @@ public final class PlayerLooper {
 
     private func removeObservers() {
         if let playbackObserver = playbackObserver {
-            NotificationCenter.default.removeObserver(playbackObserver)
+            playbackObserver.invalidate()
             self.playbackObserver = nil
         }
 
