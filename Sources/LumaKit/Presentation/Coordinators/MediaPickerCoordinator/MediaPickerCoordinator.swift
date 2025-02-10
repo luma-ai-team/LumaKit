@@ -22,6 +22,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
     public enum Source {
         case camera
         case library
+        case files
     }
 
     public let colorScheme: ColorScheme
@@ -95,6 +96,8 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
             startLibrary(animated: animated, completion: completion)
         case .camera:
             startCamera(animated: animated, completion: completion)
+        case .files:
+            startFilePicker(animated: animated, completion: completion)
         }
     }
 
@@ -143,6 +146,12 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         let controller = CameraViewController()
         controller.shouldApplyFrontCameraFlipWorkaround = shouldApplyFrontCameraFlipWorkaround
         controller.sourceType = .camera
+        controller.delegate = self
+        topViewController.present(controller, animated: animated, completion: completion)
+    }
+
+    private func startFilePicker(animated: Bool, completion: (() -> Void)? = nil) {
+        let controller = UIDocumentPickerViewController(forOpeningContentTypes: [.image])
         controller.delegate = self
         topViewController.present(controller, animated: animated, completion: completion)
     }
@@ -312,5 +321,21 @@ extension MediaPickerCoordinator: UIImagePickerControllerDelegate & UINavigation
 extension MediaPickerCoordinator: MediaPickerSourceViewDelegate {
     public func mediaPickerSourceViewDidRequest(_ sender: MediaPickerSourceViewController, source: Source) {
         start(source: source)
+    }
+}
+
+extension MediaPickerCoordinator: UIDocumentPickerDelegate {
+    public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        output?.mediaPickerCoordinatorDidCancel(self)
+        return dismiss()
+    }
+
+    public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        let images: [UIImage] = urls.compactMap { (url: URL) in
+            return UIImage(contentsOfFile: url.path)
+        }
+        output?.mediaPickerCoordinatorDidSelect(self, items: images.map { (image: UIImage) in
+            return .image(image)
+        })
     }
 }

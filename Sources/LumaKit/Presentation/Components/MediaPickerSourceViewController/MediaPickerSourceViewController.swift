@@ -92,6 +92,9 @@ public final class MediaPickerSourceViewController: UIViewController {
         case .camera:
             button.setImage(.init(systemName: "camera"), for: .normal)
             button.setTitle("Take Photo", for: .normal)
+        case .files:
+            button.setImage(.init(systemName: "folder"), for: .normal)
+            button.setTitle("From Files", for: .normal)
         }
 
         return button
