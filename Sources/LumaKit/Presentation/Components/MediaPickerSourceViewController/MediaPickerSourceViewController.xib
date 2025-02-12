@@ -9,6 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MediaPickerSourceViewController" customModule="LumaKit">
             <connections>
+                <outlet property="dismissButton" destination="tpb-DL-Q8b" id="x4r-Ab-v5U"/>
                 <outlet property="sourceStackView" destination="bLm-21-VeV" id="fp5-no-ObU"/>
                 <outlet property="titleLabel" destination="QVN-d8-EaU" id="YNe-hK-nve"/>
                 <outlet property="userContentView" destination="bJE-mS-9OQ" id="F2k-za-x6r"/>
@@ -21,7 +22,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Choose Source:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QVN-d8-EaU" userLabel="titleLabel">
-                    <rect key="frame" x="15" y="24" width="363" height="17"/>
+                    <rect key="frame" x="15" y="24" width="315" height="17"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -36,16 +37,30 @@
                     <rect key="frame" x="0.0" y="131" width="393" height="134"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tpb-DL-Q8b" userLabel="dismissButton">
+                    <rect key="frame" x="345" y="4" width="48" height="48"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="5Tl-yj-Bw5"/>
+                        <constraint firstAttribute="width" constant="48" id="tFF-zY-W98"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" image="xmark.circle.fill" catalog="system"/>
+                    <connections>
+                        <action selector="dismissButtonPressed:" destination="-1" eventType="touchUpInside" id="PQD-U5-UTt"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="bLm-21-VeV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="97Z-yX-cdF"/>
                 <constraint firstItem="QVN-d8-EaU" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="24" id="AAP-Yp-ch9"/>
+                <constraint firstAttribute="trailing" secondItem="tpb-DL-Q8b" secondAttribute="trailing" id="Glt-RB-QMw"/>
                 <constraint firstAttribute="bottom" secondItem="bJE-mS-9OQ" secondAttribute="bottom" constant="30" id="LOH-ic-gHI"/>
+                <constraint firstItem="tpb-DL-Q8b" firstAttribute="leading" secondItem="QVN-d8-EaU" secondAttribute="trailing" constant="15" id="SIV-YT-wlq"/>
                 <constraint firstItem="bJE-mS-9OQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Sfa-YO-P9w"/>
                 <constraint firstAttribute="trailing" secondItem="bJE-mS-9OQ" secondAttribute="trailing" id="VAp-CK-0rp"/>
+                <constraint firstItem="tpb-DL-Q8b" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="4" id="ZdN-eD-yK1"/>
                 <constraint firstAttribute="trailing" secondItem="bLm-21-VeV" secondAttribute="trailing" constant="15" id="dx8-tF-kmb"/>
-                <constraint firstAttribute="trailing" secondItem="QVN-d8-EaU" secondAttribute="trailing" constant="15" id="rON-jG-Kcp"/>
                 <constraint firstItem="bJE-mS-9OQ" firstAttribute="top" secondItem="bLm-21-VeV" secondAttribute="bottom" constant="8" id="sNO-WC-ahU"/>
                 <constraint firstItem="QVN-d8-EaU" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="sQg-y2-cQb"/>
                 <constraint firstItem="bLm-21-VeV" firstAttribute="top" secondItem="QVN-d8-EaU" secondAttribute="bottom" constant="12" id="y5j-e2-LmK"/>
@@ -54,4 +69,7 @@
             <point key="canvasLocation" x="96.946564885496173" y="300.35211267605638"/>
         </view>
     </objects>
+    <resources>
+        <image name="xmark.circle.fill" catalog="system" width="128" height="123"/>
+    </resources>
 </document>

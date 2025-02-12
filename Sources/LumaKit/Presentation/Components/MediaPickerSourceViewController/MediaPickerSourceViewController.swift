@@ -13,17 +13,20 @@ public protocol MediaPickerSourceViewDelegate: AnyObject {
     func mediaPickerSourceViewDidRequest(_ sender: MediaPickerSourceViewController, source: MediaPickerCoordinator.Source)
 }
 
-public final class MediaPickerSourceViewController: UIViewController {
+public final class MediaPickerSourceViewController: UIViewController, DismissableSheetContent {
     public weak var delegate: MediaPickerSourceViewDelegate?
+    public var dismissHandler: (() -> Void)?
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var sourceStackView: UIStackView!
     @IBOutlet weak var userContentView: UIView!
-
+    @IBOutlet weak var dismissButton: UIButton!
+    
     public var colorScheme: ColorScheme = .init() {
         didSet {
             view.backgroundColor = colorScheme.background.secondary
             titleLabel.textColor = colorScheme.foreground.primary
+            updateDismissButton()
 
             for case let button as MediaPickerSourceButton in sourceStackView.arrangedSubviews {
                 button.tintColor = colorScheme.foreground.primary
@@ -59,7 +62,7 @@ public final class MediaPickerSourceViewController: UIViewController {
         self.sources = sources
         super.init(nibName: "MediaPickerSourceViewController", bundle: .module)
     }
-    
+
     public required init?(coder: NSCoder) {
         self.sources = [.camera, .library]
         super.init(coder: coder)
@@ -67,7 +70,17 @@ public final class MediaPickerSourceViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        updateDismissButton()
         updateSourceButtons()
+    }
+
+    private func updateDismissButton() {
+        dismissButton.tintColor = colorScheme.genericAction.inactive
+        #if targetEnvironment(macCatalyst)
+        dismissButton.isHidden = false
+        #else
+        dismissButton.isHidden = true
+        #endif
     }
 
     private func updateSourceButtons() {
@@ -104,5 +117,9 @@ public final class MediaPickerSourceViewController: UIViewController {
 
     @objc private func sourceButtonPressed(_ sender: MediaPickerSourceButton) {
         delegate?.mediaPickerSourceViewDidRequest(self, source: sender.source)
+    }
+
+    @IBAction func dismissButtonPressed(_ sender: Any) {
+        dismissHandler?()
     }
 }
