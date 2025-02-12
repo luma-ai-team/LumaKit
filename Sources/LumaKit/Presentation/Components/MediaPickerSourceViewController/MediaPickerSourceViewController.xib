@@ -22,7 +22,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Choose Source:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QVN-d8-EaU" userLabel="titleLabel">
-                    <rect key="frame" x="15" y="24" width="315" height="17"/>
+                    <rect key="frame" x="15" y="24" width="313" height="17"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -37,8 +37,8 @@
                     <rect key="frame" x="0.0" y="131" width="393" height="134"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tpb-DL-Q8b" userLabel="dismissButton">
-                    <rect key="frame" x="345" y="4" width="48" height="48"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tpb-DL-Q8b" userLabel="dismissButton">
+                    <rect key="frame" x="343" y="4" width="48" height="48"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="48" id="5Tl-yj-Bw5"/>
                         <constraint firstAttribute="width" constant="48" id="tFF-zY-W98"/>
@@ -54,7 +54,7 @@
             <constraints>
                 <constraint firstItem="bLm-21-VeV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="97Z-yX-cdF"/>
                 <constraint firstItem="QVN-d8-EaU" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="24" id="AAP-Yp-ch9"/>
-                <constraint firstAttribute="trailing" secondItem="tpb-DL-Q8b" secondAttribute="trailing" id="Glt-RB-QMw"/>
+                <constraint firstAttribute="trailing" secondItem="tpb-DL-Q8b" secondAttribute="trailing" constant="2" id="Glt-RB-QMw"/>
                 <constraint firstAttribute="bottom" secondItem="bJE-mS-9OQ" secondAttribute="bottom" constant="30" id="LOH-ic-gHI"/>
                 <constraint firstItem="tpb-DL-Q8b" firstAttribute="leading" secondItem="QVN-d8-EaU" secondAttribute="trailing" constant="15" id="SIV-YT-wlq"/>
                 <constraint firstItem="bJE-mS-9OQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Sfa-YO-P9w"/>
