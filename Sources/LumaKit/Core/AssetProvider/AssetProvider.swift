@@ -71,6 +71,11 @@ public final class AssetProvider {
     }
 
     private func download(_ url: URL, identifier: String, pathExtension: String? = nil) async throws -> URL {
+        objc_sync_enter(self)
+        defer {
+            objc_sync_exit(self)
+        }
+
         return try await fetchers.fetch(for: url, provider: { _ in
             if url.isFileURL {
                 return url
@@ -113,6 +118,11 @@ public final class AssetProvider {
     }
 
     public func cacheImage(_ image: UIImage, at url: URL, identifier: String? = nil) async {
+        objc_sync_enter(self)
+        defer {
+            objc_sync_exit(self)
+        }
+
         let cacheKey = identifier ?? url.lastPathComponent
         if let data = image.pngData() {
             let localURL = self.makeLocalAssetURL(withIdentifier: cacheKey, pathExtension: "png")
