@@ -72,9 +72,8 @@ public final class AssetProvider {
 
     private func download(_ url: URL, identifier: String, pathExtension: String? = nil) async throws -> URL {
         objc_sync_enter(self)
-        defer {
-            objc_sync_exit(self)
-        }
+        let fetchers = self.fetchers
+        objc_sync_exit(self)
 
         return try await fetchers.fetch(for: url, provider: { _ in
             if url.isFileURL {
