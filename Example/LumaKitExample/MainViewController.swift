@@ -7,6 +7,7 @@
 
 import UIKit
 import LumaKit
+import LumaKitShare
 import AVFoundation
 
 class MainViewController: UIViewController {
@@ -44,6 +45,47 @@ class MainViewController: UIViewController {
     @IBAction func playerExampleButtonPressed(_ sender: Any) {
         let controller = PlayersExampleViewController()
         navigationController?.pushViewController(controller, animated: true)
+    }
+
+    @IBAction func shareExampleButtonPressed(_ sender: Any) {
+        let coordinator = ShareCoordinator(rootViewController: self)
+        let destinations: [ShareDestination] = [
+            PhotoLibraryShareDestination(),
+            SystemShareDestination()
+        ]
+        let variants: [ShareContentFetchVariant] = [
+            .init(title: "Video", icon: .add, provider: .init(fetchHandler: { (sink: AsyncPipe<Float>) async throws in
+                await sink.send(0.25)
+                try await Task.sleep(for: .seconds(1.0))
+                await sink.send(0.5)
+                try await Task.sleep(for: .seconds(1.0))
+                let url = try Bundle.main.url(forResource: "video", withExtension: "mov").unwrap()
+                return [.url(url)]
+            })),
+            .init(title: "Audio", icon: .checkmark, provider: .init(isPhotoLibraryAutosaveEnabled: false,
+                                                                    fetchHandler: { (sink: AsyncPipe<Float>) async throws in
+                await sink.send(0.25)
+                try await Task.sleep(for: .seconds(1.0))
+                await sink.send(0.5)
+                try await Task.sleep(for: .seconds(1.0))
+                return [.text("test")]
+            })),
+            .init(title: "Fail", icon: .remove, provider: .init(isPhotoLibraryAutosaveEnabled: false,
+                                                                fetchHandler: { (sink: AsyncPipe<Float>) async throws in
+                await sink.send(0.25)
+                try await Task.sleep(for: .seconds(1.0))
+                await sink.send(0.5)
+                try await Task.sleep(for: .seconds(1.0))
+                await sink.send(0.75)
+                try await Task.sleep(for: .seconds(1.0))
+                throw NSError(domain: "hello, I'm an error", code: 0)
+            }))
+        ]
+
+        let state = ShareState(colorScheme: .init(),
+                               destinations: destinations,
+                               contentFetchConfiguration: .variants(variants))
+        coordinator.start(with: state)
     }
 }
 

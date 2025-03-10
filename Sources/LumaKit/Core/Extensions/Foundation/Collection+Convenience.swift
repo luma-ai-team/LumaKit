@@ -53,6 +53,12 @@ public extension Collection {
         }
     }
 
+    func firstAs<T>() -> T? {
+        return first { (element: Element) in
+            return element is T
+        } as? T
+    }
+
     // MARK: - Index
 
     func firstIndexWithReference<T>(to object: T, at keyPath: KeyPath<Element, T>) -> Index? {
@@ -77,6 +83,12 @@ public extension Collection {
         return firstIndex { (element: Element) in
             return element[keyPath: keyPath] == value
         }
+    }
+
+    func firstIndexAs<T>() -> T? {
+        return firstIndex { (element: Element) in
+            return element is T
+        } as? T
     }
 
     // MARK: - Filter

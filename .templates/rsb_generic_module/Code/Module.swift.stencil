@@ -1,0 +1,18 @@
+{% include "header.stencil" %}
+
+import GenericModule
+
+protocol {{ name | upperFirstLetter }}ModuleInput {
+    var state: {{ name | upperFirstLetter}}State { get }
+    func update(force: Bool, animated: Bool)
+}
+
+protocol {{ name | upperFirstLetter }}ModuleOutput {
+    //
+}
+
+typealias {{ name | upperFirstLetter }}ModuleDependencies = Any
+
+final class {{ name | upperFirstLetter }}Module: Module<{{ name | upperFirstLetter }}Presenter> {
+    //
+}

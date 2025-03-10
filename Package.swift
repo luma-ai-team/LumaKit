@@ -7,7 +7,8 @@ let package = Package(
     name: "LumaKit",
     platforms: [.iOS(.v15), .macOS(.v10_15)],
     products: [
-        .library(name: "LumaKit", targets: ["LumaKit"])
+        .library(name: "LumaKit", targets: ["LumaKit"]),
+        .library(name: "LumaKitShare", targets: ["LumaKitShare"])
     ],
     dependencies: [
         .package(url: "https://github.com/disabled/GenericModule", branch: "master"),
@@ -21,6 +22,15 @@ let package = Package(
                 .product(name: "Lottie", package: "lottie-ios")
             ],
             path: "Sources/LumaKit",
+            resources: []),
+        .target(
+            name: "LumaKitShare",
+            dependencies: [
+                .targetItem(name: "LumaKit", condition: nil),
+                .product(name: "GenericModule", package: "GenericModule"),
+                .product(name: "Lottie", package: "lottie-ios")
+            ],
+            path: "Sources/LumaKitShare",
             resources: [])
     ]
 )

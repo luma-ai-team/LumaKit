@@ -1,0 +1,30 @@
+{% include "header.stencil" %}
+{% macro class -p %}{{ name | upperFirstLetter }}{% block view %}View{% endblock %}{% endmacro %}
+import UIKit
+{% macro variable -p %}{% block variable %}view{% endblock %}{% endmacro %}
+final class {% call class %}: {% block superview %}UIView{% endblock %} {
+
+    // MARK: Subviews
+
+    // MARK: Lifecycle
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
+
+    // MARK: Private
+
+    private func setup() {
+
+    }
+}

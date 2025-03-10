@@ -19,6 +19,10 @@ public protocol SheetContent: AnyObject, SheetContentHeightProvider {
 }
 
 extension UIView: SheetContentHeightProvider {
+    public var view: UIView! {
+        return self
+    }
+
     @available(iOS 16.0, *)
     public var heightResolver: (UITraitCollection) -> CGFloat {
         return { _ -> CGFloat in

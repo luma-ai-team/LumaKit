@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E90F8F22D76F13E0007D6DE /* LumaKitShare in Frameworks */ = {isa = PBXBuildFile; productRef = 2E90F8F12D76F13E0007D6DE /* LumaKitShare */; };
 		555B7BB72B7CB691004CE646 /* CollectionViewManagerExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555B7BB62B7CB691004CE646 /* CollectionViewManagerExampleViewController.swift */; };
 		555B7BB92B7CB705004CE646 /* TestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555B7BB82B7CB705004CE646 /* TestCell.swift */; };
 		557943A52B87291600AAF06D /* UIElementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557943A42B87291600AAF06D /* UIElementsViewController.swift */; };
@@ -80,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E90F8F22D76F13E0007D6DE /* LumaKitShare in Frameworks */,
 				55B4351F2B7A284300B9646F /* LumaKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -343,6 +345,7 @@
 			name = LumaKitExample;
 			packageProductDependencies = (
 				55B4351E2B7A284300B9646F /* LumaKit */,
+				2E90F8F12D76F13E0007D6DE /* LumaKitShare */,
 			);
 			productName = TimberExample;
 			productReference = 55BE9DF22ADFA91200FFE81E /* LumaKitExample.app */;
@@ -566,16 +569,18 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = W7RHRYCY4R;
+				DEVELOPMENT_TEAM = LB2T6ZKPVM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LumaKitExample/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Take Photos";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Add Content";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Add Content";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -603,16 +608,18 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = W7RHRYCY4R;
+				DEVELOPMENT_TEAM = LB2T6ZKPVM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LumaKitExample/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Take Photos";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Add Content";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Add Content";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -655,6 +662,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		2E90F8F12D76F13E0007D6DE /* LumaKitShare */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LumaKitShare;
+		};
 		55B4351E2B7A284300B9646F /* LumaKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = LumaKit;

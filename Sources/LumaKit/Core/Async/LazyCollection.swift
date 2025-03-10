@@ -28,4 +28,8 @@ public final actor LazyCollection<Key: Hashable, Value> {
     public func remove(key: Key) {
         map.removeValue(forKey: key)
     }
+
+    public func containsValue(for key: Key) -> Bool {
+        return map[key] != nil
+    }
 }

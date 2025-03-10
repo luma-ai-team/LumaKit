@@ -1,0 +1,27 @@
+{% include "header.stencil" %}
+
+import UIKit
+import GenericModule
+
+protocol {{ name | upperFirstLetter }}ViewOutput: ViewOutput {
+    //
+}
+
+final class {{ name | upperFirstLetter}}ViewController: ViewController<{{ name | upperFirstLetter}}ViewModel, Any, {{ name | upperFirstLetter}}ViewOutput> {
+
+    // MARK: - Lifecycle
+
+    override func viewDidLoad() {
+        super.viewDidLoad {
+            //
+        }
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+    }
+
+    override func update(with viewUpdate: Update<ViewModel>, animated: Bool) {
+        //
+    }
+}
