@@ -51,6 +51,7 @@ public final class ShareViewController: SheetViewController, View {
         let view = DestinationSelectView()
         view.colorScheme = viewModel.colorScheme
         view.destinations = viewModel.destinations
+        view.isAppRateRequestEnabled = viewModel.isAppRateRequestEnabled
         view.delegate = self
         return view
     }()
@@ -69,7 +70,10 @@ public final class ShareViewController: SheetViewController, View {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
+
         view.backgroundColor = viewModel.colorScheme.background.primary
+        minimalHeight = 160.0
+
         output.viewDidLoad()
     }
 
@@ -101,7 +105,7 @@ public final class ShareViewController: SheetViewController, View {
                     contentFetchErrorView.update(with: error)
                     update(with: contentFetchErrorView)
                 }
-            case .success:
+            case .success(let content):
                 if viewModel.isPhotoLibraryAutoSaveCompleted {
                     destinationSelectView.status = .init(
                         icon: .init(systemName: "checkmark.circle.fill"),
@@ -111,6 +115,7 @@ public final class ShareViewController: SheetViewController, View {
                 else {
                     destinationSelectView.status = nil
                 }
+                destinationSelectView.update(with: content)
                 update(with: destinationSelectView)
             }
         }

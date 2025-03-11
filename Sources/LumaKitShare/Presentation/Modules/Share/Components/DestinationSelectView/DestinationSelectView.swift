@@ -53,6 +53,12 @@ final class DestinationSelectView: UIView, NibBackedView, SheetContent {
         }
     }
 
+    var isAppRateRequestEnabled: Bool = false {
+        didSet {
+            rateAppView.setHidden(isAppRateRequestEnabled == false, animated: false)
+        }
+    }
+
     var isModal: Bool {
         return false
     }
@@ -91,20 +97,26 @@ final class DestinationSelectView: UIView, NibBackedView, SheetContent {
         collectionView.layoutIfNeeded()
 
         let contentWidth = collectionView.contentSize.width
-        let inset = 0.5 * (collectionView.bounds.width - contentWidth)
+        let inset = max(0.5 * (collectionView.bounds.width - contentWidth), 0.0)
         collectionView.contentInset.left = inset
         collectionView.contentInset.right = inset
     }
 
     private func updateColorScheme() {
+        backgroundColor = colorScheme.background.primary
         rateAppView.colorScheme = colorScheme
 
         statusLabel.textColor = colorScheme.foreground.primary
         statusImageVIew.tintColor = colorScheme.foreground.primary
     }
 
-    private func updateDestinations() {
-        let cellItems = destinations.map { (destination: ShareDestination) in
+    private func updateDestinations(with content: [ShareContent] = []) {
+        let cellItems: [any CollectionViewCellItem] = destinations.compactMap { (destination: ShareDestination) in
+            guard destination.status != .unavailable,
+                  destination.canShare(content) else {
+                return nil
+            }
+
             let model = ShareDestinationCellModel(colorScheme: colorScheme, destination: destination)
             let item = BasicCollectionViewItem<ShareDestinationCell>(viewModel: model)
             item.selectionHandler = { [weak self] _ in
@@ -117,9 +129,14 @@ final class DestinationSelectView: UIView, NibBackedView, SheetContent {
             return item
         }
 
-        collectionViewManager.sections = [
-            BasicCollectionViewSection(items: cellItems)
-        ]
+        let section = BasicCollectionViewSection(items: cellItems)
+        section.insets.left = 14.0
+        section.insets.right = 14.0
+        collectionViewManager.sections = [section]
+    }
+
+    func update(with content: [ShareContent]) {
+        updateDestinations(with: content)
     }
 }
 

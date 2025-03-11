@@ -97,14 +97,14 @@ public final class RateAppView: UIView, NibBackedView {
         let rating = rating ?? 0
         for (index, view) in starImageViews.enumerated() {
             let isSelected = rating > index
-            UIView.defaultSpringAnimation(duration: 0.5, delay: CGFloat(index) * 0.075) {
+            UIView.defaultSpringAnimation(duration: 0.5, delay: CGFloat(index) * 0.075, options: .allowUserInteraction) {
                 view.alpha = isSelected ? 1.0 : 0.25
                 if isSelected {
                     view.transform = .init(translationX: 0.0, y: -2.0)
                 }
             }
 
-            UIView.defaultSpringAnimation(delay: 0.5 + CGFloat(index) * 0.075) {
+            UIView.defaultSpringAnimation(delay: 0.5 + CGFloat(index) * 0.075, options: .allowUserInteraction) {
                 view.transform = .identity
             }
         }

@@ -11,14 +11,14 @@ protocol FeedbackViewModelDelegate: AnyObject {
 
 final class FeedbackViewModel: ViewModel {
     let colorScheme: ColorScheme
-    let feedback: String?
+    let feedback: String
     let isActionAvailable: Bool
     let isSending: Bool
 
     init(delegate: FeedbackViewModelDelegate) {
         colorScheme = delegate.state.colorScheme
-        feedback = delegate.state.feedback
-        isActionAvailable = feedback?.isEmpty == false
+        feedback = delegate.state.feedback ?? .init()
+        isActionAvailable = feedback.count > 5
         isSending = delegate.state.isSending
     }
 }

@@ -15,6 +15,7 @@ public final class ShareViewModel: ViewModel {
     let contentDescription: String?
     let destinations: [ShareDestination]
     let isPhotoLibraryAutoSaveCompleted: Bool
+    let isAppRateRequestEnabled: Bool
     let step: ShareState.Step
 
     public init(delegate: ShareViewModelDelegate) {
@@ -23,6 +24,7 @@ public final class ShareViewModel: ViewModel {
         contentDescription = delegate.state.contentProvider?.contentDescription
         destinations = delegate.state.destinations
         isPhotoLibraryAutoSaveCompleted = delegate.state.isPhotoLibraryAutoSaveCompleted
+        isAppRateRequestEnabled = delegate.state.isAppRateRequestEnabled
         step = delegate.state.step
     }
 }

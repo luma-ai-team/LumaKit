@@ -30,8 +30,8 @@ public enum ShareContent: Equatable {
             return text
         case .image:
             return nil
-        case .url:
-            return nil
+        case .url(let url):
+            return url.absoluteString
         }
     }
 

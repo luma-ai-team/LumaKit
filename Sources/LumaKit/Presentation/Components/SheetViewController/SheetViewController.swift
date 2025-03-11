@@ -19,6 +19,14 @@ open class SheetViewController: UIViewController {
         }
     }
 
+    public var minimalHeight: CGFloat? {
+        didSet {
+            if #available(iOS 16.0, *) {
+                sheet.invalidateDetents()
+            }
+        }
+    }
+
     private var sheet: UISheetPresentationController {
         if let sheetPresentationController = sheetPresentationController {
             return sheetPresentationController
@@ -149,12 +157,12 @@ open class SheetViewController: UIViewController {
         updateGestureRecognizers()
         #else
         if #available(iOS 16.0, *) {
-            sheet.detents = [.custom(resolver: { [weak content] (context: UISheetPresentationControllerDetentResolutionContext) in
+            sheet.detents = [.custom(resolver: { [weak content, weak self] (context: UISheetPresentationControllerDetentResolutionContext) in
                 guard let content = content else {
                     return 0.0
                 }
 
-                return content.heightResolver(context.containerTraitCollection)
+                return max(content.heightResolver(context.containerTraitCollection), self?.minimalHeight ?? 0.0)
             })]
         } else {
             sheet.detents = [.medium()]

@@ -13,6 +13,7 @@
             <connections>
                 <outlet property="actionButton" destination="Gfl-op-mHC" id="qk3-hA-ne8"/>
                 <outlet property="contentView" destination="W7E-0w-4QZ" id="2i9-1K-1ey"/>
+                <outlet property="contentViewCenterYConstraint" destination="iyY-CL-tYE" id="we6-wX-jsl"/>
                 <outlet property="dismissButton" destination="eTR-78-6Gl" id="4oH-h9-Y6S"/>
                 <outlet property="placeholderLabel" destination="3yj-VW-5Ku" id="UQk-2I-VpP"/>
                 <outlet property="subtitleLabel" destination="K8d-sx-Pjw" id="6Gm-KL-DrP"/>
@@ -30,19 +31,19 @@
                     <rect key="frame" x="46.666666666666657" y="258" width="300" height="336"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share your thoughts!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ARZ-Lf-cpb" userLabel="titleLabel">
-                            <rect key="frame" x="70" y="52" width="160" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <rect key="frame" x="66.333333333333343" y="52" width="167" height="21"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Let us know what you love and what we can improve." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K8d-sx-Pjw" userLabel="subtitleLabel">
-                            <rect key="frame" x="16" y="85" width="268" height="40.666666666666657"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <rect key="frame" x="16" y="85" width="268" height="31.333333333333329"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="g8P-QJ-qle" userLabel="textView">
-                            <rect key="frame" x="22" y="152.66666666666669" width="256" height="90"/>
+                            <rect key="frame" x="22" y="143.33333333333331" width="256" height="90"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="90" id="hRE-y0-YTp"/>
@@ -52,19 +53,20 @@
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share your feedback" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3yj-VW-5Ku" userLabel="placeholderLabel">
-                            <rect key="frame" x="34" y="166.66666666666669" width="158" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <rect key="frame" x="34.000000000000014" y="157.33333333333331" width="133.33333333333337" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gfl-op-mHC" userLabel="actionButton" customClass="BounceButton" customModule="LumaKit">
-                            <rect key="frame" x="30" y="269.66666666666663" width="240" height="50"/>
+                            <rect key="frame" x="30" y="260.33333333333337" width="240" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="lpP-fJ-ML9"/>
                                 <constraint firstAttribute="width" constant="240" id="qJT-qk-jpf"/>
                             </constraints>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" title="Submit"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Submit"/>
                             <connections>
                                 <action selector="actionButtonPressed:" destination="-1" eventType="touchUpInside" id="EVi-Ak-hzi"/>
                             </connections>

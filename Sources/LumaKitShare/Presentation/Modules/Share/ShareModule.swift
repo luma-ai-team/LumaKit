@@ -21,7 +21,7 @@ public protocol ShareModuleOutput {
                                     destination: ShareDestination) async
 }
 
-public typealias ShareModuleDependencies = Any
+public typealias ShareModuleDependencies = HasStorageService
 
 public final class ShareModule: Module<SharePresenter> {
     //

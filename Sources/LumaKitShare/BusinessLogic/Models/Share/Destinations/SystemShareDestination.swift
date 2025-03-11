@@ -16,9 +16,9 @@ public final class SystemShareDestination: ShareDestination {
 
     public var isPhotoLibraryPermissionsHandlingEnabled: Bool = true
 
-    public init(title: String = "Share", icon: UIImage? = .init(systemName: "square.and.arrow.up")) {
+    public init(title: String = "More", icon: UIImage? = nil) {
         self.title = title
-        self.icon = icon
+        self.icon = icon ?? .init(named: "icMore", in: .module, compatibleWith: nil)
     }
 
     public func canShare(_ content: [ShareContent]) -> Bool {

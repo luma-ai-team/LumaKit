@@ -53,6 +53,7 @@ final class ContentFetchProgressView: UIView, NibBackedView, SheetContent {
     }
 
     private func updateColorScheme() {
+        backgroundColor = colorScheme.background.primary
         titleLabel.textColor = colorScheme.foreground.primary
         subtitleLabel.textColor = colorScheme.foreground.secondary
         progressLabel.textColor = colorScheme.foreground.primary
@@ -67,6 +68,10 @@ final class ContentFetchProgressView: UIView, NibBackedView, SheetContent {
     }
 
     func update(progress: Float) {
+        UIView.performWithoutAnimation {
+            progressContainerView.layoutIfNeeded()
+        }
+
         progressLabel.text = "\(Int(progress * 100))%"
         progressView.setProgress(progress, animated: true)
         setNeedsLayout()

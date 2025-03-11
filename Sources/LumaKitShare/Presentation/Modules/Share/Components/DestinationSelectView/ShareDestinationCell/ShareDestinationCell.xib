@@ -14,9 +14,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gbk-xY-03D" userLabel="imageView">
-                    <rect key="frame" x="0.0" y="0.0" width="76" height="55"/>
+                    <rect key="frame" x="10.666666666666664" y="0.0" width="54.999999999999993" height="55"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="55" id="Lkw-8C-P1I"/>
+                        <constraint firstAttribute="width" constant="55" id="kJm-zQ-bOC"/>
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L2T-WE-d52" userLabel="titleLabel">
@@ -29,10 +30,9 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="L2T-WE-d52" secondAttribute="trailing" id="1b1-6z-4TS"/>
+                <constraint firstItem="gbk-xY-03D" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="3ca-t3-G18"/>
                 <constraint firstItem="gbk-xY-03D" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="BZD-do-bzp"/>
                 <constraint firstItem="L2T-WE-d52" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="HcY-R6-RZZ"/>
-                <constraint firstAttribute="trailing" secondItem="gbk-xY-03D" secondAttribute="trailing" id="K1i-kN-ke3"/>
-                <constraint firstItem="gbk-xY-03D" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="jEh-fM-nBo"/>
                 <constraint firstAttribute="bottom" secondItem="L2T-WE-d52" secondAttribute="bottom" id="jKq-Nv-u71"/>
                 <constraint firstItem="L2T-WE-d52" firstAttribute="top" secondItem="gbk-xY-03D" secondAttribute="bottom" constant="4" id="khM-Aq-6Z0"/>
             </constraints>

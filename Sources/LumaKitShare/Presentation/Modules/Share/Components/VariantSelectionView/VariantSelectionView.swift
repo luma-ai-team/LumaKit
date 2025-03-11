@@ -62,7 +62,7 @@ final class VariantSelectionView: UIView, NibBackedView, SheetContent {
     }
 
     private func updateColorScheme() {
-        backgroundColor = .clear
+        backgroundColor = colorScheme.background.primary
         titleLabel.textColor = colorScheme.foreground.primary
     }
 

@@ -15,7 +15,7 @@ final class ShareDestinationCell: UICollectionViewCell, CollectionViewCell {
     @IBOutlet weak var titleLabel: UILabel!
 
     static func size(with viewModel: ShareDestinationCellModel, fitting size: CGSize, insets: UIEdgeInsets) -> CGSize {
-        return .init(width: 55.0, height: 74.0)
+        return .init(width: 60.0, height: 74.0)
     }
 
     static func register(in collectionView: UICollectionView, withIdentifier identifier: String) {

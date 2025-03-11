@@ -48,7 +48,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hko-v7-fIh" userLabel="progressContainerVIew">
                             <rect key="frame" x="84" y="99.666666666666671" width="225" height="6"/>
                             <subviews>
-                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="1fN-KP-Y52" userLabel="progressView">
+                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1fN-KP-Y52" userLabel="progressView">
                                     <rect key="frame" x="0.0" y="0.0" width="225" height="6"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="225" id="kUg-pX-bH5"/>

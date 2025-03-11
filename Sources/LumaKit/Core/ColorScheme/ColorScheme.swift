@@ -67,9 +67,9 @@ public final class ActionColor {
 // MARK: - ColorScheme
 
 public final class ColorScheme {
-    public var background: ColorPair = .init(primary: .white, secondary: .init(white: 0.9, alpha: 1.0))
+    public var background: ColorPair = .init(primary: .init(white: 0.9, alpha: 1.0), secondary: .white)
     public var foreground: ColorPair = .init(primary: .black, secondary: .darkGray)
-    public var genericAction: ActionColor = .init(active: .black, inactive: .lightGray)
+    public var genericAction: ActionColor = .init(active: .systemBlue, inactive: .lightGray)
     public var premiumAction: ActionColor = .init(color: .white)
     public var destructiveAction: ActionColor = .init(color: .systemRed)
     public var gradient: GradientPair = .init(gradient: .horizontal(colors: [.lightGray, .darkGray]))

@@ -51,6 +51,7 @@ final class PermissionsErrorView: UIView, NibBackedView, SheetContent {
     }
 
     private func updateColorScheme() {
+        backgroundColor = colorScheme.background.primary
         actionButton.setTitleColor(colorScheme.foreground.primary, for: .normal)
         actionButton.gradient = .solid(color: colorScheme.genericAction.active)
         titleLabel.textColor = colorScheme.foreground.primary

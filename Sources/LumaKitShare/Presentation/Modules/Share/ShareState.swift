@@ -40,6 +40,7 @@ public final class ShareState {
     var step: Step = .initial
     var contentProvider: ShareContentProvider?
     var isPhotoLibraryAutoSaveCompleted: Bool = false
+    var isAppRateRequestEnabled: Bool = false
 
     public init(colorScheme: ColorScheme,
                 destinations: [ShareDestination],

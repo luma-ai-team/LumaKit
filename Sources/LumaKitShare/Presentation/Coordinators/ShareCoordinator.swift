@@ -9,6 +9,7 @@ import UIKit
 import LumaKit
 import GenericModule
 import StoreKit
+import Lottie
 
 public final class ShareCoordinator: ModalCoordinator<ShareModule, SharePresenter> {
     enum ShareCoordinatorError: Error {
@@ -16,6 +17,7 @@ public final class ShareCoordinator: ModalCoordinator<ShareModule, SharePresente
     }
 
     private var colorScheme: ColorScheme = .init()
+    private var didCompleteSharing: Bool = false
 
     private lazy var context: ShareContext = .init(rootViewController: rootViewController)
     private var contentCache: LazyCollection<String, [ShareContent]> = .init()
@@ -23,13 +25,26 @@ public final class ShareCoordinator: ModalCoordinator<ShareModule, SharePresente
     @discardableResult
     public func start(with state: ShareState) -> ShareModule {
         colorScheme = state.colorScheme
-        return super.start(with: state, dependencies: [])
+        return super.start(with: state, dependencies: Services)
     }
 
     private func show(_ error: Error) {
         let controller = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
         controller.addAction(.init(title: "Ok", style: .default))
         topViewController.present(controller, animated: true)
+    }
+
+    private func showSharingSuccess() {
+        guard didCompleteSharing == false else {
+            return
+        }
+
+        let confettiView = LottieAnimationView()
+        confettiView.animation = .confetti
+        confettiView.contentMode = .scaleAspectFill
+        confettiView.play()
+        (topViewController as? SheetViewController)?.floatingView = confettiView
+        didCompleteSharing = true
     }
 }
 
@@ -68,6 +83,7 @@ extension ShareCoordinator: ShareModuleOutput {
         context.rootViewController = topViewController
         do {
             try await destination.share(content, in: self.context)
+            showSharingSuccess()
         }
         catch {
             self.show(error)

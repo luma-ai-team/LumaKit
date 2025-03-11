@@ -50,7 +50,11 @@ class MainViewController: UIViewController {
     @IBAction func shareExampleButtonPressed(_ sender: Any) {
         let coordinator = ShareCoordinator(rootViewController: self)
         let destinations: [ShareDestination] = [
-            PhotoLibraryShareDestination(),
+            InstagramShareDestination(),
+            TikTokShareDestination(),
+            FacebookShareDestination(),
+            SnapchatShareDestination(),
+            WhatsAppShareDestination(),
             SystemShareDestination()
         ]
         let variants: [ShareContentFetchVariant] = [
@@ -85,6 +89,13 @@ class MainViewController: UIViewController {
         let state = ShareState(colorScheme: .init(),
                                destinations: destinations,
                                contentFetchConfiguration: .variants(variants))
+        state.contentFetchHandlersOverrides = [
+            .init(destination: WhatsAppShareDestination(), handler: { (content: [ShareContent]) in
+                return [
+                    .text("https://cdn.klingai.com/bs2/upload-kling-api/0218355724/image2video/CmJbG2fK_3wAAAAAABtpPw-0_raw_video_2.mp4")
+                ]
+            })
+        ]
         coordinator.start(with: state)
     }
 }

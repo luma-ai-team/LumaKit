@@ -22,8 +22,13 @@ final class FeedbackViewController: ViewController<FeedbackViewModel, Any, Feedb
     @IBOutlet weak var placeholderLabel: UILabel!
     @IBOutlet weak var actionButton: UIButton!
     @IBOutlet weak var dismissButton: UIButton!
-
+    @IBOutlet weak var contentViewCenterYConstraint: NSLayoutConstraint!
+    
     // MARK: - Lifecycle
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 
     override func viewDidLoad() {
         view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
@@ -42,6 +47,7 @@ final class FeedbackViewController: ViewController<FeedbackViewModel, Any, Feedb
             textView.textContainer.lineFragmentPadding = 0.0
             textView.textContainerInset = .init(top: 14.0, left: 12.0, bottom: 12.0, right: 12.0)
             textView.layer.borderColor = viewModel.colorScheme.genericAction.inactive.cgColor
+            textView.layer.borderWidth = 1.0
 
             actionButton.applyCornerRadius(value: 14.0)
             actionButton.tintColor = viewModel.colorScheme.foreground.primary
@@ -49,6 +55,11 @@ final class FeedbackViewController: ViewController<FeedbackViewModel, Any, Feedb
             actionButton.setTitleColor(viewModel.colorScheme.foreground.primary, for: .normal)
 
             dismissButton.tintColor = viewModel.colorScheme.foreground.primary
+
+            NotificationCenter.default.addObserver(self,
+                                                   selector: #selector(keyboardFrameWillChange),
+                                                   name: UIApplication.keyboardWillChangeFrameNotification,
+                                                   object: nil)
         }
     }
 
@@ -57,6 +68,7 @@ final class FeedbackViewController: ViewController<FeedbackViewModel, Any, Feedb
             UIView.defaultSpringAnimation {
                 self.contentView.alpha = 1.0
                 self.contentView.transform = .identity
+                self.textView.becomeFirstResponder()
             }
         })
     }
@@ -74,6 +86,7 @@ final class FeedbackViewController: ViewController<FeedbackViewModel, Any, Feedb
 
     override func update(with viewUpdate: Update<ViewModel>, animated: Bool) {
         viewUpdate(\.isActionAvailable) { (isActionAvailable: Bool) in
+            actionButton.alpha = isActionAvailable ? 1.0 : 0.5
             actionButton.isEnabled = isActionAvailable
             placeholderLabel.isHidden = isActionAvailable
         }
@@ -88,6 +101,15 @@ final class FeedbackViewController: ViewController<FeedbackViewModel, Any, Feedb
 
     @IBAction func dismissButtonPressed(_ sender: Any) {
         dismiss(animated: true)
+    }
+
+    @objc private func keyboardFrameWillChange(_ notification: Notification) {
+        guard let rect = notification.userInfo?[UIApplication.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+
+        contentViewCenterYConstraint.constant = 0.5 * (rect.minY - view.safeAreaLayoutGuide.layoutFrame.height)
+        view.layoutIfNeeded()
     }
 }
 
