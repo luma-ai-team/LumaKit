@@ -12,7 +12,8 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/disabled/GenericModule", branch: "master"),
-        .package(url: "https://github.com/airbnb/lottie-ios", branch: "master")
+        .package(url: "https://github.com/airbnb/lottie-ios", branch: "master"),
+        .package(url: "https://github.com/tiktok/tiktok-opensdk-ios", .upToNextMajor(from: "2.5.0"))
     ],
     targets: [
         .target(
@@ -28,7 +29,9 @@ let package = Package(
             dependencies: [
                 .targetItem(name: "LumaKit", condition: nil),
                 .product(name: "GenericModule", package: "GenericModule"),
-                .product(name: "Lottie", package: "lottie-ios")
+                .product(name: "Lottie", package: "lottie-ios"),
+                .product(name: "TikTokOpenSDKCore", package: "tiktok-opensdk-ios"),
+                .product(name: "TikTokOpenShareSDK", package: "tiktok-opensdk-ios")
             ],
             path: "Sources/LumaKitShare",
             resources: [])

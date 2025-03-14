@@ -50,10 +50,10 @@ class MainViewController: UIViewController {
     @IBAction func shareExampleButtonPressed(_ sender: Any) {
         let coordinator = ShareCoordinator(rootViewController: self)
         let destinations: [ShareDestination] = [
-            InstagramShareDestination(),
-            TikTokShareDestination(),
-            FacebookShareDestination(),
-            SnapchatShareDestination(),
+            InstagramShareDestination(clientId: ""),
+            TikTokShareDestination(clientId: "sbawmcogj9ff6e2hrx"),
+            FacebookShareDestination(clientId: ""),
+            SnapchatShareDestination(clientId: "ea9ab239-dff7-4d36-9026-cd0812f3d59d"),
             WhatsAppShareDestination(),
             SystemShareDestination()
         ]

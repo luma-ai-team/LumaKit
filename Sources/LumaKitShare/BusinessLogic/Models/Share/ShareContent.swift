@@ -13,6 +13,10 @@ public enum ShareContent: Equatable {
     case image(UIImage)
     case url(URL)
 
+    var isMedia: Bool {
+        return (image != nil) || (asset != nil)
+    }
+
     var any: Any {
         switch self {
         case .text(let text):
