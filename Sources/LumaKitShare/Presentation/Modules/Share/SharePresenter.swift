@@ -12,15 +12,7 @@ public final class SharePresenter: Presenter<ShareState,
                                              ShareModuleOutput,
                                              ShareModuleDependencies> {
     private lazy var progressPipe: AsyncPipe<Float> = .init(value: 0.0)
-    private lazy var progressStreamTask: StreamTask<Float> = .init(pipe: progressPipe) { [weak self] (progress: Float) in
-        guard let self = self,
-              case let .progress(curentProgress) = self.state.step else {
-            return
-        }
-
-        self.state.step = .progress(progress)
-        self.update(animated: true)
-    }
+    private lazy var progressStreamTask: StreamTask<Float> = makeProgressStreamTask()
 
     private lazy var photoLibraryShareDestination: PhotoLibraryShareDestination = .init()
 
@@ -41,7 +33,7 @@ public final class SharePresenter: Presenter<ShareState,
     }
 
     private func fetchContent(using provider: ShareContentProvider) async throws {
-        progressStreamTask()
+        progressStreamTask = makeProgressStreamTask()
         state.contentProvider = provider
 
         do {
@@ -56,7 +48,9 @@ public final class SharePresenter: Presenter<ShareState,
                                                          content: content,
                                                          destination: photoLibraryShareDestination)
             }
+
             state.isPhotoLibraryAutoSaveCompleted = photoLibraryShareDestination.status == .completed
+            progressStreamTask.cancel()
             state.step = .success(content)
         }
         catch {
@@ -67,9 +61,22 @@ public final class SharePresenter: Presenter<ShareState,
             default:
                 shareError = .contentFetchFailed(error.localizedDescription)
             }
+
+            progressStreamTask.cancel()
             state.step = .failure(shareError)
         }
         update(animated: true)
+    }
+
+    private func makeProgressStreamTask() -> StreamTask<Float> {
+        return .init(pipe: progressPipe) { [weak self] (progress: Float) in
+            guard let self = self else {
+                return
+            }
+
+            await self.state.step = .progress(progress)
+            await self.update(animated: true)
+        }
     }
 }
 
