@@ -12,7 +12,7 @@ protocol FeedbackModuleInput {
 
 @MainActor
 protocol FeedbackModuleOutput {
-    func feedbackModuleDidRequestSend(_ input: FeedbackModuleInput, feedback: String) async
+    func feedbackModuleDidRequestSend(_ input: FeedbackModuleInput, feedback: String, rating: Int) async
 }
 
 typealias FeedbackModuleDependencies = Any

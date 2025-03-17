@@ -13,8 +13,8 @@ public protocol ShareModuleInput {
 
 @MainActor
 public protocol ShareModuleOutput {
-    func shareModuleDidRequestAppReview(_ input: ShareModuleInput)
-    func shareModuleDidRequestAppFeedback(_ input: ShareModuleInput)
+    func shareModuleDidRequestAppReview(_ input: ShareModuleInput, rating: Int)
+    func shareModuleDidRequestAppFeedback(_ input: ShareModuleInput, rating: Int)
     func shareModuleDidRequestOpen(_ input: ShareModuleInput, url: URL)
     func shareModuleDidRequestShare(_ input: ShareModuleInput,
                                     content: [ShareContent],

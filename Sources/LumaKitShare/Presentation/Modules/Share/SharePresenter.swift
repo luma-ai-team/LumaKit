@@ -86,10 +86,10 @@ extension SharePresenter: ShareViewOutput {
 
     public func ratingEventTriggered(rating: Int) {
         if rating >= 4 {
-            output?.shareModuleDidRequestAppReview(self)
+            output?.shareModuleDidRequestAppReview(self, rating: rating)
         }
         else {
-            output?.shareModuleDidRequestAppFeedback(self)
+            output?.shareModuleDidRequestAppFeedback(self, rating: rating)
         }
         dependencies.storageService.isAppRateCompleted = true
     }

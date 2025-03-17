@@ -33,9 +33,9 @@ public final class ShareState {
     public let contentFetchConfiguration: ShareContentFetchConfiguration
 
     public var applicationName: String? = Bundle.main.appDisplayName
-    public var applicationIdentifier: String?
+    public var appStoreIdentifier: String?
     public var contentFetchHandlersOverrides: [ShareHandlerOverride] = []
-    public var feedbackHandler: ((String) async -> Void)?
+    public var feedbackHandler: ((String, Int) async -> Void)?
 
     var step: Step = .initial
     var contentProvider: ShareContentProvider?

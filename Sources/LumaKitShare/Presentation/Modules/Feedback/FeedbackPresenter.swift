@@ -25,7 +25,7 @@ extension FeedbackPresenter: FeedbackViewOutput {
         update(animated: false)
 
         Task {
-            await output?.feedbackModuleDidRequestSend(self, feedback: feedback)
+            await output?.feedbackModuleDidRequestSend(self, feedback: feedback, rating: state.rating)
         }
     }
 }

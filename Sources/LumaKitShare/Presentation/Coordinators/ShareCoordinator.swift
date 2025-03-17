@@ -51,12 +51,12 @@ public final class ShareCoordinator: ModalCoordinator<ShareModule, SharePresente
 // MARK: - ShareModuleOutput
 
 extension ShareCoordinator: ShareModuleOutput {
-    public func shareModuleDidRequestAppReview(_ input: ShareModuleInput) {
+    public func shareModuleDidRequestAppReview(_ input: ShareModuleInput, rating: Int) {
         guard let scene: UIWindowScene = UIApplication.shared.connectedScenes.firstAs() else {
             return
         }
 
-        if let identifier = input.state.applicationIdentifier,
+        if let identifier = input.state.appStoreIdentifier,
            let url = URL.appStoreURL(withIdentifier: identifier) {
             UIApplication.shared.open(url)
         }
@@ -66,8 +66,9 @@ extension ShareCoordinator: ShareModuleOutput {
 
     }
 
-    public func shareModuleDidRequestAppFeedback(_ input: ShareModuleInput) {
-        let module = FeedbackModule(state: .init(colorScheme: colorScheme), dependencies: [], output: self)
+    public func shareModuleDidRequestAppFeedback(_ input: ShareModuleInput, rating: Int) {
+        let state = FeedbackState(colorScheme: colorScheme, rating: rating)
+        let module = FeedbackModule(state: state, dependencies: [], output: self)
         module.viewController.modalPresentationStyle = .overFullScreen
         module.viewController.modalTransitionStyle = .crossDissolve
         topViewController.present(module.viewController, animated: true)
@@ -99,8 +100,8 @@ extension ShareCoordinator: ShareModuleOutput {
 // MARK: - FeedbackModuleOutput
 
 extension ShareCoordinator: FeedbackModuleOutput {
-    func feedbackModuleDidRequestSend(_ input: FeedbackModuleInput, feedback: String) async {
-        await moduleInput?.state.feedbackHandler?(feedback)
+    func feedbackModuleDidRequestSend(_ input: FeedbackModuleInput, feedback: String, rating: Int) async {
+        await moduleInput?.state.feedbackHandler?(feedback, rating)
         topViewController.dismiss(animated: true)
     }
 }
