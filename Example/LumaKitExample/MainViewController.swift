@@ -89,6 +89,10 @@ class MainViewController: UIViewController {
         let state = ShareState(colorScheme: .init(),
                                destinations: destinations,
                                contentFetchConfiguration: .variants(variants))
+        state.feedbackConfiguration.shouldResetRequestOnAppUpdate = true
+        state.feedbackConfiguration.handler = { _, _ in
+            try? await Task.sleep(for: .seconds(1.0))
+        }
         state.contentFetchHandlersOverrides = [
             .init(destination: WhatsAppShareDestination(), handler: { (content: [ShareContent]) in
                 return [

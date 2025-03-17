@@ -21,6 +21,7 @@ final class FeedbackViewController: ViewController<FeedbackViewModel, Any, Feedb
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var placeholderLabel: UILabel!
     @IBOutlet weak var actionButton: UIButton!
+    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var dismissButton: UIButton!
     @IBOutlet weak var contentViewCenterYConstraint: NSLayoutConstraint!
     
@@ -41,6 +42,7 @@ final class FeedbackViewController: ViewController<FeedbackViewModel, Any, Feedb
             titleLabel.textColor = viewModel.colorScheme.foreground.primary
             subtitleLabel.textColor = viewModel.colorScheme.foreground.primary
             placeholderLabel.textColor = viewModel.colorScheme.genericAction.inactive
+            activityIndicatorView.color = viewModel.colorScheme.foreground.primary
 
             textView.delegate = self
             textView.applyCornerRadius(value: 14.0)
@@ -90,11 +92,19 @@ final class FeedbackViewController: ViewController<FeedbackViewModel, Any, Feedb
             actionButton.isEnabled = isActionAvailable
             placeholderLabel.isHidden = isActionAvailable
         }
+
+        viewUpdate(\.isPlaceholderHidden) { (isPlaceholderHidden: Bool) in
+            placeholderLabel.isHidden = isPlaceholderHidden
+        }
     }
 
     // MARK: - Actions
 
     @IBAction func actionButtonPressed(_ sender: Any) {
+        activityIndicatorView.startAnimating()
+        actionButton.setTitle(.init(), for: .normal)
+        actionButton.isUserInteractionEnabled = false
+
         let feedback = textView.text ?? .init()
         output.submitEventTriggered(feedback: feedback)
     }

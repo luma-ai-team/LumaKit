@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FeedbackViewController" customModule="LumaKitShare">
             <connections>
                 <outlet property="actionButton" destination="Gfl-op-mHC" id="qk3-hA-ne8"/>
+                <outlet property="activityIndicatorView" destination="WUA-9Q-sDJ" id="Aat-Oa-UFj"/>
                 <outlet property="contentView" destination="W7E-0w-4QZ" id="2i9-1K-1ey"/>
                 <outlet property="contentViewCenterYConstraint" destination="iyY-CL-tYE" id="we6-wX-jsl"/>
                 <outlet property="dismissButton" destination="eTR-78-6Gl" id="4oH-h9-Y6S"/>
@@ -71,6 +72,9 @@
                                 <action selector="actionButtonPressed:" destination="-1" eventType="touchUpInside" id="EVi-Ak-hzi"/>
                             </connections>
                         </button>
+                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="WUA-9Q-sDJ" userLabel="activityIndicatorView">
+                            <rect key="frame" x="140" y="275.33333333333337" width="20" height="20"/>
+                        </activityIndicatorView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eTR-78-6Gl" userLabel="dismissButton">
                             <rect key="frame" x="268" y="8" width="24" height="24"/>
                             <constraints>
@@ -91,6 +95,7 @@
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="g8P-QJ-qle" secondAttribute="trailing" constant="22" id="116-Mr-RTo"/>
                         <constraint firstAttribute="height" constant="336" id="6pt-O9-NLC"/>
+                        <constraint firstItem="WUA-9Q-sDJ" firstAttribute="centerX" secondItem="Gfl-op-mHC" secondAttribute="centerX" id="A5Z-Nb-PeP"/>
                         <constraint firstItem="Gfl-op-mHC" firstAttribute="top" secondItem="g8P-QJ-qle" secondAttribute="bottom" constant="27" id="AmV-ZV-mgK"/>
                         <constraint firstItem="3yj-VW-5Ku" firstAttribute="top" secondItem="g8P-QJ-qle" secondAttribute="top" constant="14" id="BU4-lr-BOB"/>
                         <constraint firstItem="g8P-QJ-qle" firstAttribute="top" secondItem="K8d-sx-Pjw" secondAttribute="bottom" constant="27" id="Gbh-Fu-k7N"/>
@@ -98,6 +103,7 @@
                         <constraint firstItem="K8d-sx-Pjw" firstAttribute="leading" secondItem="W7E-0w-4QZ" secondAttribute="leading" constant="16" id="PDZ-k6-lLf"/>
                         <constraint firstItem="g8P-QJ-qle" firstAttribute="leading" secondItem="W7E-0w-4QZ" secondAttribute="leading" constant="22" id="V4b-2Y-cJb"/>
                         <constraint firstItem="Gfl-op-mHC" firstAttribute="centerX" secondItem="W7E-0w-4QZ" secondAttribute="centerX" id="WGG-P8-cYo"/>
+                        <constraint firstItem="WUA-9Q-sDJ" firstAttribute="centerY" secondItem="Gfl-op-mHC" secondAttribute="centerY" id="dHX-LV-xBh"/>
                         <constraint firstItem="3yj-VW-5Ku" firstAttribute="leading" secondItem="g8P-QJ-qle" secondAttribute="leading" constant="12" id="eyS-ek-g24"/>
                         <constraint firstItem="K8d-sx-Pjw" firstAttribute="top" secondItem="ARZ-Lf-cpb" secondAttribute="bottom" constant="12" id="hgJ-OY-WxU"/>
                         <constraint firstAttribute="trailing" secondItem="eTR-78-6Gl" secondAttribute="trailing" constant="8" id="hrx-hR-MB4"/>
