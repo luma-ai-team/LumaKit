@@ -34,6 +34,7 @@ public final class SharePresenter: Presenter<ShareState,
 
     private func fetchContent(using provider: ShareContentProvider) async throws {
         progressStreamTask = makeProgressStreamTask()
+        state.isWaitingForProgressEvents = true
         state.contentProvider = provider
 
         do {
@@ -50,10 +51,15 @@ public final class SharePresenter: Presenter<ShareState,
             }
 
             state.isPhotoLibraryAutoSaveCompleted = photoLibraryShareDestination.status == .completed
+            state.isWaitingForProgressEvents = false
             progressStreamTask.cancel()
+
             state.step = .success(content)
         }
         catch {
+            state.isWaitingForProgressEvents = false
+            progressStreamTask.cancel()
+
             let shareError: ShareState.SharingError
             switch error {
             case PhotoLibraryShareDestination.PhotoLibraryShareDestinationError.notAuthorized:
@@ -62,20 +68,20 @@ public final class SharePresenter: Presenter<ShareState,
                 shareError = .contentFetchFailed(error.localizedDescription)
             }
 
-            progressStreamTask.cancel()
             state.step = .failure(shareError)
         }
         update(animated: true)
     }
 
     private func makeProgressStreamTask() -> StreamTask<Float> {
-        return .init(pipe: progressPipe) { [weak self] (progress: Float) in
-            guard let self = self else {
+        return .init(pipe: progressPipe) { @MainActor [weak self] (progress: Float) in
+            guard let self = self,
+                  self.state.isWaitingForProgressEvents else {
                 return
             }
 
-            await self.state.step = .progress(progress)
-            await self.update(animated: true)
+            self.state.step = .progress(progress)
+            self.update(animated: true)
         }
     }
 }

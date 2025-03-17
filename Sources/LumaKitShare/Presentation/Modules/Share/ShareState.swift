@@ -45,6 +45,7 @@ public final class ShareState {
     var contentProvider: ShareContentProvider?
     var isPhotoLibraryAutoSaveCompleted: Bool = false
     var isAppRateRequestEnabled: Bool = false
+    var isWaitingForProgressEvents: Bool = false
 
     public init(colorScheme: ColorScheme,
                 destinations: [ShareDestination],
