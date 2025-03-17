@@ -11,6 +11,10 @@ public final class StreamTask<T>: Sendable {
     public init(pipe: AsyncPipe<T>, _ operation: @escaping @Sendable (T) async throws -> Void) {
         task = Task {
             for await value in await pipe.makeStream() {
+                guard Task.isCancelled == false else {
+                    return
+                }
+
                 try await operation(value)
             }
         }
@@ -19,6 +23,10 @@ public final class StreamTask<T>: Sendable {
     public init(stream: AsyncStream<T>, _ operation: @escaping @Sendable (T) async throws -> Void) {
         task = Task {
             for await value in stream {
+                guard Task.isCancelled == false else {
+                    return
+                }
+
                 try await operation(value)
             }
         }
