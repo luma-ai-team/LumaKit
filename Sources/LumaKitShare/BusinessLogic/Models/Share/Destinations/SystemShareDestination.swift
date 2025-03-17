@@ -45,9 +45,14 @@ public final class SystemShareDestination: ShareDestination {
             popoverController.permittedArrowDirections = []
         }
 
-        await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             controller.completionWithItemsHandler = { (activity: UIActivity.ActivityType?, isSuccess: Bool, _, error: Error?) in
-                continuation.resume()
+                if isSuccess {
+                    continuation.resume()
+                }
+                else {
+                    continuation.resume(throwing: error ?? ShareDestinationError.cancelled)
+                }
 
                 guard let activity = activity,
                       self.isPhotoLibraryPermissionsHandlingEnabled,

@@ -7,6 +7,10 @@
 
 import UIKit
 
+public enum ShareDestinationError: Error {
+    case cancelled
+}
+
 @MainActor
 public protocol ShareDestination {
     var identifier: String { get }

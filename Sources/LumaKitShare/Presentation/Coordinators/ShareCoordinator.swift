@@ -86,7 +86,12 @@ extension ShareCoordinator: ShareModuleOutput {
             showSharingSuccess()
         }
         catch {
-            self.show(error)
+            switch error {
+            case ShareDestinationError.cancelled:
+                break
+            default:
+                self.show(error)
+            }
         }
     }
 }
