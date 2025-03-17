@@ -25,7 +25,8 @@ public final class SharePresenter: Presenter<ShareState,
     private lazy var photoLibraryShareDestination: PhotoLibraryShareDestination = .init()
 
     public override func viewDidLoad() {
-        state.isAppRateRequestEnabled = dependencies.storageService.isAppRateCompleted == false
+        dependencies.storageService.isVersionTrackingEnabled = state.feedbackConfiguration.shouldResetRequestOnAppUpdate
+        state.isAppRateRequestEnabled = dependencies.storageService.isAppFeedbackPending
         switch state.contentFetchConfiguration {
         case .sinlge(let provider):
             state.step = .progress(0.0)
@@ -91,7 +92,7 @@ extension SharePresenter: ShareViewOutput {
         else {
             output?.shareModuleDidRequestAppFeedback(self, rating: rating)
         }
-        dependencies.storageService.isAppRateCompleted = true
+        dependencies.storageService.markAppFeedbackAcquired()
     }
 
     public func shareEventTriggered(with destination: any ShareDestination) {

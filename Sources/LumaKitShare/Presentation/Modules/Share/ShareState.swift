@@ -6,6 +6,13 @@ import UIKit
 import LumaKit
 
 public final class ShareState {
+    public final class FeedbackConfiguration {
+        public var applicationName: String? = Bundle.main.appDisplayName
+        public var appStoreIdentifier: String?
+        public var shouldResetRequestOnAppUpdate: Bool = false
+        public var handler: ((String, Int) async -> Void)?
+    }
+
     enum SharingError: LocalizedError, Equatable {
         case notAuthorized
         case contentFetchFailed(String)
@@ -31,11 +38,8 @@ public final class ShareState {
     public let colorScheme: ColorScheme
     public let destinations: [ShareDestination]
     public let contentFetchConfiguration: ShareContentFetchConfiguration
-
-    public var applicationName: String? = Bundle.main.appDisplayName
-    public var appStoreIdentifier: String?
     public var contentFetchHandlersOverrides: [ShareHandlerOverride] = []
-    public var feedbackHandler: ((String, Int) async -> Void)?
+    public var feedbackConfiguration: FeedbackConfiguration = .init()
 
     var step: Step = .initial
     var contentProvider: ShareContentProvider?

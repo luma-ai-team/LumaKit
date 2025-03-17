@@ -12,5 +12,8 @@ public protocol HasStorageService {
 }
 
 public protocol StorageService: ServiceInitializable {
-    var isAppRateCompleted: Bool { get set }
+    var isVersionTrackingEnabled: Bool { get set }
+    var isAppFeedbackPending: Bool { get }
+
+    func markAppFeedbackAcquired()
 }

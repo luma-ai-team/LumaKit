@@ -20,7 +20,7 @@ public final class ShareViewModel: ViewModel {
 
     public init(delegate: ShareViewModelDelegate) {
         colorScheme = delegate.state.colorScheme
-        applicationName = delegate.state.applicationName
+        applicationName = delegate.state.feedbackConfiguration.applicationName
         contentDescription = delegate.state.contentProvider?.contentDescription
         destinations = delegate.state.destinations
         isPhotoLibraryAutoSaveCompleted = delegate.state.isPhotoLibraryAutoSaveCompleted

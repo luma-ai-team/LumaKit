@@ -56,7 +56,7 @@ extension ShareCoordinator: ShareModuleOutput {
             return
         }
 
-        if let identifier = input.state.appStoreIdentifier,
+        if let identifier = input.state.feedbackConfiguration.appStoreIdentifier,
            let url = URL.appStoreURL(withIdentifier: identifier) {
             UIApplication.shared.open(url)
         }
@@ -101,7 +101,7 @@ extension ShareCoordinator: ShareModuleOutput {
 
 extension ShareCoordinator: FeedbackModuleOutput {
     func feedbackModuleDidRequestSend(_ input: FeedbackModuleInput, feedback: String, rating: Int) async {
-        await moduleInput?.state.feedbackHandler?(feedback, rating)
+        await moduleInput?.state.feedbackConfiguration.handler?(feedback, rating)
         topViewController.dismiss(animated: true)
     }
 }
