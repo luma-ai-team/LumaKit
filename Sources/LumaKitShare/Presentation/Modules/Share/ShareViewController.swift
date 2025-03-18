@@ -125,7 +125,18 @@ public final class ShareViewController: SheetViewController, View {
         content.view.frame.size.width = view.bounds.width
         content.view.frame.size.height = content.view.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
         content.view.updateConstraintsIfNeeded()
+
+        let shouldAnimate = content !== self.content
         super.update(with: content)
+
+        if shouldAnimate {
+            let animation = CATransition()
+            animation.duration = 0.075
+            animation.timingFunction = CAMediaTimingFunction(name: .easeOut)
+            animation.type = .fade
+            animation.subtype = .none
+            view.layer.add(animation, forKey: "transition")
+        }
     }
 }
 

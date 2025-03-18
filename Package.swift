@@ -13,7 +13,8 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/disabled/GenericModule", branch: "master"),
         .package(url: "https://github.com/airbnb/lottie-ios", branch: "master"),
-        .package(url: "https://github.com/tiktok/tiktok-opensdk-ios", .upToNextMajor(from: "2.5.0"))
+        .package(url: "https://github.com/tiktok/tiktok-opensdk-ios", .upToNextMajor(from: "2.5.0")),
+        .package(url: "https://github.com/facebook/facebook-ios-sdk", .upToNextMajor(from: "18.0.0"))
     ],
     targets: [
         .target(
@@ -31,7 +32,9 @@ let package = Package(
                 .product(name: "GenericModule", package: "GenericModule"),
                 .product(name: "Lottie", package: "lottie-ios"),
                 .product(name: "TikTokOpenSDKCore", package: "tiktok-opensdk-ios"),
-                .product(name: "TikTokOpenShareSDK", package: "tiktok-opensdk-ios")
+                .product(name: "TikTokOpenShareSDK", package: "tiktok-opensdk-ios"),
+                .product(name: "FacebookCore", package: "facebook-ios-sdk"),
+                .product(name: "FacebookShare", package: "facebook-ios-sdk")
             ],
             path: "Sources/LumaKitShare",
             resources: [])

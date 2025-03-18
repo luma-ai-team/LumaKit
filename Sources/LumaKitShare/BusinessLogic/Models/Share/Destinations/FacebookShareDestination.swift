@@ -7,8 +7,31 @@
 
 import UIKit
 import LumaKit
+import FacebookShare
 
 public final class FacebookShareDestination: ShareDestination {
+    final class SharingHandler: SharingDelegate {
+        let successHandler: () -> Void
+        let failureHandler: (Error) -> Void
+
+        init(successHandler: @escaping () -> Void, failureHandler: @escaping (Error) -> Void) {
+            self.successHandler = successHandler
+            self.failureHandler = failureHandler
+        }
+
+        public func sharer(_ sharer: any FBSDKShareKit.Sharing, didCompleteWithResults results: [String : Any]) {
+            successHandler()
+        }
+
+        public func sharer(_ sharer: any FBSDKShareKit.Sharing, didFailWithError error: any Error) {
+            failureHandler(error)
+        }
+
+        public func sharerDidCancel(_ sharer: any FBSDKShareKit.Sharing) {
+            failureHandler(ShareDestinationError.cancelled)
+        }
+    }
+
     enum FacebookError: Error {
         case notInstalled
     }
@@ -46,7 +69,7 @@ public final class FacebookShareDestination: ShareDestination {
 
         for element in content.reversed() {
             if let _ = element.asset {
-                items["com.facebook.creativekit.backgroundVideo"] = element.data
+                items["com.facebook.sharedSticker.backgroundVideo"] = element.data
             }
             else if let _ = element.image {
                 items["com.facebook.sharedSticker.backgroundImage"] = element.data
@@ -69,3 +92,4 @@ public final class FacebookShareDestination: ShareDestination {
         await UIApplication.shared.open(url)
     }
 }
+

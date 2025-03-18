@@ -46,7 +46,7 @@ public final class InstagramShareDestination: ShareDestination {
 
         for element in content.reversed() {
             if let _ = element.asset {
-                items["com.snapchat.creativekit.backgroundVideo"] = element.data
+                items["com.instagram.sharedSticker.backgroundVideo"] = element.data
             }
             else if let _ = element.image {
                 items["com.instagram.sharedSticker.backgroundImage"] = element.data
@@ -60,7 +60,10 @@ public final class InstagramShareDestination: ShareDestination {
         ]
         pasteboard.setItems([items], options: options)
 
-        let components = try URLComponents(string: appURLString).unwrap()
+        var components = try URLComponents(string: appURLString).unwrap()
+        components.queryItems = [
+            .init(name: "source_application", value: clientId)
+        ]
         let url = try components.url.unwrap()
         guard UIApplication.shared.canOpenURL(url) else {
             throw InstagramError.notInstalled
