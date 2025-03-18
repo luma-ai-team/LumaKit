@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
     <key>FacebookAppID</key>
-    <string>1326236122110662</string>
+    <string>xxx</string>
     <key>FacebookClientToken</key>
-    <string>a59fb1bb3aca7f80b3b131535bb71019</string>
+    <string>xxx</string>
     <key>FacebookDisplayName</key>
     <string>AI Video</string>
 	<key>CFBundleURLTypes</key>
@@ -16,7 +16,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>lumakit.example</string>
-				<string>fb1326236122110662</string>
+				<string>fbxxx</string>
 			</array>
 		</dict>
 	</array>
