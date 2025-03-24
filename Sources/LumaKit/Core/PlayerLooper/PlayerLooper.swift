@@ -15,7 +15,7 @@ public final class PlayerLooper {
 
     public let player: SeekingPlayer = .init()
     private var playbackObserver: NSKeyValueObservation?
-    private(set) var isPlaying: Bool = false
+    public private(set) var isPlaying: Bool = false
 
     public init(url: URL) {
         self.url = url
