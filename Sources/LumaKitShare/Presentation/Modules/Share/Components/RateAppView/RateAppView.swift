@@ -33,10 +33,18 @@ public final class RateAppView: UIView, NibBackedView {
     @IBOutlet weak var starStackView: UIStackView!
     @IBOutlet var starImageViews: [UIImageView]!
 
-    private lazy var tapGestureRecognizer: UITapGestureRecognizer = .init(target: self, action: #selector(viewTapped))
+    private lazy var pressGestureRecognizer: UILongPressGestureRecognizer = {
+        let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(viewPressed))
+        recognizer.minimumPressDuration = 0.0
+        return recognizer
+    }()
 
     public var rating: Int? {
         didSet {
+            guard rating != oldValue else {
+                return
+            }
+
             updateRating()
         }
     }
@@ -59,7 +67,7 @@ public final class RateAppView: UIView, NibBackedView {
 
     private func setup() {
         loadFromNib()
-        starStackView.addGestureRecognizer(tapGestureRecognizer)
+        starStackView.addGestureRecognizer(pressGestureRecognizer)
 
         layer.borderWidth = 1.0
         applyCornerRadius(value: 12.0)
@@ -121,15 +129,21 @@ public final class RateAppView: UIView, NibBackedView {
 
     // MARK: - Actions
 
-    @objc private func viewTapped() {
-        let location = tapGestureRecognizer.location(in: starStackView)
-        for (index, view) in starImageViews.enumerated() {
-            guard view.frame.contains(location) else {
-                continue
-            }
+    @objc private func viewPressed() {
+        let location = pressGestureRecognizer.location(in: starStackView)
+        switch pressGestureRecognizer.state {
+        case .began, .changed:
+            for (index, view) in starImageViews.enumerated() {
+                guard view.frame.contains(location) else {
+                    continue
+                }
 
-            rating = index + 1
+                rating = index + 1
+                break
+            }
+        case .ended, .cancelled, .failed:
             delegate?.rateAppDidSelect(self, rating: rating ?? 0)
+        default:
             break
         }
     }
