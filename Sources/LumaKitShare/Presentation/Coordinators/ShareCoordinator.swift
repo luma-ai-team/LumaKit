@@ -51,19 +51,22 @@ public final class ShareCoordinator: ModalCoordinator<ShareModule, SharePresente
 // MARK: - ShareModuleOutput
 
 extension ShareCoordinator: ShareModuleOutput {
-    public func shareModuleDidRequestAppReview(_ input: ShareModuleInput, rating: Int) {
+    public func shareModuleDidRequestSystemAppReview(_ input: any ShareModuleInput) {
         guard let scene: UIWindowScene = UIApplication.shared.connectedScenes.firstAs() else {
             return
         }
 
+        SKStoreReviewController.requestReview(in: scene)
+    }
+
+    public func shareModuleDidRequestAppReview(_ input: ShareModuleInput, rating: Int) {
         if let identifier = input.state.feedbackConfiguration.appStoreIdentifier,
            let url = URL.appStoreURL(withIdentifier: identifier) {
             UIApplication.shared.open(url)
         }
         else {
-            SKStoreReviewController.requestReview(in: scene)
+            shareModuleDidRequestSystemAppReview(input)
         }
-
     }
 
     public func shareModuleDidRequestAppFeedback(_ input: ShareModuleInput, rating: Int) {

@@ -90,6 +90,7 @@ class MainViewController: UIViewController {
                                destinations: destinations,
                                contentFetchConfiguration: .variants(variants))
         state.feedbackConfiguration.shouldResetRequestOnAppUpdate = true
+        state.feedbackConfiguration.shouldTriggerSystemAppReviewRequest = true
         state.feedbackConfiguration.handler = { _, _ in
             try? await Task.sleep(for: .seconds(1.0))
         }

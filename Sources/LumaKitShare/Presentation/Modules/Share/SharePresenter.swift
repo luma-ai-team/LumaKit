@@ -55,6 +55,9 @@ public final class SharePresenter: Presenter<ShareState,
             progressStreamTask.cancel()
 
             state.step = .success(content)
+            if state.feedbackConfiguration.shouldTriggerSystemAppReviewRequest {
+                output?.shareModuleDidRequestSystemAppReview(self)
+            }
         }
         catch {
             state.isWaitingForProgressEvents = false

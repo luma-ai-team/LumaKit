@@ -20,18 +20,18 @@ final class ExampleCoordinator: SheetCoordinator<ExampleModule, ExamplePresenter
     lazy var transientTask: TransientTask = .init({ [weak self] in
         repeat {
             try await Task.sleep(nanoseconds: 1_000_000_000)
-            self?.pipe.send(Int.random(in: 0...100))
+            await self?.pipe.send(Int.random(in: 0...100))
         } while true
     })
 
     lazy var anotherTransientTask: TransientTask = .init { [weak self] in
-        for await value in try self.unwrap().pipe.makeStream() {
+        for await value in try await self.unwrap().pipe.makeStream() {
             print("Task 1", value)
         }
     }
 
     lazy var oneMoreTransientTask: TransientTask = .init { [weak self] in
-        for await value in try self.unwrap().pipe.makeStream() {
+        for await value in try await self.unwrap().pipe.makeStream() {
             print("Task 2", value)
         }
     }

@@ -10,6 +10,7 @@ public final class ShareState {
         public var applicationName: String? = Bundle.main.appDisplayName
         public var appStoreIdentifier: String?
         public var shouldResetRequestOnAppUpdate: Bool = false
+        public var shouldTriggerSystemAppReviewRequest: Bool = false
         public var handler: ((String, Int) async -> Void)?
     }
 

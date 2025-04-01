@@ -8,7 +8,7 @@
 public final class TransientTask: Sendable {
     let task: Task<Void, Error>
 
-    public init(_ operation: @escaping @Sendable () async throws -> Void) {
+    public init(_ operation: @escaping @Sendable @isolated(any) () async throws -> Void) {
         task = Task(operation: operation)
     }
 
