@@ -62,7 +62,7 @@ open class GradientButton: BounceButton {
         titleLabel?.alpha = isDimmed ? 0.35 : 1.0
     }
 
-    public override func layoutSubviews() {
+    open override func layoutSubviews() {
         super.layoutSubviews()
         gradientView.frame = bounds
         sendSubviewToBack(gradientView)
