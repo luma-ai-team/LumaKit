@@ -11,6 +11,7 @@ protocol FeedbackViewModelDelegate: AnyObject {
 
 final class FeedbackViewModel: ViewModel {
     let colorScheme: ColorScheme
+    let materialStyle: MaterialStyle
     let feedback: String
     let isActionAvailable: Bool
     let isPlaceholderHidden: Bool
@@ -18,6 +19,7 @@ final class FeedbackViewModel: ViewModel {
 
     init(delegate: FeedbackViewModelDelegate) {
         colorScheme = delegate.state.colorScheme
+        materialStyle = delegate.state.materialStyle
         feedback = delegate.state.feedback ?? .init()
         isActionAvailable = feedback.count > 5
         isPlaceholderHidden = feedback.isEmpty == false

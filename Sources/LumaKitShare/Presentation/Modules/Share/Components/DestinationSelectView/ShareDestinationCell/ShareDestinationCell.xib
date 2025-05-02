@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,6 +20,10 @@
                         <constraint firstAttribute="width" constant="55" id="kJm-zQ-bOC"/>
                     </constraints>
                 </imageView>
+                <view hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UzZ-IY-v9s" userLabel="glassBorderView" customClass="GlassBorderView" customModule="LumaKit">
+                    <rect key="frame" x="10.666666666666664" y="0.0" width="54.999999999999993" height="55"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L2T-WE-d52" userLabel="titleLabel">
                     <rect key="frame" x="0.0" y="59" width="76" height="44"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -33,11 +37,16 @@
                 <constraint firstItem="gbk-xY-03D" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="3ca-t3-G18"/>
                 <constraint firstItem="gbk-xY-03D" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="BZD-do-bzp"/>
                 <constraint firstItem="L2T-WE-d52" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="HcY-R6-RZZ"/>
+                <constraint firstItem="UzZ-IY-v9s" firstAttribute="trailing" secondItem="gbk-xY-03D" secondAttribute="trailing" id="erS-4k-vqf"/>
+                <constraint firstItem="UzZ-IY-v9s" firstAttribute="bottom" secondItem="gbk-xY-03D" secondAttribute="bottom" id="g51-il-JzS"/>
                 <constraint firstAttribute="bottom" secondItem="L2T-WE-d52" secondAttribute="bottom" id="jKq-Nv-u71"/>
                 <constraint firstItem="L2T-WE-d52" firstAttribute="top" secondItem="gbk-xY-03D" secondAttribute="bottom" constant="4" id="khM-Aq-6Z0"/>
+                <constraint firstItem="UzZ-IY-v9s" firstAttribute="leading" secondItem="gbk-xY-03D" secondAttribute="leading" id="kk7-md-AWK"/>
+                <constraint firstItem="UzZ-IY-v9s" firstAttribute="top" secondItem="gbk-xY-03D" secondAttribute="top" id="ofQ-4u-atM"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="glassBorderView" destination="UzZ-IY-v9s" id="Nfq-kA-810"/>
                 <outlet property="imageView" destination="gbk-xY-03D" id="bhA-Ac-Yyg"/>
                 <outlet property="titleLabel" destination="L2T-WE-d52" id="d4w-yu-yrk"/>
             </connections>

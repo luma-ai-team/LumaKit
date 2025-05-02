@@ -21,7 +21,19 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
     @IBOutlet weak var sourceStackView: UIStackView!
     @IBOutlet weak var userContentView: UIView!
     @IBOutlet weak var dismissButton: UIButton!
-    
+
+    var materialStyle: MaterialStyle = .default {
+        didSet {
+            guard isViewLoaded else {
+                return
+            }
+
+            for case let button as MediaPickerSourceButton in sourceStackView.arrangedSubviews {
+                button.materialStyle = materialStyle
+            }
+        }
+    }
+
     public var colorScheme: ColorScheme = .init() {
         didSet {
             view.backgroundColor = colorScheme.background.secondary
@@ -29,9 +41,15 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
             updateDismissButton()
 
             for case let button as MediaPickerSourceButton in sourceStackView.arrangedSubviews {
+                button.materialStyle = materialStyle
                 button.tintColor = colorScheme.foreground.primary
                 button.setTitleColor(colorScheme.foreground.primary, for: .normal)
-                button.layer.borderColor = colorScheme.genericAction.inactive.cgColor
+                if materialStyle.isGlass == false {
+                    button.layer.borderColor = colorScheme.genericAction.inactive.cgColor
+                }
+                else {
+                    button.layer.borderColor = UIColor.clear.cgColor
+                }
             }
         }
     }
@@ -96,6 +114,7 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
 
     private func makeButton(for source: MediaPickerCoordinator.Source) -> UIButton {
         let button = MediaPickerSourceButton(source: source)
+        button.materialStyle = materialStyle
         button.addTarget(self, action: #selector(sourceButtonPressed), for: .touchUpInside)
 
         switch source {

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -16,6 +16,7 @@
                 <outlet property="contentView" destination="W7E-0w-4QZ" id="2i9-1K-1ey"/>
                 <outlet property="contentViewCenterYConstraint" destination="iyY-CL-tYE" id="we6-wX-jsl"/>
                 <outlet property="dismissButton" destination="eTR-78-6Gl" id="4oH-h9-Y6S"/>
+                <outlet property="glassBorderView" destination="R1x-2G-FaG" id="hnS-Sg-PXM"/>
                 <outlet property="placeholderLabel" destination="3yj-VW-5Ku" id="UQk-2I-VpP"/>
                 <outlet property="subtitleLabel" destination="K8d-sx-Pjw" id="6Gm-KL-DrP"/>
                 <outlet property="textView" destination="g8P-QJ-qle" id="dIh-cd-TDX"/>
@@ -53,6 +54,10 @@
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
+                        <view hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R1x-2G-FaG" userLabel="glassBorderView" customClass="GlassBorderView" customModule="LumaKit">
+                            <rect key="frame" x="22" y="143.33333333333331" width="256" height="90"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share your feedback" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3yj-VW-5Ku" userLabel="placeholderLabel">
                             <rect key="frame" x="34.000000000000014" y="157.33333333333331" width="133.33333333333337" height="17"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -95,6 +100,7 @@
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="g8P-QJ-qle" secondAttribute="trailing" constant="22" id="116-Mr-RTo"/>
                         <constraint firstAttribute="height" constant="336" id="6pt-O9-NLC"/>
+                        <constraint firstItem="R1x-2G-FaG" firstAttribute="leading" secondItem="g8P-QJ-qle" secondAttribute="leading" id="971-tc-L3t"/>
                         <constraint firstItem="WUA-9Q-sDJ" firstAttribute="centerX" secondItem="Gfl-op-mHC" secondAttribute="centerX" id="A5Z-Nb-PeP"/>
                         <constraint firstItem="Gfl-op-mHC" firstAttribute="top" secondItem="g8P-QJ-qle" secondAttribute="bottom" constant="27" id="AmV-ZV-mgK"/>
                         <constraint firstItem="3yj-VW-5Ku" firstAttribute="top" secondItem="g8P-QJ-qle" secondAttribute="top" constant="14" id="BU4-lr-BOB"/>
@@ -103,13 +109,16 @@
                         <constraint firstItem="K8d-sx-Pjw" firstAttribute="leading" secondItem="W7E-0w-4QZ" secondAttribute="leading" constant="16" id="PDZ-k6-lLf"/>
                         <constraint firstItem="g8P-QJ-qle" firstAttribute="leading" secondItem="W7E-0w-4QZ" secondAttribute="leading" constant="22" id="V4b-2Y-cJb"/>
                         <constraint firstItem="Gfl-op-mHC" firstAttribute="centerX" secondItem="W7E-0w-4QZ" secondAttribute="centerX" id="WGG-P8-cYo"/>
+                        <constraint firstItem="R1x-2G-FaG" firstAttribute="top" secondItem="g8P-QJ-qle" secondAttribute="top" id="bWs-e5-Cum"/>
                         <constraint firstItem="WUA-9Q-sDJ" firstAttribute="centerY" secondItem="Gfl-op-mHC" secondAttribute="centerY" id="dHX-LV-xBh"/>
                         <constraint firstItem="3yj-VW-5Ku" firstAttribute="leading" secondItem="g8P-QJ-qle" secondAttribute="leading" constant="12" id="eyS-ek-g24"/>
                         <constraint firstItem="K8d-sx-Pjw" firstAttribute="top" secondItem="ARZ-Lf-cpb" secondAttribute="bottom" constant="12" id="hgJ-OY-WxU"/>
                         <constraint firstAttribute="trailing" secondItem="eTR-78-6Gl" secondAttribute="trailing" constant="8" id="hrx-hR-MB4"/>
                         <constraint firstItem="ARZ-Lf-cpb" firstAttribute="top" secondItem="W7E-0w-4QZ" secondAttribute="top" constant="52" id="koW-qq-Iwt"/>
                         <constraint firstAttribute="width" constant="300" id="pfz-eu-A37"/>
+                        <constraint firstItem="R1x-2G-FaG" firstAttribute="bottom" secondItem="g8P-QJ-qle" secondAttribute="bottom" id="r8h-xF-kgh"/>
                         <constraint firstItem="ARZ-Lf-cpb" firstAttribute="centerX" secondItem="W7E-0w-4QZ" secondAttribute="centerX" id="rBf-dj-hUM"/>
+                        <constraint firstItem="R1x-2G-FaG" firstAttribute="trailing" secondItem="g8P-QJ-qle" secondAttribute="trailing" id="sgf-cw-xTW"/>
                         <constraint firstItem="eTR-78-6Gl" firstAttribute="top" secondItem="W7E-0w-4QZ" secondAttribute="top" constant="8" id="siy-O9-Rva"/>
                         <constraint firstItem="K8d-sx-Pjw" firstAttribute="centerX" secondItem="W7E-0w-4QZ" secondAttribute="centerX" id="vJa-U4-elm"/>
                     </constraints>

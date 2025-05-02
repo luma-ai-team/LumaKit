@@ -37,6 +37,8 @@ public final class ShareState {
     }
 
     public let colorScheme: ColorScheme
+    public var materialStyle: MaterialStyle = .default
+
     public let destinations: [ShareDestination]
     public let contentFetchConfiguration: ShareContentFetchConfiguration
     public var contentFetchHandlersOverrides: [ShareHandlerOverride] = []

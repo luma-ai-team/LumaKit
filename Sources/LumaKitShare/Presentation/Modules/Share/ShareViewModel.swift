@@ -11,6 +11,7 @@ public protocol ShareViewModelDelegate: AnyObject {
 
 public final class ShareViewModel: ViewModel {
     let colorScheme: ColorScheme
+    let materialStyle: MaterialStyle
     let applicationName: String?
     let contentDescription: String?
     let destinations: [ShareDestination]
@@ -20,6 +21,7 @@ public final class ShareViewModel: ViewModel {
 
     public init(delegate: ShareViewModelDelegate) {
         colorScheme = delegate.state.colorScheme
+        materialStyle = delegate.state.materialStyle
         applicationName = delegate.state.feedbackConfiguration.applicationName
         contentDescription = delegate.state.contentProvider?.contentDescription
         destinations = delegate.state.destinations

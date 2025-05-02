@@ -70,7 +70,9 @@ extension ShareCoordinator: ShareModuleOutput {
     }
 
     public func shareModuleDidRequestAppFeedback(_ input: ShareModuleInput, rating: Int) {
-        let state = FeedbackState(colorScheme: colorScheme, rating: rating)
+        let state = FeedbackState(colorScheme: colorScheme,
+                                  materialStyle: input.state.materialStyle,
+                                  rating: rating)
         let module = FeedbackModule(state: state, dependencies: [], output: self)
         module.viewController.modalPresentationStyle = .overFullScreen
         module.viewController.modalTransitionStyle = .crossDissolve

@@ -38,6 +38,13 @@ final class DestinationSelectView: UIView, NibBackedView, SheetContent {
         }
     }
 
+    var materialStyle: MaterialStyle = .default {
+        didSet {
+            updateColorScheme()
+            updateDestinations()
+        }
+    }
+
     var destinations: [ShareDestination] = [] {
         didSet {
             updateDestinations()
@@ -104,7 +111,9 @@ final class DestinationSelectView: UIView, NibBackedView, SheetContent {
 
     private func updateColorScheme() {
         backgroundColor = colorScheme.background.primary
+        
         rateAppView.colorScheme = colorScheme
+        rateAppView.materialStyle = materialStyle
 
         statusLabel.textColor = colorScheme.foreground.primary
         statusImageVIew.tintColor = colorScheme.foreground.primary
@@ -117,7 +126,9 @@ final class DestinationSelectView: UIView, NibBackedView, SheetContent {
                 return nil
             }
 
-            let model = ShareDestinationCellModel(colorScheme: colorScheme, destination: destination)
+            let model = ShareDestinationCellModel(colorScheme: colorScheme,
+                                                  materialStyle: materialStyle,
+                                                  destination: destination)
             let item = BasicCollectionViewItem<ShareDestinationCell>(viewModel: model)
             item.selectionHandler = { [weak self] _ in
                 guard let self = self else {

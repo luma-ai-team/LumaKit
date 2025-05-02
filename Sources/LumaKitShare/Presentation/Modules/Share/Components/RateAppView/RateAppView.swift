@@ -28,6 +28,7 @@ public final class RateAppView: UIView, NibBackedView {
         }
     }
 
+    @IBOutlet weak var glassBorderView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var starStackView: UIStackView!
@@ -55,6 +56,12 @@ public final class RateAppView: UIView, NibBackedView {
         }
     }
 
+    public var materialStyle: MaterialStyle = .default {
+        didSet {
+            updateColorScheme()
+        }
+    }
+
     public override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -71,6 +78,7 @@ public final class RateAppView: UIView, NibBackedView {
 
         layer.borderWidth = 1.0
         applyCornerRadius(value: 12.0)
+        glassBorderView.applyCornerRadius(value: 12.0)
 
         updateColorScheme()
         updateRating()
@@ -91,7 +99,15 @@ public final class RateAppView: UIView, NibBackedView {
     }
 
     private func updateColorScheme() {
-        layer.borderColor = colorScheme.genericAction.inactive.cgColor
+        switch materialStyle {
+        case .default:
+            layer.borderColor = colorScheme.genericAction.inactive.cgColor
+            glassBorderView.isHidden = true
+        case .glass(let tint):
+            layer.borderColor = UIColor.clear.cgColor
+            glassBorderView.isHidden = false
+            glassBorderView.tintColor = tint
+        }
 
         titleLabel.textColor = colorScheme.foreground.primary
         subtitleLabel.textColor = colorScheme.foreground.secondary

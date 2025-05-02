@@ -37,6 +37,7 @@ final class UIElementsViewController: UIViewController {
             print("Bounced")
         }))
         label.bounds.size.height = 60.0
+        label.addGlassBorder(tint: .white)
         return label
     }()
 
@@ -77,6 +78,7 @@ final class UIElementsViewController: UIViewController {
         button.gradient = .diagonalLTR(colors: [.init(rgb: 0xC2185B)])
         button.setTitle("GradientButton", for: .normal)
         button.bounds.size.height = 60.0
+        button.materialStyle = .glass(tint: .white)
         return button
     }()
 
@@ -86,6 +88,7 @@ final class UIElementsViewController: UIViewController {
         button.setTitle("ShimmerButton", for: .normal)
         button.shimmerColor = .purple
         button.bounds.size.height = 60.0
+        button.materialStyle = .glass(tint: .white)
         return button
     }()
 
@@ -98,6 +101,8 @@ final class UIElementsViewController: UIViewController {
         let view = PlayerView()
         view.player = playerLooper.player
         view.bounds.size.height = 120.0
+        view.applyCornerRadius(value: 10.0)
+        view.addGlassBorder(tint: .white)
         return view
     }()
 
@@ -154,7 +159,7 @@ final class UIElementsViewController: UIViewController {
         super.viewDidLoad()
 
         title = "UIElements"
-        view.backgroundColor = .white
+        view.backgroundColor = .init(white: 0.05, alpha: 1.0)
 
         view.addSubview(scrollView)
         scrollView.addSubview(containerView)
@@ -245,6 +250,7 @@ final class UIElementsViewController: UIViewController {
         content.state = .progress("Doing stuff", 0.5)
         
         let controller = SheetViewController(content: content)
+        controller.blurOpacity = 0.1
         present(controller, animated: true)
     }
 }

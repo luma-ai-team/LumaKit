@@ -20,6 +20,12 @@ final class PermissionsErrorView: UIView, NibBackedView, SheetContent {
 
     weak var delegate: PermissionsErrorViewDelegate?
 
+    var materialStyle: MaterialStyle = .default {
+        didSet {
+            actionButton.materialStyle = materialStyle
+        }
+    }
+
     @IBOutlet weak var actionButton: ShimmerButton!
     @IBOutlet weak var titleLabel: UILabel!
 

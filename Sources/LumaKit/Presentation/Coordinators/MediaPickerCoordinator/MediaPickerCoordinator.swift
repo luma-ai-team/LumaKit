@@ -26,6 +26,8 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
     }
 
     public let colorScheme: ColorScheme
+    public var materialStyle: MaterialStyle = .default
+
     public var selectionStyle: SelectionStyle = .basic(1)
     public var shouldTreatLivePhotosAsVideos: Bool = true
     public var filter: PHPickerFilter?
@@ -75,11 +77,15 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         }
         else {
             let content = MediaPickerSourceViewController(sources: sources)
+            content.materialStyle = materialStyle
             content.userContent = sourcePickerBottomView
             content.colorScheme = colorScheme
             content.delegate = self
 
             let controller = SheetViewController(content: content)
+            if materialStyle.isGlass {
+                controller.blurOpacity = 0.1
+            }
             controller.dismissHandler = { [weak self] in
                 self?.retainedSelf = nil
             }

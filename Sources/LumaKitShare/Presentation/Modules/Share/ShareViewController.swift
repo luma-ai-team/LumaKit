@@ -56,6 +56,16 @@ public final class ShareViewController: SheetViewController, View {
         return view
     }()
 
+    var materialStyle: MaterialStyle = .default {
+        didSet {
+            variantSelectionView.materialStyle = materialStyle
+            permissionsErrorView.materialStyle = materialStyle
+            destinationSelectView.materialStyle = materialStyle
+
+            blurOpacity = materialStyle.isGlass ? 0.1 : 0.0
+        }
+    }
+
     // MARK: - Lifecycle
 
     public required init(viewModel: ShareViewModel, output: ShareViewOutput) {
@@ -72,6 +82,7 @@ public final class ShareViewController: SheetViewController, View {
         super.viewDidLoad()
 
         view.backgroundColor = viewModel.colorScheme.background.primary
+        materialStyle = viewModel.materialStyle
         minimalHeight = 160.0
 
         output.viewDidLoad()
@@ -84,6 +95,10 @@ public final class ShareViewController: SheetViewController, View {
     }
 
     public func update(with viewUpdate: Update<ShareViewModel>, animated: Bool) {
+        viewUpdate(\.isAppRateRequestEnabled) { (isAppRateRequestEnabled: Bool) in
+            destinationSelectView.isAppRateRequestEnabled = isAppRateRequestEnabled
+        }
+
         viewUpdate(\.step) { (step: ShareState.Step) in
             switch step {
             case .initial:

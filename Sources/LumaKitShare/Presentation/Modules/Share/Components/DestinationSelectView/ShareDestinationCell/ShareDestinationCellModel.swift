@@ -11,10 +11,12 @@ import LumaKit
 @MainActor
 final class ShareDestinationCellModel {
     let colorScheme: ColorScheme
+    let materialStyle: MaterialStyle
     let destination: ShareDestination
 
-    init(colorScheme: ColorScheme, destination: ShareDestination) {
+    init(colorScheme: ColorScheme, materialStyle: MaterialStyle = .default, destination: ShareDestination) {
         self.colorScheme = colorScheme
+        self.materialStyle = materialStyle
         self.destination = destination
     }
 }

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RateAppView" customModule="LumaKitShare">
             <connections>
+                <outlet property="glassBorderView" destination="tYK-7e-aLs" id="CdA-ud-kwE"/>
                 <outlet property="starStackView" destination="sC1-xW-Ewe" id="53P-Vk-O4N"/>
                 <outlet property="subtitleLabel" destination="04K-oK-Zox" id="fE1-rc-f5b"/>
                 <outlet property="titleLabel" destination="lIi-VL-ggC" id="FnQ-bb-17C"/>
@@ -24,6 +25,10 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="198"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tYK-7e-aLs" userLabel="glassBorderVIew" customClass="GlassBorderView" customModule="LumaKit">
+                    <rect key="frame" x="0.0" y="0.0" width="393" height="198"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enjoying the App?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lIi-VL-ggC" userLabel="titleLabel">
                     <rect key="frame" x="16" y="12" width="361" height="17"/>
                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
@@ -77,14 +82,18 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="tYK-7e-aLs" secondAttribute="bottom" id="1jt-Mt-Ooq"/>
                 <constraint firstAttribute="trailing" secondItem="lIi-VL-ggC" secondAttribute="trailing" constant="16" id="7a8-xO-gMS"/>
                 <constraint firstItem="lIi-VL-ggC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="12" id="7eh-Qq-kwX"/>
                 <constraint firstAttribute="trailing" secondItem="04K-oK-Zox" secondAttribute="trailing" constant="16" id="HFe-fs-GHw"/>
                 <constraint firstItem="sC1-xW-Ewe" firstAttribute="top" secondItem="04K-oK-Zox" secondAttribute="bottom" constant="8" id="K99-vo-8cH"/>
                 <constraint firstItem="04K-oK-Zox" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="MAL-Iy-Npf"/>
+                <constraint firstItem="tYK-7e-aLs" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="TLv-l9-pTO"/>
+                <constraint firstAttribute="trailing" secondItem="tYK-7e-aLs" secondAttribute="trailing" id="V1T-c4-r7G"/>
                 <constraint firstItem="04K-oK-Zox" firstAttribute="top" secondItem="lIi-VL-ggC" secondAttribute="bottom" constant="2" id="Xjy-j8-e84"/>
                 <constraint firstItem="lIi-VL-ggC" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="dXT-6Q-ECp"/>
                 <constraint firstItem="lIi-VL-ggC" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="fhk-sq-7zP"/>
+                <constraint firstItem="tYK-7e-aLs" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="noD-Ci-Oko"/>
                 <constraint firstItem="sC1-xW-Ewe" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="rbh-xb-Tdh"/>
                 <constraint firstItem="sC1-xW-Ewe" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="sOF-7I-mK7"/>
             </constraints>

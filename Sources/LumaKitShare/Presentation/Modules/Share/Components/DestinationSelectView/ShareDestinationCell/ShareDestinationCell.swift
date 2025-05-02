@@ -12,6 +12,7 @@ final class ShareDestinationCell: UICollectionViewCell, CollectionViewCell {
     typealias ViewModel = ShareDestinationCellModel
 
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var glassBorderView: GlassBorderView!
     @IBOutlet weak var titleLabel: UILabel!
 
     static func size(with viewModel: ShareDestinationCellModel, fitting size: CGSize, insets: UIEdgeInsets) -> CGSize {
@@ -26,6 +27,7 @@ final class ShareDestinationCell: UICollectionViewCell, CollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         imageView.applyCornerRadius(value: 12.0)
+        glassBorderView.applyCornerRadius(value: 12.0)
     }
 
     func update(with viewModel: ShareDestinationCellModel, attributes: CollectionViewItemAttributes) {
@@ -35,5 +37,13 @@ final class ShareDestinationCell: UICollectionViewCell, CollectionViewCell {
 
         imageView.image = viewModel.destination.icon
         titleLabel.text = viewModel.destination.title
+
+        switch viewModel.materialStyle {
+        case .default:
+            glassBorderView.isHidden = true
+        case .glass(let tint):
+            glassBorderView.isHidden = false
+            glassBorderView.tintColor = tint
+        }
     }
 }

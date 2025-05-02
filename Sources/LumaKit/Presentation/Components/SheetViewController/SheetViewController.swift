@@ -9,6 +9,14 @@ open class SheetViewController: UIViewController {
     public private(set) var content: any SheetContent
     public var dismissHandler: (() -> Void)?
 
+    public var blurOpacity: CGFloat = 0.0 {
+        didSet {
+            blurOverlayView.blurOpacity = blurOpacity
+        }
+    }
+
+    public lazy var blurOverlayView: BlurView = .init(opacity: blurOpacity)
+
     public var floatingView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
@@ -73,6 +81,27 @@ open class SheetViewController: UIViewController {
         update(with: content)
     }
 
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if let floatingView = floatingView {
+            sheet.containerView?.insertSubview(floatingView, at: 0)
+            UIView.performWithoutAnimation {
+                if animated {
+                    blurOverlayView.alpha = 0.0
+                    floatingView.alpha = 0.0
+                }
+                layoutFloatingView()
+            }
+            UIView.defaultSpringAnimation {
+                self.blurOverlayView.alpha = 1.0
+                floatingView.alpha = 1.0
+            }
+        }
+
+        sheet.containerView?.insertSubview(blurOverlayView, at: 0)
+    }
+
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         updateGestureRecognizers()
@@ -81,6 +110,7 @@ open class SheetViewController: UIViewController {
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         UIView.defaultSpringAnimation {
+            self.blurOverlayView.alpha = 0.0
             self.floatingView?.alpha = 0.0
         }
     }
@@ -106,13 +136,8 @@ open class SheetViewController: UIViewController {
         super.viewDidLayoutSubviews()
         content.view.frame = view.bounds
 
-        if let floatingView = floatingView,
-           let containerView = sheet.containerView {
-            floatingView.frame = .init(x: 0.0,
-                                       y: 0.0,
-                                       width: containerView.bounds.width,
-                                       height: containerView.bounds.height - view.bounds.height + 16.0)
-        }
+        blurOverlayView.frame = sheet.containerView?.bounds ?? .zero
+        layoutFloatingView()
 
         if traitCollection.userInterfaceIdiom == .pad,
            let window = view.window {
@@ -120,6 +145,18 @@ open class SheetViewController: UIViewController {
                 self.sheet.presentedView?.center = window.bounds.center
             }
         }
+    }
+
+    private func layoutFloatingView() {
+        guard let floatingView = floatingView,
+              let containerView = sheet.containerView else {
+            return
+        }
+
+        floatingView.frame = .init(x: 0.0,
+                                   y: 0.0,
+                                   width: containerView.bounds.width,
+                                   height: containerView.bounds.height - view.bounds.height + 16.0)
     }
 
     open override func viewSafeAreaInsetsDidChange() {
@@ -140,7 +177,9 @@ open class SheetViewController: UIViewController {
 
         self.content = content
         if let dismissableContent = content as? DismissableSheetContent {
-            dismissableContent.dismissHandler = dismiss
+            dismissableContent.dismissHandler = { [weak self] in
+                self?.dismiss()
+            }
         }
 
         view.addSubview(content.view)

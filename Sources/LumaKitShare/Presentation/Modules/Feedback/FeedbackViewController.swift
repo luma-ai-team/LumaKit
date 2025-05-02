@@ -3,6 +3,7 @@
 //
 
 import UIKit
+import LumaKit
 import GenericModule
 
 protocol FeedbackViewOutput: ViewOutput {
@@ -19,8 +20,9 @@ final class FeedbackViewController: ViewController<FeedbackViewModel, Any, Feedb
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var glassBorderView: GlassBorderView!
     @IBOutlet weak var placeholderLabel: UILabel!
-    @IBOutlet weak var actionButton: UIButton!
+    @IBOutlet weak var actionButton: BounceButton!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var dismissButton: UIButton!
     @IBOutlet weak var contentViewCenterYConstraint: NSLayoutConstraint!
@@ -48,13 +50,23 @@ final class FeedbackViewController: ViewController<FeedbackViewModel, Any, Feedb
             textView.applyCornerRadius(value: 14.0)
             textView.textContainer.lineFragmentPadding = 0.0
             textView.textContainerInset = .init(top: 14.0, left: 12.0, bottom: 12.0, right: 12.0)
-            textView.layer.borderColor = viewModel.colorScheme.genericAction.inactive.cgColor
-            textView.layer.borderWidth = 1.0
+
+            glassBorderView.applyCornerRadius(value: 14.0)
+            switch viewModel.materialStyle {
+            case .default:
+                textView.layer.borderColor = viewModel.colorScheme.genericAction.inactive.cgColor
+                textView.layer.borderWidth = 1.0
+                glassBorderView.isHidden = true
+            case .glass(let tint):
+                glassBorderView.isHidden = false
+                glassBorderView.tintColor = tint
+            }
 
             actionButton.applyCornerRadius(value: 14.0)
             actionButton.tintColor = viewModel.colorScheme.foreground.primary
             actionButton.backgroundColor = viewModel.colorScheme.genericAction.active
             actionButton.setTitleColor(viewModel.colorScheme.foreground.primary, for: .normal)
+            actionButton.materialStyle = viewModel.materialStyle
 
             dismissButton.tintColor = viewModel.colorScheme.foreground.primary
 

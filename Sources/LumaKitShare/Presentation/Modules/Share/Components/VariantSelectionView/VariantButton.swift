@@ -8,11 +8,22 @@
 import UIKit
 import LumaKit
 
-final class VariantButton: UIButton {
+final class VariantButton: BounceButton {
     let variant: ShareContentFetchVariant
     var colorScheme: ColorScheme = .init() {
         didSet {
             updateColorScheme()
+        }
+    }
+
+    override var materialStyle: MaterialStyle {
+        didSet {
+            switch materialStyle {
+            case .default:
+                layer.borderWidth = 1.0
+            case .glass:
+                layer.borderWidth = 0.0
+            }
         }
     }
 

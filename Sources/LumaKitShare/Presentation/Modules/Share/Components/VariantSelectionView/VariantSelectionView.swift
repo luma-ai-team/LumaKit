@@ -26,6 +26,12 @@ final class VariantSelectionView: UIView, NibBackedView, SheetContent {
         }
     }
 
+    var materialStyle: MaterialStyle = .default {
+        didSet {
+            updateColorScheme()
+        }
+    }
+
     var isModal: Bool {
         return false
     }
@@ -64,11 +70,17 @@ final class VariantSelectionView: UIView, NibBackedView, SheetContent {
     private func updateColorScheme() {
         backgroundColor = colorScheme.background.primary
         titleLabel.textColor = colorScheme.foreground.primary
+
+        for button in buttons {
+            button.colorScheme = colorScheme
+            button.materialStyle = materialStyle
+        }
     }
 
     func update(contentDescription: String = "Content", variants: [ShareContentFetchVariant]) {
         titleLabel.text = "Save \(contentDescription) As"
         buttons = variants.map(VariantButton.init)
+        updateColorScheme()
     }
 
     // MARK: - Actions
