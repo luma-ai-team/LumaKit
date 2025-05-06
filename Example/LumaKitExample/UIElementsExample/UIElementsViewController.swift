@@ -79,6 +79,7 @@ final class UIElementsViewController: UIViewController {
         button.setTitle("GradientButton", for: .normal)
         button.bounds.size.height = 60.0
         button.materialStyle = .glass(tint: .white)
+        button.applyCornerRadius(value: 24.0)
         return button
     }()
 

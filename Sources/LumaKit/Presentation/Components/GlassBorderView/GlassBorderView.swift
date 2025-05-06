@@ -34,7 +34,7 @@ public class GlassBorderLayer: CALayer {
 
     private lazy var maskLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
-        layer.lineWidth = 0.5
+        layer.lineWidth = 1.0
         layer.fillColor = UIColor.clear.cgColor
         layer.strokeColor = UIColor.white.cgColor
         return layer
@@ -70,8 +70,8 @@ public class GlassBorderLayer: CALayer {
     private func updateTintColor() {
         shadowColor = tintColor.cgColor
         gradientLayer.colors = [
-            UIColor(rgba: 0x54545C96).cgColor,
-            tintColor.withAlphaComponent(0.59)
+            UIColor(rgb: 0x54545C).withAlphaComponent(0.8).cgColor,
+            tintColor.withAlphaComponent(1.0)
         ]
     }
 
@@ -84,9 +84,9 @@ public class GlassBorderLayer: CALayer {
         gradientLayer.frame = bounds
 
         maskLayer.frame = gradientLayer.bounds.insetBy(dx: 0.5 * maskLayer.lineWidth, dy: 0.5 * maskLayer.lineWidth)
-        maskLayer.path = UIBezierPath(roundedRect: maskLayer.bounds, cornerRadius: cornerRadius).cgPath
+        maskLayer.path = UIBezierPath.continuousRoundedRect(maskLayer.bounds, cornerRadius: cornerRadius).cgPath
 
-        let shadowPath = UIBezierPath(roundedRect: bounds.insetBy(dx: -0.5 * shadowRadius, dy: -0.5 * shadowRadius),
+        let shadowPath = UIBezierPath.continuousRoundedRect(bounds.insetBy(dx: -0.5 * shadowRadius, dy: -0.5 * shadowRadius),
                                       cornerRadius: cornerRadius)
         shadowPath.append(UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).reversing())
         self.shadowPath = shadowPath.cgPath
