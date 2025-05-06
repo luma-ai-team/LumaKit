@@ -23,10 +23,6 @@ public class GlassBorderLayer: CALayer {
 
     private lazy var gradientLayer: CAGradientLayer = {
         let layer = CAGradientLayer()
-        layer.colors = [
-            UIColor(rgba: 0x00000096).cgColor,
-            UIColor(rgba: 0x54545C96).cgColor
-        ]
         layer.startPoint = .init(x: 1.0, y: 0.0)
         layer.endPoint = .init(x: 0.0, y: 1.0)
         return layer
@@ -34,7 +30,7 @@ public class GlassBorderLayer: CALayer {
 
     private lazy var maskLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
-        layer.lineWidth = 1.0
+        layer.lineWidth = 0.5
         layer.fillColor = UIColor.clear.cgColor
         layer.strokeColor = UIColor.white.cgColor
         return layer
@@ -70,8 +66,8 @@ public class GlassBorderLayer: CALayer {
     private func updateTintColor() {
         shadowColor = tintColor.cgColor
         gradientLayer.colors = [
-            UIColor(rgb: 0x54545C).withAlphaComponent(0.8).cgColor,
-            tintColor.withAlphaComponent(1.0)
+            tintColor.withAlphaComponent(0.6).cgColor,
+            UIColor(rgb: 0x54545C).withAlphaComponent(0.6).cgColor
         ]
     }
 
