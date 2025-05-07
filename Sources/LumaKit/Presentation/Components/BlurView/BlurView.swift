@@ -52,19 +52,24 @@ public final class BlurView: UIView {
     }
 
     deinit {
-        animator.stopAnimation(true)
-        animator.finishAnimation(at: .current)
+        if animator.state != .inactive {
+            animator.stopAnimation(true)
+            animator.finishAnimation(at: .current)
+        }
     }
 
     private func setup() {
         addSubview(visualEffectView)
         visualEffectView.bindMarginsToSuperview()
-
-        updateAnimator()
+        animator.pausesOnCompletion = true
     }
 
     private func updateAnimator() {
-        animator.startAnimation()
+        guard superview != nil,
+              window != nil else {
+            return
+        }
+
         animator.pauseAnimation()
         animator.fractionComplete = 1.0 - blurOpacity
     }
