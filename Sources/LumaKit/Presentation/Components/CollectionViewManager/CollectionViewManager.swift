@@ -28,7 +28,7 @@ public final class CollectionViewManager: NSObject {
     public var selectionHandler: ((any CollectionViewCellItem) -> Void)?
     public var deselectionHandler: ((any CollectionViewCellItem) -> Void)?
 
-    public var scrollDelegate: CollectionViewManagerScrollDelegate?
+    public weak var scrollDelegate: CollectionViewManagerScrollDelegate?
 
     internal var shouldIgnoreReloadRequests: Bool = false
 
