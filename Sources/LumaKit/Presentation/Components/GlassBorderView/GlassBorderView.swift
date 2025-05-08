@@ -58,7 +58,7 @@ public class GlassBorderLayer: CALayer {
 
         shadowOffset = .init(width: -5.0, height: 5.0)
         shadowRadius = 10
-        shadowOpacity = 0.25
+        shadowOpacity = 0.1
 
         updateTintColor()
     }

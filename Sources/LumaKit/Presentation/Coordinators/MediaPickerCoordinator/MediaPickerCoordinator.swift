@@ -83,6 +83,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
             content.delegate = self
 
             let controller = SheetViewController(content: content)
+            controller.materialStyle = materialStyle
             if materialStyle.isGlass {
                 controller.blurOpacity = 0.1
             }
@@ -186,6 +187,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         sheetContent = .init(colorScheme: colorScheme)
         sheetContent.state = .progress("Fetching", 0.0)
         let controller = SheetViewController(content: sheetContent)
+        controller.materialStyle = materialStyle
         controller.dismissHandler = { [weak self] in
             self?.sheetDismissHandler?()
             self?.sheetDismissHandler = nil

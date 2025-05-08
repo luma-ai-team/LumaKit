@@ -10,7 +10,7 @@ import UIKit
 public extension UIView {
 
     @discardableResult
-    func addGlassBorder(tint: UIColor, cornerRadius: CGFloat? = nil) -> GlassBorderView {
+    func addGlassBorder(tint: UIColor, insets: UIEdgeInsets = .zero, cornerRadius: CGFloat? = nil) -> GlassBorderView {
         let view = GlassBorderView()
         view.tintColor = tint
         view.isUserInteractionEnabled = false
@@ -21,10 +21,10 @@ public extension UIView {
         }
         addSubview(view)
 
-        view.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        view.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        view.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        view.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: insets.left).isActive = true
+        view.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -insets.right).isActive = true
+        view.topAnchor.constraint(equalTo: topAnchor, constant: insets.top).isActive = true
+        view.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -insets.bottom).isActive = true
         setNeedsLayout()
 
         return view

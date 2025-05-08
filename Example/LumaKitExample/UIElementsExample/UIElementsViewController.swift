@@ -37,7 +37,7 @@ final class UIElementsViewController: UIViewController {
             print("Bounced")
         }))
         label.bounds.size.height = 60.0
-        label.addGlassBorder(tint: .white)
+        label.addGlassBorder(tint: .white, insets: .init(value: 10))
         return label
     }()
 

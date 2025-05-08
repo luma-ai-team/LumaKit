@@ -56,7 +56,7 @@ public final class ShareViewController: SheetViewController, View {
         return view
     }()
 
-    var materialStyle: MaterialStyle = .default {
+    override public var materialStyle: MaterialStyle {
         didSet {
             variantSelectionView.materialStyle = materialStyle
             permissionsErrorView.materialStyle = materialStyle

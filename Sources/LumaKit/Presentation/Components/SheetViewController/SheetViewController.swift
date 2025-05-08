@@ -9,9 +9,20 @@ open class SheetViewController: UIViewController {
     public private(set) var content: any SheetContent
     public var dismissHandler: (() -> Void)?
 
-    public var blurOpacity: CGFloat = 0.0 {
+    open var blurOpacity: CGFloat = 0.0 {
         didSet {
             blurOverlayView.blurOpacity = blurOpacity
+        }
+    }
+
+    open var materialStyle: MaterialStyle = .default {
+        didSet {
+            switch materialStyle {
+            case .default:
+                borderView.isHidden = true
+            case .glass:
+                borderView.isHidden = false
+            }
         }
     }
 
@@ -34,6 +45,12 @@ open class SheetViewController: UIViewController {
             }
         }
     }
+
+    private lazy var borderView: GlassBorderView = {
+        let view = GlassBorderView()
+        view.isHidden = true
+        return view
+    }()
 
     private var sheet: UISheetPresentationController {
         if let sheetPresentationController = sheetPresentationController {
@@ -79,6 +96,9 @@ open class SheetViewController: UIViewController {
         sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
 
         update(with: content)
+
+        view.addSubview(borderView)
+        borderView.bindMarginsToSuperview(insets: .init(top: 0.0, left: -1.0, bottom: 1.0, right: 1.0))
     }
 
     open override func viewWillAppear(_ animated: Bool) {
@@ -136,6 +156,7 @@ open class SheetViewController: UIViewController {
         super.viewDidLayoutSubviews()
         content.view.frame = view.bounds
 
+        borderView.applyCornerRadius(value: sheet.presentedView?.layer.cornerRadius ?? 0.0)
         blurOverlayView.frame = sheet.containerView?.bounds ?? .zero
         layoutFloatingView()
 
@@ -185,6 +206,7 @@ open class SheetViewController: UIViewController {
         view.addSubview(content.view)
         view.backgroundColor = content.view.backgroundColor
         content.view.layoutIfNeeded()
+        view.bringSubviewToFront(borderView)
 
         updateContent()
     }
