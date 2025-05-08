@@ -194,4 +194,16 @@ public final class AssetProvider {
             return try await self.download(url, identifier: cacheKey)
         })
     }
+
+    public func fetchURLAsset(at url: URL,
+                              identifier: String? = nil,
+                              provider: @escaping (URL) async throws -> URL) -> Asset<URL> {
+        let cacheKey = identifier ?? url.lastPathComponent
+        let localURL = makeLocalAssetURL(withIdentifier: cacheKey)
+        return Asset(source: url,
+                     cached: fileManager.fileExists(atPath: localURL.path) ? localURL : nil,
+                     provider: {
+            return try await provider(localURL)
+        })
+    }
 }
