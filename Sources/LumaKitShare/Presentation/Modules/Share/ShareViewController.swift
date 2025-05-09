@@ -21,6 +21,16 @@ public final class ShareViewController: SheetViewController, View {
     public var output: ShareViewOutput
     public var viewModel: ShareViewModel
 
+    private lazy var dismissButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.init(systemName: "xmark.circle.fill"), for: .normal)
+        button.tintColor = viewModel.colorScheme.genericAction.inactive
+        button.addTarget(self, action: #selector(dismissButtonPressed), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isHidden = true
+        return button
+    }()
+
     private lazy var variantSelectionView: VariantSelectionView = {
         let view = VariantSelectionView()
         view.colorScheme = viewModel.colorScheme
@@ -84,6 +94,14 @@ public final class ShareViewController: SheetViewController, View {
         view.backgroundColor = viewModel.colorScheme.background.primary
         materialStyle = viewModel.materialStyle
         minimalHeight = 160.0
+
+        view.addSubview(dismissButton)
+        NSLayoutConstraint.activate([
+            dismissButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            dismissButton.topAnchor.constraint(equalTo: view.topAnchor),
+            dismissButton.widthAnchor.constraint(equalToConstant: 48.0),
+            dismissButton.heightAnchor.constraint(equalToConstant: 48.0)
+        ])
 
         output.viewDidLoad()
     }
@@ -152,6 +170,17 @@ public final class ShareViewController: SheetViewController, View {
             animation.subtype = .none
             view.layer.add(animation, forKey: "transition")
         }
+
+        #if targetEnvironment(macCatalyst)
+        dismissButton.isHidden = content.isModal
+        view.bringSubviewToFront(dismissButton)
+        #endif
+    }
+
+    // MARK: - Actions
+
+    @objc private func dismissButtonPressed() {
+        dismiss()
     }
 }
 
