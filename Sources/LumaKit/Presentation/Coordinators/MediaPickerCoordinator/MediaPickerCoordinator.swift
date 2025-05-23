@@ -27,6 +27,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
 
     public let colorScheme: ColorScheme
     public var materialStyle: MaterialStyle = .default
+    public var isBackgroundBlurEnabled: Bool = true
 
     public var selectionStyle: SelectionStyle = .basic(1)
     public var shouldTreatLivePhotosAsVideos: Bool = true
@@ -84,7 +85,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
 
             let controller = SheetViewController(content: content)
             controller.materialStyle = materialStyle
-            if materialStyle.isGlass {
+            if materialStyle.isGlass || isBackgroundBlurEnabled {
                 controller.blurOpacity = 0.1
             }
             controller.dismissHandler = { [weak self] in
