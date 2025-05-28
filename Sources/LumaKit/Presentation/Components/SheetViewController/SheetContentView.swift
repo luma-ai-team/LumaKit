@@ -5,7 +5,6 @@
 import UIKit
 
 @objc public protocol SheetContentHeightProvider {
-    @available(iOS 16.0, *)
     var heightResolver: (UITraitCollection) -> CGFloat { get }
 }
 
@@ -23,7 +22,6 @@ extension UIView: SheetContentHeightProvider {
         return self
     }
 
-    @available(iOS 16.0, *)
     public var heightResolver: (UITraitCollection) -> CGFloat {
         return { _ -> CGFloat in
             return self.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
@@ -36,7 +34,6 @@ extension UIViewController: SheetContent {
         return isModalInPresentation
     }
 
-    @available(iOS 16.0, *)
     public var heightResolver: (UITraitCollection) -> CGFloat {
         return view.heightResolver
     }

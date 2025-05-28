@@ -86,7 +86,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
             let controller = SheetViewController(content: content)
             controller.materialStyle = materialStyle
             if materialStyle.isGlass || isBackgroundBlurEnabled {
-                controller.blurOpacity = 0.1
+                controller.blurOpacity = 0.15
             }
             controller.dismissHandler = { [weak self] in
                 self?.retainedSelf = nil

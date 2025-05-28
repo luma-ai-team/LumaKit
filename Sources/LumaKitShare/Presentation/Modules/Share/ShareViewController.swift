@@ -72,7 +72,7 @@ public final class ShareViewController: SheetViewController, View {
             permissionsErrorView.materialStyle = materialStyle
             destinationSelectView.materialStyle = materialStyle
 
-            blurOpacity = materialStyle.isGlass ? 0.1 : 0.0
+            blurOpacity = materialStyle.isGlass ? 0.15 : 0.0
         }
     }
 
@@ -91,7 +91,7 @@ public final class ShareViewController: SheetViewController, View {
     public override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = viewModel.colorScheme.background.primary
+        contentView.backgroundColor = viewModel.colorScheme.background.primary
         materialStyle = viewModel.materialStyle
         minimalHeight = 160.0
 
@@ -155,7 +155,7 @@ public final class ShareViewController: SheetViewController, View {
     }
 
     public override func update(with content: any SheetContent) {
-        content.view.frame.size.width = view.bounds.width
+        content.view.frame.size.width = contentView.bounds.width
         content.view.frame.size.height = content.view.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
         content.view.updateConstraintsIfNeeded()
 

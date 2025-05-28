@@ -33,6 +33,8 @@ public class GlassBorderLayer: CALayer {
         layer.lineWidth = 0.5
         layer.fillColor = UIColor.clear.cgColor
         layer.strokeColor = UIColor.white.cgColor
+        layer.shouldRasterize = true
+        layer.rasterizationScale = UIScreen.main.scale
         return layer
     }()
 
