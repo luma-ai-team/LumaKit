@@ -7,7 +7,7 @@ import AVFoundation
 
 public final class PlayerLooper {
 
-    public var url: URL {
+    public var asset: AVAsset {
         didSet {
             setup()
         }
@@ -18,7 +18,12 @@ public final class PlayerLooper {
     public private(set) var isPlaying: Bool = false
 
     public init(url: URL) {
-        self.url = url
+        self.asset = AVURLAsset(url: url)
+        setup()
+    }
+
+    public init(asset: AVAsset) {
+        self.asset = asset
         setup()
     }
 
@@ -29,7 +34,7 @@ public final class PlayerLooper {
 
     private func setup() {
         removeObservers()
-        let item = AVPlayerItem(asset: .init(url: url))
+        let item = AVPlayerItem(asset: asset)
         player.replaceCurrentItem(with: item)
         setupObservers()
     }
