@@ -276,7 +276,12 @@ open class SheetViewController: UIViewController {
     }
 
     open override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+        let willDismissPresentedViewController = presentedViewController != nil
         super.dismiss(animated: flag, completion: completion)
+        guard willDismissPresentedViewController == false else {
+            return
+        }
+
         isContentVisible = false
         UIView.defaultSpringAnimation {
             self.view.layout()
