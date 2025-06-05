@@ -42,11 +42,37 @@ open class SheetViewController: UIViewController {
         }
     }
 
-    public var minimalHeight: CGFloat? = 120.0 {
+    public var maximalWidth: CGFloat = 640 {
         didSet {
+            guard isViewLoaded else {
+                return
+            }
+
             view.setNeedsLayout()
         }
     }
+
+    public var minimalHeight: CGFloat? = 120.0 {
+        didSet {
+            guard isViewLoaded else {
+                return
+            }
+
+            view.setNeedsLayout()
+        }
+    }
+
+    public var isKeyboardTrackingEnabled: Bool = true {
+        didSet {
+            guard isViewLoaded else {
+                return
+            }
+
+            view.setNeedsLayout()
+        }
+    }
+
+    private var keyboardInset: CGFloat = 0.0
 
     private lazy var borderView: GlassBorderView = {
         let view = GlassBorderView()
@@ -91,8 +117,15 @@ open class SheetViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
     private func setup() {
-        //
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardFrameWillChange),
+                                               name: UIApplication.keyboardWillChangeFrameNotification,
+                                               object: nil)
     }
 
     open override func viewDidLoad() {
@@ -163,18 +196,18 @@ open class SheetViewController: UIViewController {
         super.viewDidLayoutSubviews()
         blurOverlayView.frame = view.bounds
 
-        let contentWidth = min(view.bounds.width, 640)
+        let contentWidth = min(view.bounds.width, maximalWidth)
         let contentHeight = max(content.heightResolver(traitCollection), minimalHeight ?? 0.0)
 
         if UIDevice.current.userInterfaceIdiom != .phone {
-            let offset = isContentVisible ? 0.0 : 80.0
+            let offset = isContentVisible ? (-0.5 * keyboardInset) : 80.0
             contentView.frame = .init(x: 0.5 * (view.bounds.width - contentWidth),
                                       y: 0.5 * (view.bounds.height - contentHeight) + offset,
                                       width: contentWidth,
                                       height: contentHeight)
         }
         else {
-            let offset = isContentVisible ? contentHeight : 0.0
+            let offset = isContentVisible ? (contentHeight + keyboardInset) : 0.0
             contentView.frame = .init(x: 0.5 * (view.bounds.width - contentWidth),
                                       y: view.bounds.height - offset - view.safeAreaInsets.bottom,
                                       width: contentWidth,
@@ -260,5 +293,24 @@ open class SheetViewController: UIViewController {
         }
 
         dismiss()
+    }
+
+    @objc private func keyboardFrameWillChange(_ notification: Notification) {
+        guard let rect = notification.userInfo?[UIApplication.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+
+        if rect.isEmpty {
+            keyboardInset = 0.0
+        }
+        else {
+            var inset = view.bounds.height - rect.minY
+            if inset > view.safeAreaInsets.bottom {
+                inset -= view.safeAreaInsets.bottom
+            }
+            keyboardInset = inset
+        }
+
+        view.layout()
     }
 }
