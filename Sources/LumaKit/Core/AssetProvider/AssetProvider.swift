@@ -141,6 +141,12 @@ public final class AssetProvider {
                 let localURL = self.makeLocalAssetURL(withIdentifier: cacheKey, pathExtension: "png")
                 try? data.write(to: localURL)
             }
+
+            objc_sync_enter(self)
+            defer {
+                objc_sync_exit(self)
+            }
+
             self.imageCache.setObject(image, forKey: cacheKey as NSString)
             return image
         })
@@ -151,6 +157,12 @@ public final class AssetProvider {
         return Asset(source: url, cached: cachedImage(withIdentifier: cacheKey), provider: {
             let localURL = try await self.download(url, identifier: cacheKey, pathExtension: url.pathExtension)
             let image = try UIImage(contentsOfFile: localURL.path).unwrap()
+
+            objc_sync_enter(self)
+            defer {
+                objc_sync_exit(self)
+            }
+
             self.imageCache.setObject(image, forKey: cacheKey as NSString)
             return image
         })

@@ -90,6 +90,7 @@ public final class ShareViewController: SheetViewController, View {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
+        isKeyboardTrackingEnabled = false
 
         contentView.backgroundColor = viewModel.colorScheme.background.primary
         materialStyle = viewModel.materialStyle

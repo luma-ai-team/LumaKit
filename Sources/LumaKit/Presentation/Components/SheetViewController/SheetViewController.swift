@@ -81,7 +81,11 @@ open class SheetViewController: UIViewController {
         return view
     }()
 
-    private lazy var tapGestureRecognizer: UITapGestureRecognizer = .init(target: self, action: #selector(viewTapped))
+    private lazy var tapGestureRecognizer: UITapGestureRecognizer = {
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        recognizer.delegate = self
+        return recognizer
+    }()
 
     open override var modalPresentationStyle: UIModalPresentationStyle {
         set {}
@@ -317,5 +321,14 @@ open class SheetViewController: UIViewController {
         }
 
         view.layout()
+    }
+}
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension SheetViewController: UIGestureRecognizerDelegate {
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        let location = gestureRecognizer.location(in: view)
+        return contentView.frame.contains(location) == false
     }
 }
