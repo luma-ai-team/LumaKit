@@ -6,7 +6,9 @@ import UIKit
 
 @MainActor
 public protocol CollectionViewManagerScrollDelegate: AnyObject {
+    func collectionViewWillStartScrolling(_ collectionView: UICollectionView)
     func collectionViewDidScroll(_ collectionView: UICollectionView)
+    func collectionViewDidEndScrolling(_ collectionView: UICollectionView)
 }
 
 @MainActor
@@ -274,17 +276,23 @@ extension CollectionViewManager: UIScrollViewDelegate {
         scrollDelegate?.collectionViewDidScroll(collectionView)
     }
 
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        scrollDelegate?.collectionViewWillStartScrolling(collectionView)
+    }
+
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         guard decelerate == false else {
             return
         }
 
+        scrollDelegate?.collectionViewDidEndScrolling(collectionView)
         if let layout = collectionView.collectionViewLayout as? ScrollAwareCollectionViewFlowLayout {
             layout.collectionViewDidStopScrolling(collectionView)
         }
     }
 
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        scrollDelegate?.collectionViewDidEndScrolling(collectionView)
         if let layout = collectionView.collectionViewLayout as? ScrollAwareCollectionViewFlowLayout {
             layout.collectionViewDidStopScrolling(collectionView)
         }
