@@ -38,7 +38,7 @@ final class WebSearchViewModel: ViewModel {
         }
 
         if let error = delegate.state.error {
-            status = delegate.state.error?.localizedDescription
+            status = "Something went wrong, please try again later\n\(error.localizedDescription)"
         }
         else if delegate.state.results.isEmpty,
              isFetching == false {
