@@ -10,7 +10,7 @@ extension Task {
     @discardableResult
     public static func `do`(_ operation: @Sendable @escaping () async throws -> Void,
                             catch errorHandler: @Sendable @escaping (Error) async -> Void,
-                            finally: (@Sendable () async -> Void)?) -> Task<Void, Error> where Success == Void, Failure == Error {
+                            finally: (@Sendable () async -> Void)? = nil) -> Task<Void, Error> where Success == Void, Failure == Error {
         return Task {
             do {
                 try await operation()

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E80E1752E0E7A930044A96C /* DummyWebSearchProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E80E1742E0E7A8D0044A96C /* DummyWebSearchProvider.swift */; };
 		2E90F8F22D76F13E0007D6DE /* LumaKitShare in Frameworks */ = {isa = PBXBuildFile; productRef = 2E90F8F12D76F13E0007D6DE /* LumaKitShare */; };
 		555B7BB72B7CB691004CE646 /* CollectionViewManagerExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555B7BB62B7CB691004CE646 /* CollectionViewManagerExampleViewController.swift */; };
 		555B7BB92B7CB705004CE646 /* TestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555B7BB82B7CB705004CE646 /* TestCell.swift */; };
@@ -34,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E80E1742E0E7A8D0044A96C /* DummyWebSearchProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyWebSearchProvider.swift; sourceTree = "<group>"; };
 		555B7BB62B7CB691004CE646 /* CollectionViewManagerExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewManagerExampleViewController.swift; sourceTree = "<group>"; };
 		555B7BB82B7CB705004CE646 /* TestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCell.swift; sourceTree = "<group>"; };
 		557943A42B87291600AAF06D /* UIElementsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIElementsViewController.swift; sourceTree = "<group>"; };
@@ -89,6 +91,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2E80E1732E0E7A840044A96C /* WebSearchProviders */ = {
+			isa = PBXGroup;
+			children = (
+				2E80E1742E0E7A8D0044A96C /* DummyWebSearchProvider.swift */,
+			);
+			path = WebSearchProviders;
+			sourceTree = "<group>";
+		};
 		555B7BB42B7CB678004CE646 /* CollectionViewManagerExample */ = {
 			isa = PBXGroup;
 			children = (
@@ -301,6 +311,7 @@
 				557943A32B87290000AAF06D /* UIElementsExample */,
 				555B7BB42B7CB678004CE646 /* CollectionViewManagerExample */,
 				55A540652C85A13D008A485B /* PlayersExample */,
+				2E80E1732E0E7A840044A96C /* WebSearchProviders */,
 				55BE9DF52ADFA91200FFE81E /* AppDelegate.swift */,
 				55BE9DF72ADFA91200FFE81E /* SceneDelegate.swift */,
 				55BE9DF92ADFA91200FFE81E /* MainViewController.swift */,
@@ -408,6 +419,7 @@
 			files = (
 				557944692B87356E00AAF06D /* LayoutCell.swift in Sources */,
 				557944582B872F3600AAF06D /* ExampleModule.swift in Sources */,
+				2E80E1752E0E7A930044A96C /* DummyWebSearchProvider.swift in Sources */,
 				55A540672C85A156008A485B /* PlayersExampleViewController.swift in Sources */,
 				55BE9DFA2ADFA91200FFE81E /* MainViewController.swift in Sources */,
 				5579445A2B872F3600AAF06D /* ExampleState.swift in Sources */,

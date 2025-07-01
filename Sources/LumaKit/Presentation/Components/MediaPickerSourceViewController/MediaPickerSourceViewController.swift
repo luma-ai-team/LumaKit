@@ -127,6 +127,9 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
         case .files:
             button.setImage(.init(systemName: "folder"), for: .normal)
             button.setTitle("From Files", for: .normal)
+        case .web:
+            button.setImage(.init(systemName: "globe"), for: .normal)
+            button.setTitle("Browse Web", for: .normal)
         }
 
         return button

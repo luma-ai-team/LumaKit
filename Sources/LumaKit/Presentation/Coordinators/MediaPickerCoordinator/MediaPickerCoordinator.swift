@@ -23,6 +23,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         case camera
         case library
         case files
+        case web(WebSearchProvider)
     }
 
     public let colorScheme: ColorScheme
@@ -72,7 +73,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
     public func start(completion: (() -> Void)? = nil) {
         retainedSelf = self
 
-        if sources.first == sources.last {
+        if sources.count == 1 {
             let source = sources.first ?? .library
             start(source: source, completion: completion)
         }
@@ -106,6 +107,8 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
             startCamera(animated: animated, completion: completion)
         case .files:
             startFilePicker(animated: animated, completion: completion)
+        case .web(let provider):
+            startWebPicker(with: provider, animated: animated, completion: completion)
         }
     }
 
@@ -162,6 +165,18 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         let controller = UIDocumentPickerViewController(forOpeningContentTypes: [.image])
         controller.delegate = self
         topViewController.present(controller, animated: animated, completion: completion)
+    }
+
+    private func startWebPicker(with provider: WebSearchProvider,
+                                animated: Bool,
+                                completion: (() -> Void)? = nil) {
+        let state = WebSearchState(colorScheme: colorScheme, materialStyle: materialStyle)
+        let module = WebSearchModule(state: state, dependencies: provider, output: self)
+        let appearance = StyledNavigationController.Appearance(barStyle: .opaque, color: colorScheme.background.primary)
+        let navigationController = StyledNavigationController(rootViewController: module.viewController,
+                                                              appearance: appearance)
+        navigationController.modalPresentationStyle = .overFullScreen
+        topViewController.present(navigationController, animated: true)
     }
 
     private func showCameraPermissionsDeniedAlert() {
@@ -333,6 +348,8 @@ extension MediaPickerCoordinator: MediaPickerSourceViewDelegate {
     }
 }
 
+// MARK: - UIDocumentPickerDelegate
+
 extension MediaPickerCoordinator: UIDocumentPickerDelegate {
     public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
         output?.mediaPickerCoordinatorDidCancel(self)
@@ -346,5 +363,22 @@ extension MediaPickerCoordinator: UIDocumentPickerDelegate {
         output?.mediaPickerCoordinatorDidSelect(self, items: images.map { (image: UIImage) in
             return .image(image)
         })
+    }
+}
+
+// MARK: - WebSearchModuleOutput
+
+extension MediaPickerCoordinator: WebSearchModuleOutput {
+    func webSearchModuleDidDismiss(_ module: any WebSearchModuleInput) {
+        output?.mediaPickerCoordinatorDidCancel(self)
+        return dismiss()
+    }
+
+    func webSearchModuleDidFail(_ module: any WebSearchModuleInput, with error: any Error) {
+        show(error)
+    }
+
+    func webSearchModuleDidFinish(_ module: any WebSearchModuleInput, with image: UIImage) {
+        output?.mediaPickerCoordinatorDidSelect(self, items: [.image(image)])
     }
 }

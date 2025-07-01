@@ -61,9 +61,10 @@ open class LazyCollectionViewItem<Cell: CollectionViewCell>: CollectionViewCellI
     open func configure(_ cell: Cell, in collectionView: UICollectionView, indexPath: IndexPath) {
         cell.update(with: viewModel, attributes: attributes)
 
+        let updateMethod = self.updateMethod
         for lazyKeyPath in lazyKeyPaths {
-            Task {
-                guard await lazyKeyPath.update(with: &viewModel) else {
+            Task { [weak self] in
+                guard await lazyKeyPath.update(with: &(try self.unwrap().viewModel)) else {
                     return
                 }
 
@@ -75,11 +76,12 @@ open class LazyCollectionViewItem<Cell: CollectionViewCell>: CollectionViewCellI
                         collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
                     }
                 case .reconfigure:
-                    guard let cell = collectionView.cellForItem(at: indexPath) as? Cell else {
+                    guard let cell = collectionView.cellForItem(at: indexPath) as? Cell,
+                          let self = self else {
                         return
                     }
 
-                    cell.update(with: viewModel, attributes: attributes)
+                    cell.update(with: self.viewModel, attributes: self.attributes)
                 }
             }
         }

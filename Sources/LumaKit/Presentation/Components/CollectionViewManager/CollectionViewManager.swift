@@ -191,6 +191,48 @@ extension CollectionViewManager: UICollectionViewDelegate {
         item.didEndDisplay(cell, in: collectionView, indexPath: indexPath)
     }
 
+    public func collectionView(_ collectionView: UICollectionView,
+                               willDisplaySupplementaryView view: UICollectionReusableView,
+                               forElementKind elementKind: String,
+                               at indexPath: IndexPath) {
+        guard let section = sections[safe: indexPath.section] else {
+            return
+        }
+
+        let item: CollectionViewSupplementaryItem?
+        switch elementKind {
+        case UICollectionView.elementKindSectionHeader:
+            item = section.header
+        case UICollectionView.elementKindSectionFooter:
+            item = section.footer
+        default:
+            item = nil
+        }
+
+        item?.willDisplay(view, in: collectionView, indexPath: indexPath)
+    }
+
+    public func collectionView(_ collectionView: UICollectionView,
+                               didEndDisplayingSupplementaryView view: UICollectionReusableView,
+                               forElementOfKind elementKind: String,
+                               at indexPath: IndexPath) {
+        guard let section = sections[safe: indexPath.section] else {
+            return
+        }
+
+        let item: CollectionViewSupplementaryItem?
+        switch elementKind {
+        case UICollectionView.elementKindSectionHeader:
+            item = section.header
+        case UICollectionView.elementKindSectionFooter:
+            item = section.footer
+        default:
+            item = nil
+        }
+
+        item?.didEndDisplay(view, in: collectionView, indexPath: indexPath)
+    }
+
     #if targetEnvironment(macCatalyst)
     public func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         guard simulatesiOSMultiSelectionBehavior else {

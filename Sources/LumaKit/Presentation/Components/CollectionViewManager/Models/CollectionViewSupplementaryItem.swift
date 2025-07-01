@@ -15,6 +15,12 @@ public protocol CollectionViewSupplementaryItem: AnyObject {
 
     @MainActor
     func configure(_ view: View, in collectionView: UICollectionView, indexPath: IndexPath)
+
+    @MainActor
+    func willDisplay(_ view: View, in collectionView: UICollectionView, indexPath: IndexPath)
+
+    @MainActor
+    func didEndDisplay(_ view: View, in collectionView: UICollectionView, indexPath: IndexPath)
 }
 
 extension CollectionViewSupplementaryItem {
@@ -53,6 +59,30 @@ extension CollectionViewSupplementaryItem {
 
         configure(view, in: collectionView, indexPath: indexPath)
     }
+
+    @MainActor
+    public func willDisplay(_ view: UICollectionReusableView, in collectionView: UICollectionView, indexPath: IndexPath) {
+        guard let view = view as? View else {
+            return
+        }
+
+        willDisplay(view, in: collectionView, indexPath: indexPath)
+    }
+
+    @MainActor
+    public func willDisplay(_ view: View, in collectionView: UICollectionView, indexPath: IndexPath) {}
+
+    @MainActor
+    public func didEndDisplay(_ view: UICollectionReusableView, in collectionView: UICollectionView, indexPath: IndexPath) {
+        guard let view = view as? View else {
+            return
+        }
+
+        didEndDisplay(view, in: collectionView, indexPath: indexPath)
+    }
+
+    @MainActor
+    public func didEndDisplay(_ view: View, in collectionView: UICollectionView, indexPath: IndexPath) {}
 }
 
 
@@ -68,5 +98,13 @@ open class BasicCollectionViewSupplementaryItem<View: CollectionViewSupplementar
 
     open func configure(_ view: View, in collectionView: UICollectionView, indexPath: IndexPath) {
         view.update(with: viewModel, attributes: attributes)
+    }
+
+    open func willDisplay(_ view: View, in collectionView: UICollectionView, indexPath: IndexPath) {
+        //
+    }
+
+    open func didEndDisplay(_ view: View, in collectionView: UICollectionView, indexPath: IndexPath) {
+        //
     }
 }

@@ -62,7 +62,16 @@ public final class AssetProvider {
     }
 
     private func makeLocalAssetURL(withIdentifier identifier: String, pathExtension: String? = nil) -> URL {
-        var url = baseLocalURL.appendingPathComponent(identifier)
+        let inavlidCharacters = "'\"[]/\\:";
+        let processedIdentifier: String = identifier.map { (character: Character) in
+            if inavlidCharacters.contains(character) {
+                return "-"
+            }
+
+            return String(character)
+        }.joined()
+        
+        var url = baseLocalURL.appendingPathComponent(processedIdentifier)
         if let pathExtension = pathExtension,
            pathExtension.isEmpty == false {
             url = url.appendingPathExtension(pathExtension)

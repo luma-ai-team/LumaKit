@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WebSearchViewController" customModule="LumaKit">
+            <connections>
+                <outlet property="activityIndicatorView" destination="yTd-r0-Mt1" id="wQg-ab-Pae"/>
+                <outlet property="bottomCollectionViewConstraint" destination="OFO-6b-e56" id="onh-nB-dO0"/>
+                <outlet property="collectionView" destination="To1-4q-f6V" id="xLS-mM-aQx"/>
+                <outlet property="collectionViewLayout" destination="i9p-eE-p0I" id="YSJ-oV-cd5"/>
+                <outlet property="iconView" destination="0fU-bB-Beb" id="3fl-yZ-egQ"/>
+                <outlet property="searchView" destination="7Yi-aw-CJG" id="6Lt-jn-eAN"/>
+                <outlet property="statusLabel" destination="w9h-uX-cqa" id="nI5-aD-Jhi"/>
+                <outlet property="textField" destination="ee5-5c-x7f" id="JAh-pE-fZU"/>
+                <outlet property="view" destination="iN0-l3-epB" id="cso-pp-Ask"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="To1-4q-f6V" userLabel="collectionView">
+                    <rect key="frame" x="0.0" y="206" width="393" height="646"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <collectionViewLayout key="collectionViewLayout" id="i9p-eE-p0I" userLabel="collectionViewLayout" customClass="WaterfallCollectionViewLayout" customModule="LumaKit">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="columnCount">
+                                <integer key="value" value="2"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="minimumColumnSpacing">
+                                <real key="value" value="6"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="minimumInteritemSpacing">
+                                <real key="value" value="6"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </collectionViewLayout>
+                </collectionView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Yi-aw-CJG" userLabel="searchView">
+                    <rect key="frame" x="14" y="142" width="365" height="40"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="magnifyingglass" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="0fU-bB-Beb" userLabel="IconView">
+                            <rect key="frame" x="0.0" y="0.66666666666666785" width="40" height="38.333333333333329"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="Mgp-Fy-jnv"/>
+                            </constraints>
+                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="16"/>
+                        </imageView>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search Images on google photos" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ee5-5c-x7f" userLabel="textField">
+                            <rect key="frame" x="40" y="0.0" width="321" height="40"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" returnKeyType="search"/>
+                            <connections>
+                                <action selector="textFieldEditingChanged:" destination="-1" eventType="editingChanged" id="mc7-di-LoD"/>
+                            </connections>
+                        </textField>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="ee5-5c-x7f" secondAttribute="bottom" id="3Av-iN-xWf"/>
+                        <constraint firstItem="0fU-bB-Beb" firstAttribute="top" secondItem="7Yi-aw-CJG" secondAttribute="top" id="3Pg-8v-1jG"/>
+                        <constraint firstItem="0fU-bB-Beb" firstAttribute="leading" secondItem="7Yi-aw-CJG" secondAttribute="leading" id="JrP-gJ-xip"/>
+                        <constraint firstAttribute="bottom" secondItem="0fU-bB-Beb" secondAttribute="bottom" id="MFU-bt-egi"/>
+                        <constraint firstItem="ee5-5c-x7f" firstAttribute="leading" secondItem="0fU-bB-Beb" secondAttribute="trailing" id="fW3-SW-dPN"/>
+                        <constraint firstItem="ee5-5c-x7f" firstAttribute="top" secondItem="7Yi-aw-CJG" secondAttribute="top" id="nfA-Da-icF"/>
+                        <constraint firstAttribute="trailing" secondItem="ee5-5c-x7f" secondAttribute="trailing" constant="4" id="xw3-sT-7kQ"/>
+                        <constraint firstAttribute="height" constant="40" id="ynW-Fb-PTp"/>
+                    </constraints>
+                </view>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="yTd-r0-Mt1" userLabel="activityIndicatorView">
+                    <rect key="frame" x="186.66666666666666" y="230" width="20" height="20"/>
+                </activityIndicatorView>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w9h-uX-cqa" userLabel="statusLabel">
+                    <rect key="frame" x="24" y="274" width="345" height="0.0"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="To1-4q-f6V" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="3b2-vl-p4T"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="7Yi-aw-CJG" secondAttribute="trailing" constant="14" id="7t8-1I-5IH"/>
+                <constraint firstItem="yTd-r0-Mt1" firstAttribute="top" secondItem="To1-4q-f6V" secondAttribute="top" constant="24" id="A2L-Fn-ADc"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="w9h-uX-cqa" secondAttribute="trailing" constant="24" id="JEh-FX-wQL"/>
+                <constraint firstItem="To1-4q-f6V" firstAttribute="top" secondItem="7Yi-aw-CJG" secondAttribute="bottom" constant="24" id="NjQ-Kp-jKQ"/>
+                <constraint firstItem="w9h-uX-cqa" firstAttribute="top" secondItem="yTd-r0-Mt1" secondAttribute="bottom" constant="24" id="Nla-jZ-ZdZ"/>
+                <constraint firstAttribute="bottom" secondItem="To1-4q-f6V" secondAttribute="bottom" id="OFO-6b-e56"/>
+                <constraint firstItem="yTd-r0-Mt1" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="OwS-LC-2xD"/>
+                <constraint firstItem="7Yi-aw-CJG" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="14" id="djv-L8-HDn"/>
+                <constraint firstItem="7Yi-aw-CJG" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="24" id="j4o-xj-W5o"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="To1-4q-f6V" secondAttribute="trailing" id="qkb-ll-0Lz"/>
+                <constraint firstItem="w9h-uX-cqa" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="24" id="rHA-eP-w5c"/>
+            </constraints>
+            <point key="canvasLocation" x="111" y="20"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="magnifyingglass" catalog="system" width="128" height="117"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

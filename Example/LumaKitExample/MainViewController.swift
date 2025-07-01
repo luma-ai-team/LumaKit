@@ -36,7 +36,7 @@ class MainViewController: UIViewController {
 
     @IBAction func mediaPickerExampleButtonPressed(_ sender: Any) {
         let coordinator = MediaPickerCoordinator(rootViewController: self, colorScheme: .init())
-        coordinator.sources = [.library, .camera, .files]
+        coordinator.sources = [.library, .camera, .files, .web(DummyWebSearchProvider())]
         coordinator.materialStyle = .glass(tint: .black)
         coordinator.selectionStyle = .ordered(4)
         coordinator.output = self
