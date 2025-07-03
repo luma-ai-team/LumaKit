@@ -7,11 +7,13 @@ import GenericModule
 protocol WebSearchViewModelDelegate: AnyObject {
     var state: WebSearchState { get }
     var assetProvider: AssetProvider { get }
+    var searchSource: String { get }
 }
 
 final class WebSearchViewModel: ViewModel {
     let colorScheme: ColorScheme
     let materialStyle: MaterialStyle
+    let searchSource: String
 
     let isFetching: Bool
     let canLoadNextPage: Bool
@@ -23,6 +25,7 @@ final class WebSearchViewModel: ViewModel {
     init(delegate: WebSearchViewModelDelegate) {
         colorScheme = delegate.state.colorScheme
         materialStyle = delegate.state.materialStyle
+        searchSource = delegate.searchSource
 
         isFetching = delegate.state.isFetching
         canLoadNextPage = delegate.state.canLoadNextPage

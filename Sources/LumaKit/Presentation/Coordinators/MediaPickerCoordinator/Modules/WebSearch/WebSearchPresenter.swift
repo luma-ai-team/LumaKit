@@ -110,4 +110,8 @@ extension WebSearchPresenter: WebSearchViewModelDelegate {
     var assetProvider: AssetProvider {
         return Self.assetProvider
     }
+
+    var searchSource: String {
+        return dependencies.source
+    }
 }

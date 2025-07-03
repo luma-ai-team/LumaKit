@@ -68,6 +68,10 @@ final class WebSearchViewController: ViewController<WebSearchViewModel, Any, Web
             view.backgroundColor = viewModel.colorScheme.background.primary
             iconView.tintColor = viewModel.colorScheme.foreground.secondary
             textField.tintColor = viewModel.colorScheme.genericAction.active
+            textField.attributedPlaceholder = .init(string: "Search images on \(viewModel.searchSource)",
+                                                    attributes: [
+                .foregroundColor: viewModel.colorScheme.foreground.primary
+            ])
             textField.delegate = self
 
             searchView.applyCornerRadius(value: 12.0)

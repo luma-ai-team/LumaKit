@@ -6,6 +6,8 @@
 //
 
 public protocol WebSearchProvider {
+    var source: String { get }
+
     func search(_ key: WebSearchKey) async throws -> [WebSearchResult]
     func cancel()
 }

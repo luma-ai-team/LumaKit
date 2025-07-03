@@ -13,7 +13,7 @@ final class DummyWebSearchProvider: WebSearchProvider {
         case hello
     }
 
-    final class Result: SearchResult {
+    final class Result: WebSearchResult {
         let identifier: String
         let url: URL
         let size: CGSize
@@ -25,7 +25,11 @@ final class DummyWebSearchProvider: WebSearchProvider {
         }
     }
 
-    func search(_ key: WebSearchKey) async throws -> [any SearchResult] {
+    var source: String {
+        return "picsum"
+    }
+
+    func search(_ key: WebSearchKey) async throws -> [any WebSearchResult] {
         if key.term == "error" {
             throw DummyError.hello
         }

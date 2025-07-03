@@ -16,6 +16,7 @@ public final class PlayerLooper {
     public let player: SeekingPlayer = .init()
     private var playbackObserver: NSKeyValueObservation?
     public private(set) var isPlaying: Bool = false
+    private var shouldRestartPlayback: Bool = false
 
     public init(url: URL) {
         self.asset = AVURLAsset(url: url)
@@ -97,11 +98,13 @@ public final class PlayerLooper {
     }
 
     @objc private func didEnterBackground() {
+        shouldRestartPlayback = isPlaying
         stop()
     }
 
     @objc private func willEnterForeground() {
-        guard player.currentItem != nil else {
+        guard shouldRestartPlayback,
+              player.currentItem != nil else {
             return
         }
 
