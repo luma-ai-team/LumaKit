@@ -373,12 +373,14 @@ extension MediaPickerCoordinator: UIDocumentPickerDelegate {
     }
 
     public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        let images: [UIImage] = urls.compactMap { (url: URL) in
-            return UIImage(contentsOfFile: url.path)
+        let items: [MediaFetchService.Item] = urls.compactMap { (url: URL) in
+            if let image = UIImage(contentsOfFile: url.path) {
+                return .image(image)
+            }
+
+            return .asset(AVURLAsset(url: url))
         }
-        output?.mediaPickerCoordinatorDidSelect(self, items: images.map { (image: UIImage) in
-            return .image(image)
-        })
+        output?.mediaPickerCoordinatorDidSelect(self, items: items)
     }
 }
 
