@@ -83,6 +83,10 @@ final class WebSearchViewController: ViewController<WebSearchViewModel, Any, Web
                 searchView.backgroundColor = viewModel.colorScheme.background.secondary
             }
 
+            #if targetEnvironment(macCatalyst)
+            collectionViewLayout.columnCount = 3
+            #endif
+
             activityIndicatorView.color = viewModel.colorScheme.foreground.primary
             statusLabel.textColor = viewModel.colorScheme.foreground.primary
         }

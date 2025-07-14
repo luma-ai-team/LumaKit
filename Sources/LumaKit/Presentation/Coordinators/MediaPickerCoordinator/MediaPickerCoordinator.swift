@@ -161,8 +161,24 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         topViewController.present(controller, animated: animated, completion: completion)
     }
 
+    private func makeContentTypes(for filter: PHPickerFilter?) -> [UTType] {
+        guard let filter = filter else {
+            return [.image, .video, .movie]
+        }
+
+        switch filter {
+        case .livePhotos, .panoramas, .screenshots, .images:
+            return [.image]
+        case .screenRecordings, .slomoVideos, .timelapseVideos, .videos:
+            return [.video, .movie]
+        default:
+            return [.image, .video, .movie]
+        }
+    }
+
     private func startFilePicker(animated: Bool, completion: (() -> Void)? = nil) {
-        let controller = UIDocumentPickerViewController(forOpeningContentTypes: [.image])
+        let contentTypes: [UTType] = makeContentTypes(for: filter)
+        let controller = UIDocumentPickerViewController(forOpeningContentTypes: contentTypes)
         controller.delegate = self
         topViewController.present(controller, animated: animated, completion: completion)
     }
