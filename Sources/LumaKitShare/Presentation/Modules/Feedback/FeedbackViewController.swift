@@ -20,7 +20,7 @@ final class FeedbackViewController: ViewController<FeedbackViewModel, Any, Feedb
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var textView: UITextView!
-    @IBOutlet weak var glassBorderView: GlassBorderView!
+    @IBOutlet weak var materialBorderView: MaterialBorderView!
     @IBOutlet weak var placeholderLabel: UILabel!
     @IBOutlet weak var actionButton: BounceButton!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
@@ -51,15 +51,15 @@ final class FeedbackViewController: ViewController<FeedbackViewModel, Any, Feedb
             textView.textContainer.lineFragmentPadding = 0.0
             textView.textContainerInset = .init(top: 14.0, left: 12.0, bottom: 12.0, right: 12.0)
 
-            glassBorderView.applyCornerRadius(value: 14.0)
+            materialBorderView.applyCornerRadius(value: 14.0)
+            materialBorderView.materialStyle = viewModel.materialStyle
+            
             switch viewModel.materialStyle {
             case .default:
                 textView.layer.borderColor = viewModel.colorScheme.genericAction.inactive.cgColor
                 textView.layer.borderWidth = 1.0
-                glassBorderView.isHidden = true
-            case .glass(let tint):
-                glassBorderView.isHidden = false
-                glassBorderView.tintColor = tint
+            default:
+                break
             }
 
             actionButton.applyCornerRadius(value: 14.0)

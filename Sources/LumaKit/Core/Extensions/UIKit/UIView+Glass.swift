@@ -10,9 +10,16 @@ import UIKit
 public extension UIView {
 
     @discardableResult
-    func addGlassBorder(tint: UIColor, insets: UIEdgeInsets = .zero, cornerRadius: CGFloat? = nil) -> GlassBorderView {
-        let view = GlassBorderView()
-        view.tintColor = tint
+    func addGlassBorder(tint: UIColor, insets: UIEdgeInsets = .zero, cornerRadius: CGFloat? = nil) -> MaterialBorderView {
+        return addMaterialBorder(with: .glass(tint: tint), insets: insets, cornerRadius: cornerRadius)
+    }
+
+    @discardableResult
+    func addMaterialBorder(with style: MaterialStyle,
+                           insets: UIEdgeInsets = .zero,
+                           cornerRadius: CGFloat? = nil) -> MaterialBorderView {
+        let view = MaterialBorderView()
+        view.materialStyle = style
         view.isUserInteractionEnabled = false
         view.applyCornerRadius(value: layer.cornerRadius)
         view.translatesAutoresizingMaskIntoConstraints = false

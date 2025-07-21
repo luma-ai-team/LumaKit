@@ -38,7 +38,7 @@ class MainViewController: UIViewController {
         let coordinator = MediaPickerCoordinator(rootViewController: self, colorScheme: .init())
         coordinator.sources = [.library, .camera, .files, .web(DummyWebSearchProvider())]
         coordinator.filter = .images
-        coordinator.materialStyle = .glass(tint: .black)
+        coordinator.materialStyle = .matte(tint: .red)
         coordinator.selectionStyle = .ordered(4)
         coordinator.output = self
         coordinator.start()
@@ -91,7 +91,7 @@ class MainViewController: UIViewController {
         let state = ShareState(colorScheme: .init(),
                                destinations: destinations,
                                contentFetchConfiguration: .variants(variants))
-        state.materialStyle = .glass(tint: .black)
+        state.materialStyle = .matte(tint: .red)
         state.feedbackConfiguration.shouldResetRequestOnAppUpdate = true
         state.feedbackConfiguration.shouldTriggerSystemAppReviewRequest = true
         state.feedbackConfiguration.handler = { _, _ in

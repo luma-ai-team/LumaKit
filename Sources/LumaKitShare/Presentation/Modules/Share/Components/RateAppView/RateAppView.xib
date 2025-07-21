@@ -9,7 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RateAppView" customModule="LumaKitShare">
             <connections>
-                <outlet property="glassBorderView" destination="tYK-7e-aLs" id="CdA-ud-kwE"/>
+                <outlet property="materialBorderView" destination="tYK-7e-aLs" id="fcS-nZ-rey"/>
                 <outlet property="starStackView" destination="sC1-xW-Ewe" id="53P-Vk-O4N"/>
                 <outlet property="subtitleLabel" destination="04K-oK-Zox" id="fE1-rc-f5b"/>
                 <outlet property="titleLabel" destination="lIi-VL-ggC" id="FnQ-bb-17C"/>
@@ -25,7 +25,7 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="198"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tYK-7e-aLs" userLabel="glassBorderVIew" customClass="GlassBorderView" customModule="LumaKit">
+                <view hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tYK-7e-aLs" userLabel="materialBorderView" customClass="MaterialBorderView" customModule="LumaKit">
                     <rect key="frame" x="0.0" y="0.0" width="393" height="198"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>

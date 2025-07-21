@@ -20,7 +20,7 @@
                         <constraint firstAttribute="width" constant="55" id="kJm-zQ-bOC"/>
                     </constraints>
                 </imageView>
-                <view hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UzZ-IY-v9s" userLabel="glassBorderView" customClass="GlassBorderView" customModule="LumaKit">
+                <view clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UzZ-IY-v9s" userLabel="materialBorderView" customClass="MaterialBorderView" customModule="LumaKit">
                     <rect key="frame" x="10.666666666666664" y="0.0" width="54.999999999999993" height="55"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
@@ -46,8 +46,8 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="glassBorderView" destination="UzZ-IY-v9s" id="Nfq-kA-810"/>
                 <outlet property="imageView" destination="gbk-xY-03D" id="bhA-Ac-Yyg"/>
+                <outlet property="materialBorderView" destination="UzZ-IY-v9s" id="LMj-lg-anl"/>
                 <outlet property="titleLabel" destination="L2T-WE-d52" id="d4w-yu-yrk"/>
             </connections>
             <point key="canvasLocation" x="-44.274809160305338" y="213.02816901408451"/>

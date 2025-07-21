@@ -72,7 +72,7 @@ public final class ShareViewController: SheetViewController, View {
             permissionsErrorView.materialStyle = materialStyle
             destinationSelectView.materialStyle = materialStyle
 
-            blurOpacity = materialStyle.isGlass ? 0.15 : 0.0
+            blurOpacity = materialStyle.isDefault ? 0.0 : 0.15
         }
     }
 

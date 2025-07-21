@@ -10,10 +10,11 @@ import UIKit
 public enum MaterialStyle: Equatable {
     case `default`
     case glass(tint: UIColor)
+    case matte(tint: UIColor)
 
-    public var isGlass: Bool {
+    public var isDefault: Bool {
         switch self {
-        case .glass:
+        case .default:
             return true
         default:
             return false

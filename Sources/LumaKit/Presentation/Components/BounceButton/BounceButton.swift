@@ -8,13 +8,7 @@ open class BounceButton: UIButton {
 
     open var materialStyle: MaterialStyle = .default {
         didSet {
-            switch materialStyle {
-            case .default:
-                glassBorderView.isHidden = true
-            case .glass(let tint):
-                glassBorderView.isHidden = false
-                glassBorderView.tintColor = tint
-            }
+            materialBorderView.materialStyle = materialStyle
         }
     }
 
@@ -24,9 +18,8 @@ open class BounceButton: UIButton {
         return recognizer
     }()
 
-    private lazy var glassBorderView: GlassBorderView = {
-        let view = GlassBorderView()
-        view.isHidden = true
+    private lazy var materialBorderView: MaterialBorderView = {
+        let view = MaterialBorderView()
         return view
     }()
 
@@ -43,16 +36,16 @@ open class BounceButton: UIButton {
     private func setup() {
         adjustsImageWhenHighlighted = false
         addGestureRecognizer(bounceGestureRecognizer)
-        addSubview(glassBorderView)
+        addSubview(materialBorderView)
     }
 
     open override func layoutSubviews() {
         super.layoutSubviews()
 
-        glassBorderView.frame = bounds
-        glassBorderView.layer.cornerRadius = layer.cornerRadius
-        glassBorderView.setNeedsLayout()
-        bringSubviewToFront(glassBorderView)
+        materialBorderView.frame = bounds
+        materialBorderView.layer.cornerRadius = layer.cornerRadius
+        materialBorderView.setNeedsLayout()
+        bringSubviewToFront(materialBorderView)
     }
 }
 

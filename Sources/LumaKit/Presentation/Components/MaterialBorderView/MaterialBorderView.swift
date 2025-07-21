@@ -1,5 +1,5 @@
 //
-//  GlassBorderView.swift
+//  MaterialBorderView.swift
 //  LumaKit
 //
 //  Created by Anton K on 02.05.2025.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class GlassBorderLayer: CALayer {
+public class MaterialBorderLayer: CALayer {
 
     public override var cornerRadius: CGFloat {
         didSet {
@@ -15,7 +15,7 @@ public class GlassBorderLayer: CALayer {
         }
     }
 
-    public var tintColor: UIColor = .white {
+    public var materialStyle: MaterialStyle = .default {
         didSet {
             updateTintColor()
         }
@@ -66,11 +66,32 @@ public class GlassBorderLayer: CALayer {
     }
 
     private func updateTintColor() {
-        shadowColor = tintColor.cgColor
-        gradientLayer.colors = [
-            tintColor.withAlphaComponent(0.6).cgColor,
-            UIColor(rgb: 0x54545C).withAlphaComponent(0.6).cgColor
-        ]
+        switch materialStyle {
+        case .default:
+            shadowRadius = 0.0
+            shadowOpacity = 0.0
+            shadowColor = UIColor.clear.cgColor
+            gradientLayer.colors = []
+
+        case .glass(let tint):
+            shadowColor = tint.cgColor
+            shadowRadius = 10
+            shadowOpacity = 0.1
+
+            gradientLayer.colors = [
+                tint.withAlphaComponent(0.6).cgColor,
+                UIColor(rgb: 0x54545C).withAlphaComponent(0.6).cgColor
+            ]
+        case .matte(let tint):
+            shadowColor = tint.cgColor
+            shadowRadius = 10
+            shadowOpacity = 0.05
+
+            gradientLayer.colors = [
+                tint.withAlphaComponent(0.6).cgColor,
+                tint.withAlphaComponent(0.6).cgColor
+            ]
+        }
     }
 
     public override func action(forKey event: String) -> (any CAAction)? {
@@ -91,14 +112,21 @@ public class GlassBorderLayer: CALayer {
     }
 }
 
-public final class GlassBorderView: UIView {
+public final class MaterialBorderView: UIView {
     public override class var layerClass: AnyClass {
-        return GlassBorderLayer.self
+        return MaterialBorderLayer.self
     }
 
+    @available(*, unavailable)
     public override var tintColor: UIColor! {
         didSet {
-            (layer as? GlassBorderLayer)?.tintColor = tintColor
+            //
+        }
+    }
+
+    public var materialStyle: MaterialStyle = .default {
+        didSet {
+            (layer as? MaterialBorderLayer)?.materialStyle = materialStyle
         }
     }
 

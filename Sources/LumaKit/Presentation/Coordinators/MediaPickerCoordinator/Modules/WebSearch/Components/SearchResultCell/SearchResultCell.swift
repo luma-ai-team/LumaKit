@@ -12,8 +12,8 @@ final class SearchResultCell: UICollectionViewCell, CollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
-    @IBOutlet weak var glassBorderView: GlassBorderView!
-    
+    @IBOutlet weak var materialBorderView: MaterialBorderView!
+
     static func register(in collectionView: UICollectionView, withIdentifier identifier: String) {
         collectionView.register(.init(nibName: "SearchResultCell", bundle: .module),
                                 forCellWithReuseIdentifier: identifier)
@@ -27,12 +27,12 @@ final class SearchResultCell: UICollectionViewCell, CollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         applyCornerRadius(value: 12.0)
-        glassBorderView.applyCornerRadius(value: 12.0)
+        materialBorderView.applyCornerRadius(value: 12.0)
     }
 
     func update(with viewModel: SearchResultCellModel, attributes: CollectionViewItemAttributes) {
         backgroundColor = viewModel.colorScheme.background.secondary
-        glassBorderView.isHidden = viewModel.materialStyle.isGlass == false
+        materialBorderView.materialStyle = viewModel.materialStyle
 
         imageView.image = viewModel.image
         if imageView.image == nil {

@@ -10,6 +10,12 @@ import UIKit
 public final class MediaPickerSourceButton: BounceButton {
     public let source: MediaPickerCoordinator.Source
 
+    public override var materialStyle: MaterialStyle {
+        didSet {
+            layer.borderWidth = materialStyle.isDefault ? 1.0 : 0.0
+        }
+    }
+
     public init(source: MediaPickerCoordinator.Source) {
         self.source = source
         super.init(frame: .zero)
@@ -21,7 +27,6 @@ public final class MediaPickerSourceButton: BounceButton {
     }
 
     private func setup() {
-        layer.borderWidth = 1.0
         applyCornerRadius(value: 14.0)
         titleLabel?.font = .roundedSystemFont(ofSize: 13.0, weight: .regular)
     }

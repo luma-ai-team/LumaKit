@@ -20,7 +20,7 @@
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="gS5-lf-8sR" userLabel="activityIndicatorView">
                     <rect key="frame" x="186.66666666666666" y="133.66666666666666" width="20" height="20"/>
                 </activityIndicatorView>
-                <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S9o-7B-W44" userLabel="glassBorderView" customClass="GlassBorderView" customModule="LumaKit">
+                <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S9o-7B-W44" userLabel="materialBorderView" customClass="MaterialBorderView" customModule="LumaKit">
                     <rect key="frame" x="0.0" y="0.0" width="393" height="287"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
@@ -41,8 +41,8 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="activityIndicatorView" destination="gS5-lf-8sR" id="JC9-JZ-p3A"/>
-                <outlet property="glassBorderView" destination="S9o-7B-W44" id="7bv-Za-Vy1"/>
                 <outlet property="imageView" destination="Syx-Ox-rni" id="TD7-vM-WHZ"/>
+                <outlet property="materialBorderView" destination="S9o-7B-W44" id="IL3-ua-dbH"/>
             </connections>
             <point key="canvasLocation" x="96.946564885496173" y="218.66197183098592"/>
         </view>

@@ -19,13 +19,7 @@ open class SheetViewController: UIViewController {
 
     open var materialStyle: MaterialStyle = .default {
         didSet {
-            switch materialStyle {
-            case .default:
-                borderView.isHidden = true
-            case .glass(let tint):
-                borderView.tintColor = tint
-                borderView.isHidden = false
-            }
+            borderView.materialStyle = materialStyle
         }
     }
 
@@ -74,10 +68,9 @@ open class SheetViewController: UIViewController {
 
     private var keyboardInset: CGFloat = 0.0
 
-    private lazy var borderView: GlassBorderView = {
-        let view = GlassBorderView()
+    private lazy var borderView: MaterialBorderView = {
+        let view = MaterialBorderView()
         view.alpha = 0.5
-        view.isHidden = true
         return view
     }()
 

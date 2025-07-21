@@ -75,12 +75,12 @@ final class WebSearchViewController: ViewController<WebSearchViewModel, Any, Web
             textField.delegate = self
 
             searchView.applyCornerRadius(value: 12.0)
-            if viewModel.materialStyle.isGlass {
-                searchView.backgroundColor = viewModel.colorScheme.background.primary
-                searchView.addGlassBorder(tint: viewModel.colorScheme.foreground.primary)
+            searchView.addMaterialBorder(with: viewModel.materialStyle)
+            if viewModel.materialStyle.isDefault {
+                searchView.backgroundColor = viewModel.colorScheme.background.secondary
             }
             else {
-                searchView.backgroundColor = viewModel.colorScheme.background.secondary
+                searchView.backgroundColor = viewModel.colorScheme.background.primary
             }
 
             #if targetEnvironment(macCatalyst)

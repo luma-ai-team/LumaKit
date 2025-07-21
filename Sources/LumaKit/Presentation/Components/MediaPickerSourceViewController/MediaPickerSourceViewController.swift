@@ -44,12 +44,7 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
                 button.materialStyle = materialStyle
                 button.tintColor = colorScheme.foreground.primary
                 button.setTitleColor(colorScheme.foreground.primary, for: .normal)
-                if materialStyle.isGlass == false {
-                    button.layer.borderColor = colorScheme.genericAction.inactive.cgColor
-                }
-                else {
-                    button.layer.borderColor = UIColor.clear.cgColor
-                }
+                button.layer.borderColor = colorScheme.genericAction.inactive.cgColor
             }
         }
     }
