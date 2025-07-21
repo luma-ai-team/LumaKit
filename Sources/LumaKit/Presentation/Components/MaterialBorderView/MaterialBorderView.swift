@@ -85,7 +85,7 @@ public class MaterialBorderLayer: CALayer {
         case .matte(let tint):
             shadowColor = tint.cgColor
             shadowRadius = 10
-            shadowOpacity = 0.05
+            shadowOpacity = 0.1
 
             gradientLayer.colors = [
                 tint.withAlphaComponent(0.6).cgColor,
