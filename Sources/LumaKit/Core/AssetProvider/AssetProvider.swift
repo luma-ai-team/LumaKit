@@ -12,7 +12,8 @@ public final class AssetProvider {
     public final class Asset<T>: Equatable {
         public let source: URL
         public private(set) var cached: T?
-        private let provider: () async throws -> T
+        private var provider: (() async throws -> T)?
+        private var resolver: Task<T, Error>?
 
         public static func == (lhs: Asset<T>, rhs: Asset<T>) -> Bool {
             return lhs.source == rhs.source
@@ -29,13 +30,28 @@ public final class AssetProvider {
         }
 
         public func resolve() async throws -> T {
+            objc_sync_enter(self)
             if let cached = cached {
+                objc_sync_exit(self)
                 return cached
             }
 
-            let value = try await provider()
-            cached = value
-            return value
+            if let resolver = resolver {
+                objc_sync_exit(self)
+                return try await resolver.value
+            }
+
+            let resolver = Task {
+                let value = try await provider.unwrap()()
+                cached = value
+                self.resolver = nil
+                self.provider = nil
+                return value
+            }
+            self.resolver = resolver
+            objc_sync_exit(self)
+
+            return try await resolver.value
         }
     }
 
