@@ -73,7 +73,8 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
     public func start(completion: (() -> Void)? = nil) {
         retainedSelf = self
 
-        if sources.count == 1 {
+        if sources.count == 1,
+           sourcePickerBottomView == nil {
             let source = sources.first ?? .library
             start(source: source, completion: completion)
         }
