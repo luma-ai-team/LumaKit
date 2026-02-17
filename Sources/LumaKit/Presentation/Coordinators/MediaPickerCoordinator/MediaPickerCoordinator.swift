@@ -29,6 +29,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
     public let colorScheme: ColorScheme
     public var materialStyle: MaterialStyle = .default
     public var isBackgroundBlurEnabled: Bool = true
+    public var isHapticEnabled: Bool = false
 
     public var selectionStyle: SelectionStyle = .basic(1)
     public var shouldTreatLivePhotosAsVideos: Bool = true
@@ -80,6 +81,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         }
         else {
             let content = MediaPickerSourceViewController(sources: sources)
+            content.isHapticEnabled = isHapticEnabled
             content.materialStyle = materialStyle
             content.userContent = sourcePickerBottomView
             content.colorScheme = colorScheme
@@ -188,6 +190,8 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
                                 animated: Bool,
                                 completion: (() -> Void)? = nil) {
         let state = WebSearchState(colorScheme: colorScheme, materialStyle: materialStyle)
+        state.isHapticEnabled = isHapticEnabled
+
         let module = WebSearchModule(state: state, dependencies: provider, output: self)
         let appearance = StyledNavigationController.Appearance(barStyle: .opaque, color: colorScheme.background.primary)
         let navigationController = StyledNavigationController(rootViewController: module.viewController,

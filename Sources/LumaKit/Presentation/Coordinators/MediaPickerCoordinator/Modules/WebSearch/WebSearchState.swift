@@ -5,6 +5,7 @@
 final class WebSearchState {
     let colorScheme: ColorScheme
     let materialStyle: MaterialStyle
+    var isHapticEnabled: Bool = false
 
     var isFetching: Bool = true
     var isLoadingNextPage: Bool = false

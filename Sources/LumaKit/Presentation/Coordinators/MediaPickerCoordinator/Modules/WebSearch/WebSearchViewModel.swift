@@ -13,6 +13,7 @@ protocol WebSearchViewModelDelegate: AnyObject {
 final class WebSearchViewModel: ViewModel {
     let colorScheme: ColorScheme
     let materialStyle: MaterialStyle
+    let isHapticEnabled: Bool
     let searchSource: String
 
     let isFetching: Bool
@@ -25,6 +26,7 @@ final class WebSearchViewModel: ViewModel {
     init(delegate: WebSearchViewModelDelegate) {
         colorScheme = delegate.state.colorScheme
         materialStyle = delegate.state.materialStyle
+        isHapticEnabled = delegate.state.isHapticEnabled
         searchSource = delegate.searchSource
 
         isFetching = delegate.state.isFetching

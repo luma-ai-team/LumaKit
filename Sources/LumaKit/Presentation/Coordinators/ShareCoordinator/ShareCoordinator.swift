@@ -29,6 +29,7 @@ public final class ShareCoordinator: Coordinator<UIViewController> {
     public let colorScheme: ColorScheme
     public let contentDescription: String
     public let shouldAskForAppReview: Bool
+    public var isHapticEnabled: Bool = false
     public weak var output: ShareCoordinatorOutput?
 
     public var hasSavingPermissions: Bool {
@@ -70,6 +71,10 @@ public final class ShareCoordinator: Coordinator<UIViewController> {
         controller.dismissHandler = { [weak self] in
             guard let self = self else {
                 return
+            }
+
+            if self.isHapticEnabled {
+                Haptic.selection.generate()
             }
 
             self.output?.shareCoordinatorDidCancel(self)
@@ -124,6 +129,9 @@ public final class ShareCoordinator: Coordinator<UIViewController> {
     }
 
     public func show(_ error: Error) {
+        if isHapticEnabled {
+            Haptic.notification(.error).generate()
+        }
         errorHandler(error)
     }
 
@@ -163,6 +171,9 @@ public final class ShareCoordinator: Coordinator<UIViewController> {
 
     private func showSaveCompletion() {
         sheetViewController.update(with: successContent)
+        if self.isHapticEnabled {
+            Haptic.notification(.success).generate()
+        }
 
         let confettiView = LottieAnimationView()
         confettiView.animation = LottieAnimation.asset("lottie-confetti-anim", bundle: .module)
@@ -172,6 +183,10 @@ public final class ShareCoordinator: Coordinator<UIViewController> {
     }
 
     private func showPermissionsError() {
+        if self.isHapticEnabled {
+            Haptic.notification(.error).generate()
+        }
+
         progressContent.state = .action("Can't Access Photos",
                                         "To save photos to your device, we need Photos access.",
                                         "Open settings", { _ in

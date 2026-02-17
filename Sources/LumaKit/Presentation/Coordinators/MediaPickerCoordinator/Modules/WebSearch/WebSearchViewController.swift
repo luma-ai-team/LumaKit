@@ -118,6 +118,9 @@ final class WebSearchViewController: ViewController<WebSearchViewModel, Any, Web
                 let item = SearchResultCellItem(viewModel: model)
                 item.registerLazyKeyPath(\.image, provider: model.asset.resolve)
                 item.selectionHandler = { [weak self] _ in
+                    if self?.viewModel.isHapticEnabled == true {
+                        Haptic.selection.generate()
+                    }
                     self?.output.selectionEventTriggered(model.result)
                 }
                 return item
@@ -146,6 +149,10 @@ final class WebSearchViewController: ViewController<WebSearchViewModel, Any, Web
     // MARK: - Actions
 
     @objc private func dismissButtonPressed() {
+        if viewModel.isHapticEnabled {
+            Haptic.selection.generate()
+        }
+
         output.dismissEventTriggered()
         dismiss(animated: true)
     }

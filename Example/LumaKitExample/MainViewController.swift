@@ -41,6 +41,7 @@ class MainViewController: UIViewController {
         coordinator.filter = .images
         coordinator.materialStyle = .matte(tint: .red)
         coordinator.selectionStyle = .ordered(4)
+        coordinator.isHapticEnabled = true
         coordinator.output = self
         coordinator.start()
     }

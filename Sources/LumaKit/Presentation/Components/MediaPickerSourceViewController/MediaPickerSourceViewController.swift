@@ -22,7 +22,7 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
     @IBOutlet weak var userContentView: UIView!
     @IBOutlet weak var dismissButton: UIButton!
 
-    var materialStyle: MaterialStyle = .default {
+    public var materialStyle: MaterialStyle = .default {
         didSet {
             guard isViewLoaded else {
                 return
@@ -48,6 +48,8 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
             }
         }
     }
+
+    public var isHapticEnabled: Bool = false
 
     public var sources: [MediaPickerCoordinator.Source] {
         didSet {
@@ -133,10 +135,16 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
     // MARK: - Actions
 
     @objc private func sourceButtonPressed(_ sender: MediaPickerSourceButton) {
+        if isHapticEnabled {
+            Haptic.selection.generate()
+        }
         delegate?.mediaPickerSourceViewDidRequest(self, source: sender.source)
     }
 
     @IBAction func dismissButtonPressed(_ sender: Any) {
+        if isHapticEnabled {
+            Haptic.selection.generate()
+        }
         dismissHandler?()
     }
 }

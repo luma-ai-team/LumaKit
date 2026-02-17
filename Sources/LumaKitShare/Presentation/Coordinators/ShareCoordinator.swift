@@ -16,6 +16,7 @@ public final class ShareCoordinator: ModalCoordinator<ShareModule, SharePresente
         case cancelled
     }
 
+    public var isHapticEnabled: Bool = false
     private var colorScheme: ColorScheme = .init()
     private var didCompleteSharing: Bool = false
 
@@ -29,6 +30,10 @@ public final class ShareCoordinator: ModalCoordinator<ShareModule, SharePresente
     }
 
     private func show(_ error: Error) {
+        if isHapticEnabled {
+            Haptic.notification(.error).generate()
+        }
+
         let controller = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
         controller.addAction(.init(title: "Ok", style: .default))
         topViewController.present(controller, animated: true)
@@ -37,6 +42,10 @@ public final class ShareCoordinator: ModalCoordinator<ShareModule, SharePresente
     private func showSharingSuccess() {
         guard didCompleteSharing == false else {
             return
+        }
+
+        if isHapticEnabled {
+            Haptic.notification(.success).generate()
         }
 
         let confettiView = LottieAnimationView()
@@ -86,6 +95,10 @@ extension ShareCoordinator: ShareModuleOutput {
     public func shareModuleDidRequestShare(_ input: ShareModuleInput,
                                            content: [ShareContent],
                                            destination: ShareDestination) async {
+        if isHapticEnabled {
+            Haptic.selection.generate()
+        }
+
         context.rootViewController = topViewController
         do {
             try await destination.share(content, in: self.context)
@@ -106,6 +119,10 @@ extension ShareCoordinator: ShareModuleOutput {
 
 extension ShareCoordinator: FeedbackModuleOutput {
     func feedbackModuleDidRequestSend(_ input: FeedbackModuleInput, feedback: String, rating: Int) async {
+        if isHapticEnabled {
+            Haptic.selection.generate()
+        }
+
         await moduleInput?.state.feedbackConfiguration.handler?(feedback, rating)
         topViewController.dismiss(animated: true)
     }
