@@ -16,7 +16,7 @@ final class ShareDestinationCell: UICollectionViewCell, CollectionViewCell {
     @IBOutlet weak var titleLabel: UILabel!
 
     static func size(with viewModel: ShareDestinationCellModel, fitting size: CGSize, insets: UIEdgeInsets) -> CGSize {
-        return .init(width: 60.0, height: 74.0)
+        return .init(width: 75.0, height: 60.0)
     }
 
     static func register(in collectionView: UICollectionView, withIdentifier identifier: String) {
@@ -28,6 +28,16 @@ final class ShareDestinationCell: UICollectionViewCell, CollectionViewCell {
         super.awakeFromNib()
         imageView.applyCornerRadius(value: 12.0)
         materialBorderView.applyCornerRadius(value: 12.0)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if materialBorderView.materialStyle.isSystem {
+            sendSubviewToBack(materialBorderView)
+        }
+        else {
+            bringSubviewToFront(materialBorderView)
+        }
     }
 
     func update(with viewModel: ShareDestinationCellModel, attributes: CollectionViewItemAttributes) {

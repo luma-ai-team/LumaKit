@@ -84,6 +84,16 @@ public final class RateAppView: UIView, NibBackedView {
         updateRating()
     }
 
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        if materialBorderView.materialStyle.isSystem {
+            sendSubviewToBack(materialBorderView)
+        }
+        else {
+            bringSubviewToFront(materialBorderView)
+        }
+    }
+
     public override func didMoveToWindow() {
         super.didMoveToWindow()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {

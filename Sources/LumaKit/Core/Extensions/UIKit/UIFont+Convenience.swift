@@ -29,6 +29,7 @@ public extension UIFont {
         }
     }
 
+    @available(*, deprecated, renamed: "compatibleSystemFont", message: "Use `compatibleSystemFont` instead for all possible font configuration parameters")
     static func roundedSystemFont(ofSize size: CGFloat, weight: Weight) -> UIFont {
         let font: UIFont = .systemFont(ofSize: size, weight: weight)
         guard let descriptor = font.fontDescriptor.withDesign(.rounded) else {
@@ -41,12 +42,20 @@ public extension UIFont {
     static func compatibleSystemFont(ofSize size: CGFloat,
                                      weight: Weight = .regular,
                                      width: CompatibleWidth = .standard,
+                                     additionalTraits: UIFontDescriptor.SymbolicTraits? = nil,
                                      design: UIFontDescriptor.SystemDesign? = nil) -> UIFont {
-        let font: UIFont
+        var font: UIFont
         if #available(iOS 16.0, *) {
             font = .systemFont(ofSize: size, weight: weight, width: width.systemWidth ?? .standard)
         } else {
             font = .systemFont(ofSize: size, weight: weight)
+        }
+
+        if let traits = additionalTraits {
+            let descriptor = font.fontDescriptor
+            if let descriptor = descriptor.withSymbolicTraits(traits.union(descriptor.symbolicTraits)) {
+                font = UIFont(descriptor: descriptor, size: size)
+            }
         }
 
         guard let design = design,

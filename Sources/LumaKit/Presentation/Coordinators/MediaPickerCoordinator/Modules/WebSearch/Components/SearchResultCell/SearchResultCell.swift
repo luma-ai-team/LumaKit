@@ -30,6 +30,16 @@ final class SearchResultCell: UICollectionViewCell, CollectionViewCell {
         materialBorderView.applyCornerRadius(value: 12.0)
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if materialBorderView.materialStyle.isSystem {
+            sendSubviewToBack(materialBorderView)
+        }
+        else {
+            bringSubviewToFront(materialBorderView)
+        }
+    }
+
     func update(with viewModel: SearchResultCellModel, attributes: CollectionViewItemAttributes) {
         backgroundColor = viewModel.colorScheme.background.secondary
         materialBorderView.materialStyle = viewModel.materialStyle

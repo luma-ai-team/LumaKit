@@ -45,7 +45,12 @@ open class BounceButton: UIButton {
         materialBorderView.frame = bounds
         materialBorderView.layer.cornerRadius = layer.cornerRadius
         materialBorderView.setNeedsLayout()
-        bringSubviewToFront(materialBorderView)
+        if materialBorderView.materialStyle.isSystem {
+            sendSubviewToBack(materialBorderView)
+        }
+        else {
+            bringSubviewToFront(materialBorderView)
+        }
     }
 }
 

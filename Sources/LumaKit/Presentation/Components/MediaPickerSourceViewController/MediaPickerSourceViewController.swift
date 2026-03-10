@@ -17,6 +17,13 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
     public weak var delegate: MediaPickerSourceViewDelegate?
     public var dismissHandler: (() -> Void)?
 
+    public override var title: String? {
+        didSet {
+            loadViewIfNeeded()
+            titleLabel.text = title ?? "Choose Source"
+        }
+    }
+
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var sourceStackView: UIStackView!
     @IBOutlet weak var userContentView: UIView!
@@ -60,6 +67,7 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
     public var userContent: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
+            titleLabel.isHidden = userContent != nil
             guard let userContent = userContent else {
                 return
             }

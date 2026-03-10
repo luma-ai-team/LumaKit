@@ -26,7 +26,13 @@ public extension UIView {
         if let cornerRadius = cornerRadius {
             view.applyCornerRadius(value: cornerRadius)
         }
-        addSubview(view)
+
+        if style.isSystem {
+            insertSubview(view, at: 0)
+        }
+        else {
+            addSubview(view)
+        }
 
         view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: insets.left).isActive = true
         view.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -insets.right).isActive = true

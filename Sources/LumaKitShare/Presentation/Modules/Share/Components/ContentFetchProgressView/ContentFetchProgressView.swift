@@ -30,6 +30,7 @@ final class ContentFetchProgressView: UIView, NibBackedView, SheetContent {
         return true
     }
 
+    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var progressLabel: UILabel!
@@ -54,6 +55,7 @@ final class ContentFetchProgressView: UIView, NibBackedView, SheetContent {
 
     private func updateColorScheme() {
         backgroundColor = colorScheme.background.primary
+        activityIndicatorView.color = colorScheme.foreground.primary
         titleLabel.textColor = colorScheme.foreground.primary
         subtitleLabel.textColor = colorScheme.foreground.secondary
         progressLabel.textColor = colorScheme.foreground.primary

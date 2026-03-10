@@ -52,8 +52,6 @@ final class PermissionsErrorView: UIView, NibBackedView, SheetContent {
     private func setup() {
         loadFromNib()
         updateColorScheme()
-
-        actionButton.applyCornerRadius(value: 14.0)
     }
 
     private func updateColorScheme() {
@@ -61,6 +59,11 @@ final class PermissionsErrorView: UIView, NibBackedView, SheetContent {
         actionButton.setTitleColor(colorScheme.foreground.primary, for: .normal)
         actionButton.gradient = .solid(color: colorScheme.genericAction.active)
         titleLabel.textColor = colorScheme.foreground.primary
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        actionButton.applyMaximumCornerRadius()
     }
 
     // MARK: - Actions

@@ -65,6 +65,7 @@ final class FeedbackViewController: ViewController<FeedbackViewModel, Any, Feedb
             actionButton.applyCornerRadius(value: 14.0)
             actionButton.tintColor = viewModel.colorScheme.foreground.primary
             actionButton.backgroundColor = viewModel.colorScheme.genericAction.active
+            actionButton.tintColor = viewModel.colorScheme.genericAction.active
             actionButton.setTitleColor(viewModel.colorScheme.foreground.primary, for: .normal)
             actionButton.materialStyle = viewModel.materialStyle
 
@@ -96,6 +97,12 @@ final class FeedbackViewController: ViewController<FeedbackViewModel, Any, Feedb
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        if materialBorderView.materialStyle.isSystem {
+            contentView.sendSubviewToBack(materialBorderView)
+        }
+        else {
+            contentView.bringSubviewToFront(materialBorderView)
+        }
     }
 
     override func update(with viewUpdate: Update<ViewModel>, animated: Bool) {

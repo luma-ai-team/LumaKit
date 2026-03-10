@@ -132,17 +132,25 @@ open class SheetViewController: UIViewController {
         view.addSubview(blurOverlayView)
 
         view.addSubview(contentView)
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        }
-        contentView.applyCornerRadius(value: 24.0)
         contentView.clipsToBounds = true
 
         update(with: content)
 
         view.addSubview(borderView)
         borderView.isUserInteractionEnabled = false
-        borderView.applyCornerRadius(value: 24.0)
+
+        let cornerRadius = max(UIScreen.main.fetchDisplayCornerRadius(fallback: 38.0), 24.0)
+        if #available(iOS 26.0, *) {
+            contentView.cornerConfiguration = .corners(topLeftRadius: 38.0,
+                                                       topRightRadius: 38.0,
+                                                       bottomLeftRadius: .init(floatLiteral: cornerRadius),
+                                                       bottomRightRadius: .init(floatLiteral: cornerRadius))
+            borderView.cornerConfiguration = contentView.cornerConfiguration
+        }
+        else {
+            contentView.applyCornerRadius(value: cornerRadius)
+            borderView.applyCornerRadius(value: cornerRadius)
+        }
 
         view.addGestureRecognizer(tapGestureRecognizer)
     }
@@ -193,7 +201,8 @@ open class SheetViewController: UIViewController {
         super.viewDidLayoutSubviews()
         blurOverlayView.frame = view.bounds
 
-        let contentWidth = min(view.bounds.width, maximalWidth)
+        let edgeInset: CGFloat = 5.0
+        let contentWidth = min(view.bounds.width - 2.0 * edgeInset, maximalWidth)
         let contentHeight = max(content.heightResolver(traitCollection), minimalHeight ?? 0.0)
 
         if UIDevice.current.userInterfaceIdiom != .phone {
@@ -204,7 +213,7 @@ open class SheetViewController: UIViewController {
                                       height: contentHeight)
         }
         else {
-            let offset = isContentVisible ? (contentHeight + keyboardInset) : 0.0
+            let offset = isContentVisible ? (contentHeight + keyboardInset + edgeInset) : 0.0
             contentView.frame = .init(x: 0.5 * (view.bounds.width - contentWidth),
                                       y: view.bounds.height - offset - view.safeAreaInsets.bottom,
                                       width: contentWidth,
@@ -213,11 +222,11 @@ open class SheetViewController: UIViewController {
 
         content.view.frame = .init(x: 0.0, y: 0.0, width: contentWidth, height: contentHeight)
         borderView.frame = contentView.frame
-
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            borderView.frame.origin.x -= 1.0
-            borderView.frame.size.width += 2.0
-            borderView.frame.size.height += 24.0
+        if borderView.materialStyle.isSystem {
+            view.sendSubviewToBack(borderView)
+        }
+        else {
+            view.bringSubviewToFront(borderView)
         }
 
         layoutFloatingView()

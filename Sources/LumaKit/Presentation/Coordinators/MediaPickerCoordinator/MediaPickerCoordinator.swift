@@ -28,6 +28,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
 
     public let colorScheme: ColorScheme
     public var materialStyle: MaterialStyle = .default
+    public var title: String?
     public var isBackgroundBlurEnabled: Bool = true
     public var isHapticEnabled: Bool = false
 
@@ -81,6 +82,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         }
         else {
             let content = MediaPickerSourceViewController(sources: sources)
+            content.title = title
             content.isHapticEnabled = isHapticEnabled
             content.materialStyle = materialStyle
             content.userContent = sourcePickerBottomView

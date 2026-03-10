@@ -18,7 +18,8 @@ public final class SharePresenter: Presenter<ShareState,
 
     public override func viewDidLoad() {
         dependencies.storageService.isVersionTrackingEnabled = state.feedbackConfiguration.shouldResetRequestOnAppUpdate
-        state.isAppRateRequestEnabled = dependencies.storageService.isAppFeedbackPending
+        state.isAppRateRequestEnabled = false
+
         switch state.contentFetchConfiguration {
         case .sinlge(let provider):
             state.step = .progress(0.0)

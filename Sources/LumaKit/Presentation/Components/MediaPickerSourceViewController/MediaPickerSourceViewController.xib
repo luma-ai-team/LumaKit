@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24128" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -21,22 +21,18 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="295"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Choose Source:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QVN-d8-EaU" userLabel="titleLabel">
-                    <rect key="frame" x="15" y="24" width="313" height="17"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Choose Source" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QVN-d8-EaU" userLabel="titleLabel">
+                    <rect key="frame" x="56" y="40" width="279" height="123"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <stackView opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="bLm-21-VeV" userLabel="sourceStackView">
-                    <rect key="frame" x="15" y="53" width="363" height="70"/>
+                    <rect key="frame" x="16" y="187" width="361" height="76"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="70" id="15N-ty-RRS"/>
+                        <constraint firstAttribute="height" constant="76" id="15N-ty-RRS"/>
                     </constraints>
                 </stackView>
-                <view contentMode="scaleToFill" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="bJE-mS-9OQ" userLabel="userContentView">
-                    <rect key="frame" x="0.0" y="131" width="393" height="134"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tpb-DL-Q8b" userLabel="dismissButton">
                     <rect key="frame" x="343" y="4" width="48" height="48"/>
                     <constraints>
@@ -49,21 +45,28 @@
                         <action selector="dismissButtonPressed:" destination="-1" eventType="touchUpInside" id="PQD-U5-UTt"/>
                     </connections>
                 </button>
+                <view contentMode="scaleToFill" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="bJE-mS-9OQ" userLabel="userContentView">
+                    <rect key="frame" x="0.0" y="0.0" width="393" height="179"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="bLm-21-VeV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="97Z-yX-cdF"/>
-                <constraint firstItem="QVN-d8-EaU" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="24" id="AAP-Yp-ch9"/>
+                <constraint firstAttribute="bottom" secondItem="bLm-21-VeV" secondAttribute="bottom" constant="32" id="5Fs-rX-69n"/>
+                <constraint firstAttribute="trailing" secondItem="bJE-mS-9OQ" secondAttribute="trailing" id="7xO-h9-aSJ"/>
+                <constraint firstItem="bLm-21-VeV" firstAttribute="top" secondItem="bJE-mS-9OQ" secondAttribute="bottom" constant="8" id="8bP-27-pOs"/>
+                <constraint firstItem="bLm-21-VeV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="97Z-yX-cdF"/>
+                <constraint firstItem="QVN-d8-EaU" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="40" id="AAP-Yp-ch9"/>
+                <constraint firstItem="bJE-mS-9OQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="AXz-Ir-fdu"/>
                 <constraint firstAttribute="trailing" secondItem="tpb-DL-Q8b" secondAttribute="trailing" constant="2" id="Glt-RB-QMw"/>
-                <constraint firstAttribute="bottom" secondItem="bJE-mS-9OQ" secondAttribute="bottom" constant="30" id="LOH-ic-gHI"/>
-                <constraint firstItem="tpb-DL-Q8b" firstAttribute="leading" secondItem="QVN-d8-EaU" secondAttribute="trailing" constant="15" id="SIV-YT-wlq"/>
+                <constraint firstItem="bJE-mS-9OQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="HC4-Z0-v2f"/>
+                <constraint firstItem="tpb-DL-Q8b" firstAttribute="leading" secondItem="QVN-d8-EaU" secondAttribute="trailing" constant="8" id="SIV-YT-wlq"/>
                 <constraint firstItem="bJE-mS-9OQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Sfa-YO-P9w"/>
                 <constraint firstAttribute="trailing" secondItem="bJE-mS-9OQ" secondAttribute="trailing" id="VAp-CK-0rp"/>
                 <constraint firstItem="tpb-DL-Q8b" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="4" id="ZdN-eD-yK1"/>
-                <constraint firstAttribute="trailing" secondItem="bLm-21-VeV" secondAttribute="trailing" constant="15" id="dx8-tF-kmb"/>
-                <constraint firstItem="bJE-mS-9OQ" firstAttribute="top" secondItem="bLm-21-VeV" secondAttribute="bottom" constant="8" id="sNO-WC-ahU"/>
-                <constraint firstItem="QVN-d8-EaU" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="sQg-y2-cQb"/>
-                <constraint firstItem="bLm-21-VeV" firstAttribute="top" secondItem="QVN-d8-EaU" secondAttribute="bottom" constant="12" id="y5j-e2-LmK"/>
+                <constraint firstAttribute="trailing" secondItem="bLm-21-VeV" secondAttribute="trailing" constant="16" id="dx8-tF-kmb"/>
+                <constraint firstItem="QVN-d8-EaU" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="56" id="sQg-y2-cQb"/>
+                <constraint firstItem="bLm-21-VeV" firstAttribute="top" secondItem="QVN-d8-EaU" secondAttribute="bottom" constant="24" id="y5j-e2-LmK"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="96.946564885496173" y="300.35211267605638"/>

@@ -31,7 +31,9 @@ final class WebSearchViewController: ViewController<WebSearchViewModel, Any, Web
         button.tintColor = viewModel.colorScheme.genericAction.inactive
         button.setImage(.init(systemName: "xmark"), for: .normal)
         button.addTarget(self, action: #selector(dismissButtonPressed), for: .touchUpInside)
-        button.activateSizeAnchors(with: .init(width: 40.0, height: 40.0))
+        if #unavailable(iOS 26) {
+            button.activateSizeAnchors(with: .init(width: 40.0, height: 40.0))
+        }
         return button
     }()
 

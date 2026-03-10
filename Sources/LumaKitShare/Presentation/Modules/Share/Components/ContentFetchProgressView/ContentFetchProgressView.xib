@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24128" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ContentFetchProgressView" customModule="LumaKitShare">
             <connections>
+                <outlet property="activityIndicatorView" destination="I6v-yc-atE" id="A66-Ky-YC2"/>
                 <outlet property="progressContainerView" destination="Hko-v7-fIh" id="wws-i8-3qa"/>
                 <outlet property="progressLabel" destination="WlL-7z-MkJ" id="BbW-Bw-HuH"/>
                 <outlet property="progressView" destination="1fN-KP-Y52" id="ytV-DL-YIW"/>
@@ -22,22 +23,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="dFj-RN-Qsv" userLabel="stackView">
-                    <rect key="frame" x="0.0" y="24.000000000000007" width="393" height="105.66666666666669"/>
+                    <rect key="frame" x="0.0" y="40" width="393" height="175.66666666666669"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8E5-mQ-6wg" userLabel="titleLabel">
-                            <rect key="frame" x="180.33333333333334" y="0.0" width="32.666666666666657" height="18"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6eC-u5-TVp" userLabel="subtitleLabel">
-                            <rect key="frame" x="172.33333333333334" y="24" width="48.333333333333343" height="15.666666666666664"/>
-                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
+                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="I6v-yc-atE" userLabel="activityIndicatorView">
+                            <rect key="frame" x="178" y="0.0" width="37" height="37"/>
+                        </activityIndicatorView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WlL-7z-MkJ" userLabel="progressLabel">
-                            <rect key="frame" x="173.33333333333334" y="45.666666666666671" width="46.333333333333343" height="48"/>
+                            <rect key="frame" x="173.33333333333334" y="43" width="46.333333333333343" height="48"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="48" id="tTM-Jq-DE4"/>
                             </constraints>
@@ -46,29 +38,44 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hko-v7-fIh" userLabel="progressContainerVIew">
-                            <rect key="frame" x="84" y="99.666666666666671" width="225" height="6"/>
+                            <rect key="frame" x="32" y="97" width="329" height="32"/>
                             <subviews>
                                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1fN-KP-Y52" userLabel="progressView">
-                                    <rect key="frame" x="0.0" y="0.0" width="225" height="6"/>
+                                    <rect key="frame" x="0.0" y="6" width="329" height="6"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="225" id="kUg-pX-bH5"/>
                                         <constraint firstAttribute="height" constant="6" id="s0d-HB-4bL"/>
                                     </constraints>
                                 </progressView>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstItem="1fN-KP-Y52" firstAttribute="centerY" secondItem="Hko-v7-fIh" secondAttribute="centerY" id="4YL-fN-j1U"/>
+                                <constraint firstItem="1fN-KP-Y52" firstAttribute="top" secondItem="Hko-v7-fIh" secondAttribute="top" constant="6" id="4YL-fN-j1U"/>
                                 <constraint firstItem="1fN-KP-Y52" firstAttribute="centerX" secondItem="Hko-v7-fIh" secondAttribute="centerX" id="H1y-vo-4nc"/>
-                                <constraint firstAttribute="height" constant="6" id="zR6-e9-qhr"/>
+                                <constraint firstItem="1fN-KP-Y52" firstAttribute="width" secondItem="Hko-v7-fIh" secondAttribute="width" id="O0J-bz-wWE"/>
+                                <constraint firstAttribute="height" constant="32" id="zR6-e9-qhr"/>
                             </constraints>
                         </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8E5-mQ-6wg" userLabel="titleLabel">
+                            <rect key="frame" x="178.33333333333334" y="135" width="36.333333333333343" height="20.333333333333343"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6eC-u5-TVp" userLabel="subtitleLabel">
+                            <rect key="frame" x="174" y="161.33333333333334" width="45.333333333333343" height="14.333333333333343"/>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
+                    <constraints>
+                        <constraint firstItem="Hko-v7-fIh" firstAttribute="width" secondItem="dFj-RN-Qsv" secondAttribute="width" constant="-64" id="BGf-av-hmE"/>
+                    </constraints>
                 </stackView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="dFj-RN-Qsv" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="24" id="1PD-4L-1ja"/>
+                <constraint firstItem="dFj-RN-Qsv" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="40" id="1PD-4L-1ja"/>
                 <constraint firstAttribute="trailing" secondItem="dFj-RN-Qsv" secondAttribute="trailing" id="2VO-sG-iir"/>
                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="dFj-RN-Qsv" secondAttribute="bottom" priority="750" constant="50" id="5dH-21-Ubg"/>
                 <constraint firstItem="dFj-RN-Qsv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="AhP-pX-FpO"/>

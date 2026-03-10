@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24128" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -23,12 +23,12 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="22" id="Vgq-YA-SNf"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="gqv-mJ-NNo" userLabel="stackView">
-                    <rect key="frame" x="16" y="62" width="361" height="70"/>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="gqv-mJ-NNo" userLabel="stackView">
+                    <rect key="frame" x="16" y="70" width="361" height="70"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="70" id="f5M-v6-WZI"/>
@@ -38,7 +38,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="bCl-lu-otf" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="24" id="G8B-gc-dWQ"/>
-                <constraint firstItem="gqv-mJ-NNo" firstAttribute="top" secondItem="bCl-lu-otf" secondAttribute="bottom" constant="16" id="L2F-wn-BDp"/>
+                <constraint firstItem="gqv-mJ-NNo" firstAttribute="top" secondItem="bCl-lu-otf" secondAttribute="bottom" constant="24" id="L2F-wn-BDp"/>
                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="gqv-mJ-NNo" secondAttribute="bottom" constant="48" id="bZI-L2-Vpg"/>
                 <constraint firstItem="gqv-mJ-NNo" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="dma-ay-bXa"/>
                 <constraint firstAttribute="trailing" secondItem="gqv-mJ-NNo" secondAttribute="trailing" constant="16" id="qy6-Sh-OKn"/>

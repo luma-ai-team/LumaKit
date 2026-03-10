@@ -67,7 +67,7 @@ public class MaterialBorderLayer: CALayer {
 
     private func updateTintColor() {
         switch materialStyle {
-        case .default:
+        case .default, .system:
             shadowRadius = 0.0
             shadowOpacity = 0.0
             shadowColor = UIColor.clear.cgColor
@@ -82,14 +82,14 @@ public class MaterialBorderLayer: CALayer {
                 tint.withAlphaComponent(0.6).cgColor,
                 UIColor(rgb: 0x54545C).withAlphaComponent(0.6).cgColor
             ]
-        case .matte(let tint):
+        case .matte(let tint, let alpha):
             shadowColor = tint.cgColor
             shadowRadius = 10
             shadowOpacity = 0.1
 
             gradientLayer.colors = [
-                tint.withAlphaComponent(0.6).cgColor,
-                tint.withAlphaComponent(0.6).cgColor
+                tint.withAlphaComponent(alpha).cgColor,
+                tint.withAlphaComponent(alpha).cgColor
             ]
         }
     }
@@ -117,6 +117,8 @@ public final class MaterialBorderView: UIView {
         return MaterialBorderLayer.self
     }
 
+    public lazy var materialEffectView: UIVisualEffectView = .init()
+
     @available(*, unavailable)
     public override var tintColor: UIColor! {
         didSet {
@@ -126,7 +128,12 @@ public final class MaterialBorderView: UIView {
 
     public var materialStyle: MaterialStyle = .default {
         didSet {
+            if oldValue.isSystem {
+                materialEffectView.removeFromSuperview()
+            }
+
             (layer as? MaterialBorderLayer)?.materialStyle = materialStyle
+            setupMaterialViewIfNeeded()
         }
     }
 
@@ -142,5 +149,31 @@ public final class MaterialBorderView: UIView {
 
     private func setup() {
         isUserInteractionEnabled = false
+        setupMaterialViewIfNeeded()
+    }
+
+    private func setupMaterialViewIfNeeded() {
+        guard #available(iOS 26.0, *),
+              materialStyle.isSystem else {
+            return
+        }
+
+        let effect = UIGlassEffect(style: .regular)
+        effect.tintColor = materialStyle.tintColor
+        materialEffectView.effect = effect
+        insertSubview(materialEffectView, at: 0)
+    }
+
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+
+        if #available(iOS 26.0, *),
+           materialStyle.isSystem {
+            UIView.performWithoutAnimation {
+                sendSubviewToBack(materialEffectView)
+                materialEffectView.frame = bounds
+                materialEffectView.applyCornerRadius(value: layer.cornerRadius)
+            }
+        }
     }
 }

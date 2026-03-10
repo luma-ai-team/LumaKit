@@ -35,11 +35,12 @@ class MainViewController: UIViewController {
     }
 
     @IBAction func mediaPickerExampleButtonPressed(_ sender: Any) {
-        let coordinator = MediaPickerCoordinator(rootViewController: self, colorScheme: .init())
+        let coordinator = MediaPickerCoordinator(rootViewController: self, colorScheme: .system)
+        coordinator.title = "Upload photo"
         coordinator.sourcePickerBottomView = UIView()
-        coordinator.sources = [.library, .camera, .files, .web(DummyWebSearchProvider())]
+        coordinator.sources = [.library, .files, .web(DummyWebSearchProvider())]
         coordinator.filter = .images
-        coordinator.materialStyle = .matte(tint: .red)
+        coordinator.materialStyle = .system
         coordinator.selectionStyle = .ordered(4)
         coordinator.isHapticEnabled = true
         coordinator.output = self
@@ -90,10 +91,10 @@ class MainViewController: UIViewController {
             }))
         ]
 
-        let state = ShareState(colorScheme: .init(),
+        let state = ShareState(colorScheme: .system,
                                destinations: destinations,
                                contentFetchConfiguration: .variants(variants))
-        state.materialStyle = .matte(tint: .red)
+        state.materialStyle = .system
         state.feedbackConfiguration.shouldResetRequestOnAppUpdate = true
         state.feedbackConfiguration.shouldTriggerSystemAppReviewRequest = true
         state.feedbackConfiguration.handler = { _, _ in

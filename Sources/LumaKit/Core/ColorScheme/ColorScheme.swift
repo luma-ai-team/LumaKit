@@ -67,6 +67,18 @@ public final class ActionColor {
 // MARK: - ColorScheme
 
 public final class ColorScheme {
+
+    @MainActor
+    public static var system: ColorScheme = {
+        let colorScheme = ColorScheme()
+        colorScheme.background = .init(primary: .systemBackground, secondary: .secondarySystemBackground)
+        colorScheme.foreground = .init(primary: .label, secondary: .secondaryLabel)
+        colorScheme.genericAction = .init(color: .tintColor)
+        colorScheme.destructiveAction = .init(color: .systemRed)
+        colorScheme.premiumAction = .init(color: .tintColor)
+        return colorScheme
+    }()
+
     public var background: ColorPair = .init(primary: .init(white: 0.9, alpha: 1.0), secondary: .white)
     public var foreground: ColorPair = .init(primary: .black, secondary: .darkGray)
     public var genericAction: ActionColor = .init(active: .systemBlue, inactive: .lightGray)

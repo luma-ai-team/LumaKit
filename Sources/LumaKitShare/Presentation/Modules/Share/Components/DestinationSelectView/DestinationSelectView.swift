@@ -53,7 +53,7 @@ final class DestinationSelectView: UIView, NibBackedView, SheetContent {
 
     var status: Status? {
         didSet {
-            statusImageVIew.image = status?.icon
+            statusImageVIew.image = status?.icon?.applyingSymbolConfiguration(.init(pointSize: 17.0, weight: .bold))
             statusLabel.text = status?.text
             statusStackView.setHidden(status == nil, animated: false)
             setNeedsLayout()
@@ -115,8 +115,8 @@ final class DestinationSelectView: UIView, NibBackedView, SheetContent {
         rateAppView.colorScheme = colorScheme
         rateAppView.materialStyle = materialStyle
 
-        statusLabel.textColor = colorScheme.foreground.primary
-        statusImageVIew.tintColor = colorScheme.foreground.primary
+        statusLabel.textColor = colorScheme.premiumAction.active
+        statusImageVIew.tintColor = colorScheme.premiumAction.active
     }
 
     private func updateDestinations(with content: [ShareContent] = []) {
@@ -141,8 +141,8 @@ final class DestinationSelectView: UIView, NibBackedView, SheetContent {
         }
 
         let section = BasicCollectionViewSection(items: cellItems)
-        section.insets.left = 14.0
-        section.insets.right = 14.0
+        section.insets.left = 16.0
+        section.insets.right = 16.0
         collectionViewManager.sections = [section]
     }
 
