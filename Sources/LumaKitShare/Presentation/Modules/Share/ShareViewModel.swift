@@ -5,6 +5,7 @@
 import GenericModule
 import LumaKit
 
+@MainActor
 public protocol ShareViewModelDelegate: AnyObject {
     var state: ShareState { get }
 }

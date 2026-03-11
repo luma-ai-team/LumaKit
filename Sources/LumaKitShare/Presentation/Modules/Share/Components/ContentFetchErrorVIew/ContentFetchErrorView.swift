@@ -43,7 +43,7 @@ final class ContentFetchErrorView: UIView, NibBackedView, SheetContent {
     }
 
     private func updateColorScheme() {
-        backgroundColor = colorScheme.background.primary
+        backgroundColor = colorScheme.background.secondary
         titleLabel.textColor = colorScheme.foreground.primary
         subtitleLabel.textColor = colorScheme.foreground.secondary
     }

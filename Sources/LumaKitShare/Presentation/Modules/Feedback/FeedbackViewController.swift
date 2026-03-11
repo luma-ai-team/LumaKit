@@ -43,7 +43,7 @@ final class FeedbackViewController: ViewController<FeedbackViewModel, Any, Feedb
             contentView.backgroundColor = viewModel.colorScheme.background.secondary
             titleLabel.textColor = viewModel.colorScheme.foreground.primary
             subtitleLabel.textColor = viewModel.colorScheme.foreground.primary
-            placeholderLabel.textColor = viewModel.colorScheme.genericAction.inactive
+            placeholderLabel.textColor = viewModel.colorScheme.foreground.secondary
             activityIndicatorView.color = viewModel.colorScheme.foreground.primary
 
             textView.delegate = self
@@ -56,16 +56,16 @@ final class FeedbackViewController: ViewController<FeedbackViewModel, Any, Feedb
             
             switch viewModel.materialStyle {
             case .default:
-                textView.layer.borderColor = viewModel.colorScheme.genericAction.inactive.cgColor
+                textView.layer.borderColor = viewModel.colorScheme.stroke.primary.cgColor
                 textView.layer.borderWidth = 1.0
             default:
                 break
             }
 
             actionButton.applyCornerRadius(value: 14.0)
-            actionButton.tintColor = viewModel.colorScheme.foreground.primary
-            actionButton.backgroundColor = viewModel.colorScheme.genericAction.active
-            actionButton.tintColor = viewModel.colorScheme.genericAction.active
+            actionButton.tintColor = viewModel.colorScheme.foreground.tertiary
+            actionButton.backgroundColor = viewModel.colorScheme.primaryAction.active
+            actionButton.tintColor = viewModel.colorScheme.primaryAction.active
             actionButton.setTitleColor(viewModel.colorScheme.foreground.primary, for: .normal)
             actionButton.materialStyle = viewModel.materialStyle
 

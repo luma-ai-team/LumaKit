@@ -92,7 +92,7 @@ public final class ShareViewController: SheetViewController, View {
         super.viewDidLoad()
         isKeyboardTrackingEnabled = false
 
-        contentView.backgroundColor = viewModel.colorScheme.background.primary
+        contentView.backgroundColor = viewModel.colorScheme.background.secondary
         materialStyle = viewModel.materialStyle
         minimalHeight = 160.0
 

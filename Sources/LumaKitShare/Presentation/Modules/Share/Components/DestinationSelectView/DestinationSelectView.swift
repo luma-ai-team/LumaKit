@@ -110,13 +110,13 @@ final class DestinationSelectView: UIView, NibBackedView, SheetContent {
     }
 
     private func updateColorScheme() {
-        backgroundColor = colorScheme.background.primary
-        
+        backgroundColor = colorScheme.background.secondary
+
         rateAppView.colorScheme = colorScheme
         rateAppView.materialStyle = materialStyle
 
-        statusLabel.textColor = colorScheme.premiumAction.active
-        statusImageVIew.tintColor = colorScheme.premiumAction.active
+        statusLabel.textColor = colorScheme.primaryAction.active
+        statusImageVIew.tintColor = colorScheme.primaryAction.active
     }
 
     private func updateDestinations(with content: [ShareContent] = []) {

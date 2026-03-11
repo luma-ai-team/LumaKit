@@ -28,7 +28,7 @@ final class WebSearchViewController: ViewController<WebSearchViewModel, Any, Web
 
     private lazy var dismissButton: BounceButton = {
         let button = BounceButton()
-        button.tintColor = viewModel.colorScheme.genericAction.inactive
+        button.tintColor = viewModel.colorScheme.foreground.primary
         button.setImage(.init(systemName: "xmark"), for: .normal)
         button.addTarget(self, action: #selector(dismissButtonPressed), for: .touchUpInside)
         if #unavailable(iOS 26) {
@@ -68,22 +68,17 @@ final class WebSearchViewController: ViewController<WebSearchViewModel, Any, Web
             navigationItem.leftBarButtonItem = .init(customView: dismissButton)
 
             view.backgroundColor = viewModel.colorScheme.background.primary
-            iconView.tintColor = viewModel.colorScheme.foreground.secondary
-            textField.tintColor = viewModel.colorScheme.genericAction.active
+            iconView.tintColor = viewModel.colorScheme.foreground.primary
+            textField.tintColor = viewModel.colorScheme.foreground.secondary
             textField.attributedPlaceholder = .init(string: "Search images on \(viewModel.searchSource)",
                                                     attributes: [
                 .foregroundColor: viewModel.colorScheme.foreground.primary
             ])
             textField.delegate = self
 
-            searchView.applyCornerRadius(value: 12.0)
+            searchView.applyCornerRadius(value: 22.0)
             searchView.addMaterialBorder(with: viewModel.materialStyle)
-            if viewModel.materialStyle.isDefault {
-                searchView.backgroundColor = viewModel.colorScheme.background.secondary
-            }
-            else {
-                searchView.backgroundColor = viewModel.colorScheme.background.primary
-            }
+            searchView.backgroundColor = viewModel.colorScheme.background.secondary
 
             #if targetEnvironment(macCatalyst)
             collectionViewLayout.columnCount = 3
@@ -136,9 +131,9 @@ final class WebSearchViewController: ViewController<WebSearchViewModel, Any, Web
                 section.footer = footer
             }
             
-            section.insets.left = 14.0
-            section.insets.right = 14.0
-            section.insets.bottom = 14.0
+            section.insets.left = 16.0
+            section.insets.right = 16.0
+            section.insets.bottom = 16.0
             collectionViewManager.sections = [section]
         }
 

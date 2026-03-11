@@ -40,7 +40,7 @@ class MainViewController: UIViewController {
         coordinator.sourcePickerBottomView = UIView()
         coordinator.sources = [.library, .files, .web(DummyWebSearchProvider())]
         coordinator.filter = .images
-        coordinator.materialStyle = .system
+        coordinator.materialStyle = .system()
         coordinator.selectionStyle = .ordered(4)
         coordinator.isHapticEnabled = true
         coordinator.output = self
@@ -94,7 +94,7 @@ class MainViewController: UIViewController {
         let state = ShareState(colorScheme: .system,
                                destinations: destinations,
                                contentFetchConfiguration: .variants(variants))
-        state.materialStyle = .system
+        state.materialStyle = .system()
         state.feedbackConfiguration.shouldResetRequestOnAppUpdate = true
         state.feedbackConfiguration.shouldTriggerSystemAppReviewRequest = true
         state.feedbackConfiguration.handler = { _, _ in

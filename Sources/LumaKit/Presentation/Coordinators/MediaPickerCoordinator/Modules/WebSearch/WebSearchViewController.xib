@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24128" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -28,7 +28,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="To1-4q-f6V" userLabel="collectionView">
-                    <rect key="frame" x="0.0" y="206" width="393" height="646"/>
+                    <rect key="frame" x="0.0" y="210" width="393" height="642"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <collectionViewLayout key="collectionViewLayout" id="i9p-eE-p0I" userLabel="collectionViewLayout" customClass="WaterfallCollectionViewLayout" customModule="LumaKit">
                         <userDefinedRuntimeAttributes>
@@ -45,18 +45,18 @@
                     </collectionViewLayout>
                 </collectionView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Yi-aw-CJG" userLabel="searchView">
-                    <rect key="frame" x="14" y="142" width="365" height="40"/>
+                    <rect key="frame" x="14" y="142" width="365" height="44"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="magnifyingglass" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="0fU-bB-Beb" userLabel="IconView">
-                            <rect key="frame" x="0.0" y="0.66666666666666785" width="40" height="38.333333333333329"/>
+                            <rect key="frame" x="0.0" y="0.6666666666666643" width="44" height="43"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="40" id="Mgp-Fy-jnv"/>
+                                <constraint firstAttribute="width" constant="44" id="Mgp-Fy-jnv"/>
                             </constraints>
-                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="16"/>
+                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="17" weight="medium"/>
                         </imageView>
                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search Images on google photos" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ee5-5c-x7f" userLabel="textField">
-                            <rect key="frame" x="40" y="0.0" width="321" height="40"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <rect key="frame" x="44" y="0.0" width="317" height="44"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <textInputTraits key="textInputTraits" returnKeyType="search"/>
                             <connections>
                                 <action selector="textFieldEditingChanged:" destination="-1" eventType="editingChanged" id="mc7-di-LoD"/>
@@ -72,14 +72,14 @@
                         <constraint firstItem="ee5-5c-x7f" firstAttribute="leading" secondItem="0fU-bB-Beb" secondAttribute="trailing" id="fW3-SW-dPN"/>
                         <constraint firstItem="ee5-5c-x7f" firstAttribute="top" secondItem="7Yi-aw-CJG" secondAttribute="top" id="nfA-Da-icF"/>
                         <constraint firstAttribute="trailing" secondItem="ee5-5c-x7f" secondAttribute="trailing" constant="4" id="xw3-sT-7kQ"/>
-                        <constraint firstAttribute="height" constant="40" id="ynW-Fb-PTp"/>
+                        <constraint firstAttribute="height" constant="44" id="ynW-Fb-PTp"/>
                     </constraints>
                 </view>
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="yTd-r0-Mt1" userLabel="activityIndicatorView">
-                    <rect key="frame" x="186.66666666666666" y="230" width="20" height="20"/>
+                    <rect key="frame" x="186.66666666666666" y="234" width="20" height="20"/>
                 </activityIndicatorView>
                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w9h-uX-cqa" userLabel="statusLabel">
-                    <rect key="frame" x="24" y="274" width="345" height="0.0"/>
+                    <rect key="frame" x="24" y="278" width="345" height="0.0"/>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>

@@ -42,7 +42,7 @@ final class ShareDestinationCell: UICollectionViewCell, CollectionViewCell {
 
     func update(with viewModel: ShareDestinationCellModel, attributes: CollectionViewItemAttributes) {
         imageView.tintColor = viewModel.colorScheme.foreground.primary
-        imageView.backgroundColor = viewModel.colorScheme.background.secondary
+        imageView.backgroundColor = viewModel.colorScheme.genericAction.active
         titleLabel.textColor = viewModel.colorScheme.foreground.primary
 
         imageView.image = viewModel.destination.icon

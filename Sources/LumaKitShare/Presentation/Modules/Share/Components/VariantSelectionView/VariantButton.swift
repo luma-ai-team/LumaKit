@@ -49,7 +49,7 @@ final class VariantButton: BounceButton {
     }
 
     private func updateColorScheme() {
-        backgroundColor = colorScheme.background.secondary
+        backgroundColor = colorScheme.genericAction.active
         tintColor = colorScheme.foreground.primary
         setTitleColor(colorScheme.foreground.primary, for: .normal)
         layer.borderColor = colorScheme.genericAction.inactive.cgColor

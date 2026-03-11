@@ -68,7 +68,7 @@ final class VariantSelectionView: UIView, NibBackedView, SheetContent {
     }
 
     private func updateColorScheme() {
-        backgroundColor = colorScheme.background.primary
+        backgroundColor = colorScheme.background.secondary
         titleLabel.textColor = colorScheme.foreground.primary
 
         for button in buttons {

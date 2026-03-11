@@ -49,9 +49,10 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
 
             for case let button as MediaPickerSourceButton in sourceStackView.arrangedSubviews {
                 button.materialStyle = materialStyle
+                button.backgroundColor = colorScheme.genericAction.active
                 button.tintColor = colorScheme.foreground.primary
                 button.setTitleColor(colorScheme.foreground.primary, for: .normal)
-                button.layer.borderColor = colorScheme.genericAction.inactive.cgColor
+                button.layer.borderColor = colorScheme.stroke.primary.cgColor
             }
         }
     }

@@ -5,6 +5,7 @@
 import LumaKit
 import GenericModule
 
+@MainActor
 protocol FeedbackViewModelDelegate: AnyObject {
     var state: FeedbackState { get }
 }

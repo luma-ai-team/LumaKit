@@ -54,13 +54,13 @@ final class ContentFetchProgressView: UIView, NibBackedView, SheetContent {
     }
 
     private func updateColorScheme() {
-        backgroundColor = colorScheme.background.primary
+        backgroundColor = colorScheme.background.secondary
         activityIndicatorView.color = colorScheme.foreground.primary
         titleLabel.textColor = colorScheme.foreground.primary
         subtitleLabel.textColor = colorScheme.foreground.secondary
         progressLabel.textColor = colorScheme.foreground.primary
-        progressView.trackTintColor = colorScheme.background.secondary
-        progressView.progressTintColor = colorScheme.genericAction.active
+        progressView.trackTintColor = colorScheme.primaryAction.inactive
+        progressView.progressTintColor = colorScheme.primaryAction.active
     }
 
     private func updateContentDescription() {
