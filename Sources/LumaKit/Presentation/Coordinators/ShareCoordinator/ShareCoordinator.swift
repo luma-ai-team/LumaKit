@@ -68,6 +68,7 @@ public final class ShareCoordinator: Coordinator<UIViewController> {
     private func makeSheetViewController() -> SheetViewController {
         progressContent = .init(colorScheme: colorScheme)
         let controller = SheetViewController(content: progressContent)
+        controller.backgroundColorOverride = colorScheme.background.secondary.withAlphaComponent(0.25)
         controller.dismissHandler = { [weak self] in
             guard let self = self else {
                 return

@@ -40,7 +40,7 @@ class MainViewController: UIViewController {
         coordinator.sourcePickerBottomView = UIView()
         coordinator.sources = [.library, .files, .web(DummyWebSearchProvider())]
         coordinator.filter = .images
-        coordinator.materialStyle = .system()
+        coordinator.materialStyle = .systemInteractive()
         coordinator.selectionStyle = .ordered(4)
         coordinator.isHapticEnabled = true
         coordinator.output = self

@@ -21,9 +21,13 @@ final class UIElementsViewController: UIViewController {
 
     private lazy var bounceButton: BounceButton = {
         let button = BounceButton()
+        button.materialStyle = .systemInteractive(tint: .red)
         button.setTitle("BounceButton", for: .normal)
         button.backgroundColor = .lightGray
         button.bounds.size.height = 60.0
+        button.addAction(.init(handler: { _ in
+            print("button pressed")
+        }), for: .touchUpInside)
         return button
     }()
 

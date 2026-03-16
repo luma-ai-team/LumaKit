@@ -7,22 +7,47 @@
 
 import UIKit
 
-public final class BlurView: UIView {
+public final class BlurView: VisualEffectView {
+    public init(style: UIBlurEffect.Style = .regular, opacity: CGFloat = 0.15) {
+        super.init(effect: UIBlurEffect(style: style), opacity: opacity)
+    }
+    
+    @MainActor public required init?(coder: NSCoder) {
+        super.init(effect: UIBlurEffect(style: .regular), opacity: 0.15)
+    }
+    
+    public var blurOpacity: CGFloat {
+        get {
+            return effectOpacity
+        }
+        set {
+            effectOpacity = newValue
+        }
+    }
+
     public var style: UIBlurEffect.Style = .regular {
         didSet {
-            visualEffectView.effect = makeBlurEffect()
+            effect = UIBlurEffect(style: style)
+        }
+    }
+}
+
+public class VisualEffectView: UIView {
+    public var effect: UIVisualEffect? {
+        didSet {
+            visualEffectView.effect = effect
             updateAnimator()
         }
     }
 
-    public var blurOpacity: CGFloat = 0.15 {
+    public var effectOpacity: CGFloat = 0.15 {
         didSet {
-            animator.fractionComplete = 1.0 - blurOpacity
+            animator.fractionComplete = 1.0 - effectOpacity
         }
     }
 
     private lazy var visualEffectView: UIVisualEffectView = {
-        let view = UIVisualEffectView(effect: makeBlurEffect())
+        let view = UIVisualEffectView()
         return view
     }()
 
@@ -30,14 +55,10 @@ public final class BlurView: UIView {
         self?.visualEffectView.effect = nil
     })
 
-    private func makeBlurEffect() -> UIVisualEffect {
-        return UIBlurEffect(style: style)
-    }
-
-    public init(style: UIBlurEffect.Style = .regular, opacity: CGFloat = 0.15) {
+    public init(effect: UIVisualEffect?, opacity: CGFloat = 0.15) {
         super.init(frame: .zero)
-        self.style = style
-        self.blurOpacity = opacity
+        self.effect = effect
+        self.effectOpacity = opacity
         setup()
     }
 
@@ -59,6 +80,7 @@ public final class BlurView: UIView {
     }
 
     private func setup() {
+        visualEffectView.effect = effect
         addSubview(visualEffectView)
         visualEffectView.bindMarginsToSuperview()
         animator.pausesOnCompletion = true
@@ -71,7 +93,7 @@ public final class BlurView: UIView {
         }
 
         animator.pauseAnimation()
-        animator.fractionComplete = 1.0 - blurOpacity
+        animator.fractionComplete = 1.0 - effectOpacity
     }
 
     public override func didMoveToSuperview() {

@@ -45,7 +45,6 @@ public class MaterialBorderLayer: CALayer {
 
     public override init(layer: Any) {
         super.init(layer: layer)
-        setup()
     }
 
     public required init?(coder: NSCoder) {
@@ -67,7 +66,7 @@ public class MaterialBorderLayer: CALayer {
 
     private func updateTintColor() {
         switch materialStyle {
-        case .default, .system:
+        case .default, .system, .systemInteractive:
             shadowRadius = 0.0
             shadowOpacity = 0.0
             shadowColor = UIColor.clear.cgColor
@@ -112,7 +111,7 @@ public class MaterialBorderLayer: CALayer {
     }
 }
 
-public final class MaterialBorderView: UIView {
+public final class MaterialBorderView: PassiveContainerView {
     public override class var layerClass: AnyClass {
         return MaterialBorderLayer.self
     }
@@ -153,15 +152,18 @@ public final class MaterialBorderView: UIView {
     }
 
     private func setupMaterialViewIfNeeded() {
+        isUserInteractionEnabled = materialStyle.isInteractive
         guard #available(iOS 26.0, *),
               materialStyle.isSystem else {
             return
         }
 
         let effect = UIGlassEffect(style: .regular)
+        effect.isInteractive = materialStyle.isInteractive
         effect.tintColor = materialStyle.tintColor
         materialEffectView.effect = effect
         insertSubview(materialEffectView, at: 0)
+        layoutIfNeeded()
     }
 
     public override func layoutSubviews() {
@@ -169,11 +171,9 @@ public final class MaterialBorderView: UIView {
 
         if #available(iOS 26.0, *),
            materialStyle.isSystem {
-            UIView.performWithoutAnimation {
-                sendSubviewToBack(materialEffectView)
-                materialEffectView.frame = bounds
-                materialEffectView.applyCornerRadius(value: layer.cornerRadius)
-            }
+            sendSubviewToBack(materialEffectView)
+            materialEffectView.frame = bounds
+            materialEffectView.applyCornerRadius(value: layer.cornerRadius)
         }
     }
 }

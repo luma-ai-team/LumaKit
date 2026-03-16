@@ -5,7 +5,8 @@
 import UIKit
 
 open class BounceGestureRecognizer: UILongPressGestureRecognizer {
-    var handler: (() -> Void)?
+    public var handler: (() -> Void)?
+    public var isAlphaAnimationEnabled: Bool = true
 
     public init(handler: (() -> Void)? = nil) {
         self.handler = handler
@@ -33,10 +34,8 @@ open class BounceGestureRecognizer: UILongPressGestureRecognizer {
         }
 
         let bounceScale: CGFloat = 0.9
-        let alphaValue: CGFloat = 0.3
         let duration: TimeInterval = 0.1
 
-        // Scale animation
         let scaleAnimation = CAKeyframeAnimation(keyPath: "transform.scale")
         scaleAnimation.values = isPressed ? [1.0, bounceScale] : [bounceScale, 1.0]
         scaleAnimation.keyTimes = [0, 1]
@@ -44,16 +43,17 @@ open class BounceGestureRecognizer: UILongPressGestureRecognizer {
         scaleAnimation.duration = duration
         scaleAnimation.isRemovedOnCompletion = isPressed == false
         scaleAnimation.fillMode = .forwards
-
-        // Alpha animation
-        let alphaAnimation = CABasicAnimation(keyPath: "opacity")
-        alphaAnimation.fromValue = isPressed ? 1.0 : alphaValue
-        alphaAnimation.toValue = isPressed ? alphaValue : 1.0
-        alphaAnimation.duration = duration
-        alphaAnimation.isRemovedOnCompletion = isPressed == false
-        alphaAnimation.fillMode = .forwards
-
         view.layer.add(scaleAnimation, forKey: "bounceGestureScale")
-        view.layer.add(alphaAnimation, forKey: "bounceGestureOpacity")
+
+        if isAlphaAnimationEnabled {
+            let alphaValue: CGFloat = 0.3
+            let alphaAnimation = CABasicAnimation(keyPath: "opacity")
+            alphaAnimation.fromValue = isPressed ? 1.0 : alphaValue
+            alphaAnimation.toValue = isPressed ? alphaValue : 1.0
+            alphaAnimation.duration = duration
+            alphaAnimation.isRemovedOnCompletion = isPressed == false
+            alphaAnimation.fillMode = .forwards
+            view.layer.add(alphaAnimation, forKey: "bounceGestureOpacity")
+        }
     }
 }

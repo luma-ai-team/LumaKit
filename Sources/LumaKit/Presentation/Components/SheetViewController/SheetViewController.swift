@@ -23,6 +23,12 @@ open class SheetViewController: UIViewController {
         }
     }
 
+    open var backgroundColorOverride: UIColor? {
+        didSet {
+            updateContent()
+        }
+    }
+
     public private(set) lazy var contentView: UIView = .init()
     public private(set) lazy var blurOverlayView: BlurView = .init(opacity: blurOpacity)
 
@@ -70,7 +76,6 @@ open class SheetViewController: UIViewController {
 
     private lazy var borderView: MaterialBorderView = {
         let view = MaterialBorderView()
-        view.alpha = 0.5
         return view
     }()
 
@@ -222,8 +227,9 @@ open class SheetViewController: UIViewController {
 
         content.view.frame = .init(x: 0.0, y: 0.0, width: contentWidth, height: contentHeight)
         borderView.frame = contentView.frame
+
         if borderView.materialStyle.isSystem {
-            view.sendSubviewToBack(borderView)
+            view.insertSubview(borderView, belowSubview: contentView)
         }
         else {
             view.bringSubviewToFront(borderView)
@@ -269,7 +275,14 @@ open class SheetViewController: UIViewController {
     }
 
     open func updateContent() {
-        contentView.backgroundColor = content.view.backgroundColor
+        if let backgroundColorOverride = backgroundColorOverride {
+            content.view.backgroundColor = .clear
+            contentView.backgroundColor = backgroundColorOverride
+        }
+        else {
+            contentView.backgroundColor = content.view.backgroundColor
+        }
+
         isModalInPresentation = content.isModal
 
         UIView.defaultSpringAnimation {

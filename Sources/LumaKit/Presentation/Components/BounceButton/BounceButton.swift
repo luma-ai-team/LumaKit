@@ -9,11 +9,21 @@ open class BounceButton: UIButton {
     open var materialStyle: MaterialStyle = .default {
         didSet {
             materialBorderView.materialStyle = materialStyle
+            bounceGestureRecognizer.isAlphaAnimationEnabled = materialStyle.isInteractive == false
         }
     }
 
     private lazy var bounceGestureRecognizer: BounceGestureRecognizer = {
         let recognizer = BounceGestureRecognizer()
+        recognizer.handler = { [weak self] in
+            guard let self else {
+                return
+            }
+
+            if self.materialStyle.isInteractive {
+                self.sendActions(for: .touchUpInside)
+            }
+        }
         recognizer.delegate = self
         return recognizer
     }()

@@ -21,7 +21,7 @@ final class VariantButton: BounceButton {
             switch materialStyle {
             case .default:
                 layer.borderWidth = 1.0
-            case .glass, .matte, .system:
+            case .glass, .matte, .system, .systemInteractive:
                 layer.borderWidth = 0.0
             }
         }
