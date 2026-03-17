@@ -18,8 +18,7 @@ final class WebSearchViewController: ViewController<WebSearchViewModel, Any, Web
     }
 
     @IBOutlet weak var searchView: UIView!
-    @IBOutlet weak var iconView: UIImageView!
-    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewLayout: WaterfallCollectionViewLayout!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
@@ -68,21 +67,26 @@ final class WebSearchViewController: ViewController<WebSearchViewModel, Any, Web
             navigationItem.leftBarButtonItem = .init(customView: dismissButton)
 
             view.backgroundColor = viewModel.colorScheme.background.primary
-            iconView.tintColor = viewModel.colorScheme.foreground.primary
-            textField.tintColor = viewModel.colorScheme.foreground.secondary
-            textField.attributedPlaceholder = .init(string: "Search images on \(viewModel.searchSource)",
-                                                    attributes: [
-                .foregroundColor: viewModel.colorScheme.foreground.primary
-            ])
-            textField.delegate = self
 
-            searchView.applyCornerRadius(value: 22.0)
-            searchView.addMaterialBorder(with: viewModel.materialStyle)
-            searchView.backgroundColor = viewModel.colorScheme.background.secondary
+            searchBar.tintColor = viewModel.colorScheme.foreground.primary
+            searchBar.placeholder = "Search images on \(viewModel.searchSource)"
+            searchBar.delegate = self
+
+            if #available(iOS 26.0, *) {
+                searchView.backgroundColor = .clear
+                collectionView.topEdgeEffect.style = .automatic
+                collectionView.topEdgeEffect.isHidden = false
+            }
+            else {
+                searchView.backgroundColor = viewModel.colorScheme.background.primary
+            }
 
             #if targetEnvironment(macCatalyst)
             collectionViewLayout.columnCount = 3
             #endif
+
+            collectionView.contentInset.top = 60.0
+            collectionView.verticalScrollIndicatorInsets.top = collectionView.contentInset.top
 
             activityIndicatorView.color = viewModel.colorScheme.foreground.primary
             statusLabel.textColor = viewModel.colorScheme.foreground.primary
@@ -107,7 +111,7 @@ final class WebSearchViewController: ViewController<WebSearchViewModel, Any, Web
         }
 
         viewUpdate(\.term) { (term: String) in
-            textField.text = term
+            searchBar.text = term
         }
 
         viewUpdate(\.results, \.canLoadNextPage) {
@@ -154,10 +158,6 @@ final class WebSearchViewController: ViewController<WebSearchViewModel, Any, Web
         dismiss(animated: true)
     }
 
-    @IBAction func textFieldEditingChanged(_ sender: Any) {
-        output.searchEventTriggered(term: textField.text ?? .init())
-    }
-
     @objc private func keyboardFrameWillChange(_ notification: Notification) {
         guard let rect = notification.userInfo?[UIApplication.keyboardFrameEndUserInfoKey] as? CGRect else {
             return
@@ -177,7 +177,33 @@ final class WebSearchViewController: ViewController<WebSearchViewModel, Any, Web
 
 // MARK: - UITextFieldDelegate
 
-extension WebSearchViewController: UITextFieldDelegate {
+extension WebSearchViewController: UISearchBarDelegate {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        UIView.defaultSpringAnimation {
+            searchBar.setShowsCancelButton(true, animated: true)
+        }
+    }
+
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        //
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        output.searchEventTriggered(term: .init())
+        UIView.defaultSpringAnimation {
+            searchBar.setShowsCancelButton(false, animated: true)
+        }
+        searchBar.resignFirstResponder()
+    }
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        output.searchEventTriggered(term: searchText)
+    }
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return false
