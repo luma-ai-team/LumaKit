@@ -20,8 +20,10 @@ open class BounceButton: UIButton {
                 return
             }
 
-            if self.materialStyle.isInteractive {
-                self.sendActions(for: .touchUpInside)
+            if #available(iOS 26, *) {
+                if self.materialStyle.isInteractive {
+                    self.sendActions(for: .touchUpInside)
+                }
             }
         }
         recognizer.delegate = self

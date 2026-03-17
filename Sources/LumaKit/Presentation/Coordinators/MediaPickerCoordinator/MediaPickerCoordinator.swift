@@ -90,7 +90,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
             content.delegate = self
 
             let controller = SheetViewController(content: content)
-            controller.backgroundColorOverride = colorScheme.background.secondary.withAlphaComponent(0.25)
+            controller.backgroundColorOverride = colorScheme.background.secondary.withAlphaComponent(0.5)
             controller.materialStyle = materialStyle
             if (materialStyle.isDefault == false) || isBackgroundBlurEnabled {
                 controller.blurOpacity = 0.15
