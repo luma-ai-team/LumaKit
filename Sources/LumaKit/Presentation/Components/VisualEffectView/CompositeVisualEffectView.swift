@@ -84,6 +84,7 @@ public class CompositeVisualEffectView: UIView {
 
     public override func layoutSubviews() {
         super.layoutSubviews()
+        containerView.frame = bounds
         for view in containerView.subviews {
             view.frame = containerView.bounds
         }
