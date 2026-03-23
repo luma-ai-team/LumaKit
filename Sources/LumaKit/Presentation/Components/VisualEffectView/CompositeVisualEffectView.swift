@@ -37,6 +37,7 @@ public class CompositeVisualEffectView: UIView {
     public init(effects: [EffectRecord]) {
         self.effects = effects
         super.init(frame: .zero)
+        setup()
         updateEffectViews()
     }
 
@@ -51,7 +52,7 @@ public class CompositeVisualEffectView: UIView {
     }
 
     private func setup() {
-        //
+        addSubview(containerView)
     }
 
     private func updateEffectViews() {
