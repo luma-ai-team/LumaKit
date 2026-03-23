@@ -12,7 +12,7 @@ public class CompositeVisualEffectView: UIView {
         public let effect: UIVisualEffect
         public var opacity: CGFloat
 
-        public init(effect: UIVisualEffect, opacity: CGFloat) {
+        public init(effect: UIVisualEffect, opacity: CGFloat = 1.0) {
             self.effect = effect
             self.opacity = opacity
         }
