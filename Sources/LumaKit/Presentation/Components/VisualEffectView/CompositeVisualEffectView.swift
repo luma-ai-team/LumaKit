@@ -28,6 +28,26 @@ public class CompositeVisualEffectView: UIView {
         return .init()
     }()
 
+    public init(effects: [EffectRecord]) {
+        self.effects = effects
+        super.init(frame: .zero)
+        updateEffectViews()
+    }
+
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+
+    public required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setup()
+    }
+
+    private func setup() {
+        //
+    }
+
     private func updateEffectViews() {
         let needsViewRebuild: Bool = containerView.subviews.count != effects.count
         guard needsViewRebuild else {
