@@ -94,6 +94,10 @@ public class MaterialBorderLayer: CALayer {
     }
 
     public override func action(forKey event: String) -> (any CAAction)? {
+        guard materialStyle.isSystem == false else {
+            return super.action(forKey: event)
+        }
+
         return NSNull()
     }
 

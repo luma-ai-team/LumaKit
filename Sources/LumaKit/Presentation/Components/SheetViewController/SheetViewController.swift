@@ -20,6 +20,7 @@ open class SheetViewController: UIViewController {
     open var materialStyle: MaterialStyle = .default {
         didSet {
             borderView.materialStyle = materialStyle
+            updateBorderView()
         }
     }
 
@@ -143,6 +144,7 @@ open class SheetViewController: UIViewController {
 
         view.addSubview(borderView)
         borderView.isUserInteractionEnabled = false
+        updateBorderView()
 
         let cornerRadius = max(UIScreen.main.fetchDisplayCornerRadius(fallback: 38.0), 24.0)
         if #available(iOS 26.0, *) {
@@ -228,14 +230,17 @@ open class SheetViewController: UIViewController {
         content.view.frame = .init(x: 0.0, y: 0.0, width: contentWidth, height: contentHeight)
         borderView.frame = contentView.frame
 
+        layoutFloatingView()
+    }
+
+    private func updateBorderView() {
+        borderView.frame = contentView.frame
         if borderView.materialStyle.isSystem {
             view.insertSubview(borderView, belowSubview: contentView)
         }
         else {
             view.bringSubviewToFront(borderView)
         }
-
-        layoutFloatingView()
     }
 
     private func layoutFloatingView() {

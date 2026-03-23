@@ -179,6 +179,9 @@ final class WebSearchViewController: ViewController<WebSearchViewModel, Any, Web
 
 extension WebSearchViewController: UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        if viewModel.isHapticEnabled {
+            Haptic.selection.generate()
+        }
         UIView.defaultSpringAnimation {
             searchBar.setShowsCancelButton(true, animated: true)
         }
@@ -193,6 +196,9 @@ extension WebSearchViewController: UISearchBarDelegate {
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        if viewModel.isHapticEnabled {
+            Haptic.selection.generate()
+        }
         output.searchEventTriggered(term: .init())
         UIView.defaultSpringAnimation {
             searchBar.setShowsCancelButton(false, animated: true)
