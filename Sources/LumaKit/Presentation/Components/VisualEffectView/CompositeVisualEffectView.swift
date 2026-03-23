@@ -24,6 +24,12 @@ public class CompositeVisualEffectView: UIView {
         }
     }
 
+    public var globalOpacity: CGFloat = 1.0 {
+        didSet {
+            updateEffectViews()
+        }
+    }
+
     private lazy var containerView: UIView = {
         return .init()
     }()
@@ -52,8 +58,14 @@ public class CompositeVisualEffectView: UIView {
         let needsViewRebuild: Bool = containerView.subviews.count != effects.count
         guard needsViewRebuild else {
             for (view, record) in zip(containerView.subviews, effects) {
-                (view as? VisualEffectView)?.effect = record.effect
-                (view as? VisualEffectView)?.effectOpacity = record.opacity
+                guard case let view as VisualEffectView = view else {
+                    continue
+                }
+
+                if view.effect !== record.effect {
+                    view.effect = record.effect
+                }
+                view.effectOpacity = record.opacity * globalOpacity
             }
             return
         }
