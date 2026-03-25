@@ -50,7 +50,10 @@ public enum MaterialStyle: Equatable {
         case .glass, .matte, .default, .system:
             return false
         case .systemInteractive:
-            return true
+            if #available(iOS 26, *) {
+                return true
+            }
+            return false
         }
     }
 }

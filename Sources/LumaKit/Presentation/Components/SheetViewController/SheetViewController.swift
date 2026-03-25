@@ -30,7 +30,7 @@ open class SheetViewController: UIViewController {
         }
     }
 
-    public private(set) lazy var contentView: UIView = .init()
+    public private(set) lazy var contentView: PassiveContainerView = .init()
     public private(set) lazy var blurOverlayView: BlurView = .init(opacity: blurOpacity)
 
     public var floatingView: UIView? {
@@ -143,7 +143,6 @@ open class SheetViewController: UIViewController {
         update(with: content)
 
         view.addSubview(borderView)
-        borderView.isUserInteractionEnabled = false
         updateBorderView()
 
         let cornerRadius = max(UIScreen.main.fetchDisplayCornerRadius(fallback: 38.0), 24.0)
@@ -212,23 +211,32 @@ open class SheetViewController: UIViewController {
         let contentWidth = min(view.bounds.width - 2.0 * edgeInset, maximalWidth)
         let contentHeight = max(content.heightResolver(traitCollection), minimalHeight ?? 0.0)
 
+        var contentRect: CGRect
         if UIDevice.current.userInterfaceIdiom != .phone {
             let offset = isContentVisible ? (-0.5 * keyboardInset) : 80.0
-            contentView.frame = .init(x: 0.5 * (view.bounds.width - contentWidth),
-                                      y: 0.5 * (view.bounds.height - contentHeight) + offset,
-                                      width: contentWidth,
-                                      height: contentHeight)
+            contentRect = .init(x: 0.5 * (view.bounds.width - contentWidth),
+                                y: 0.5 * (view.bounds.height - contentHeight) + offset,
+                                width: contentWidth,
+                                height: contentHeight)
         }
         else {
             let offset = isContentVisible ? (contentHeight + keyboardInset + edgeInset) : 0.0
-            contentView.frame = .init(x: 0.5 * (view.bounds.width - contentWidth),
-                                      y: view.bounds.height - offset - view.safeAreaInsets.bottom,
-                                      width: contentWidth,
-                                      height: contentHeight + view.safeAreaInsets.bottom)
+            contentRect = .init(x: 0.5 * (view.bounds.width - contentWidth),
+                                y: view.bounds.height - offset - view.safeAreaInsets.bottom,
+                                width: contentWidth,
+                                height: contentHeight + view.safeAreaInsets.bottom)
         }
 
         content.view.frame = .init(x: 0.0, y: 0.0, width: contentWidth, height: contentHeight)
-        borderView.frame = contentView.frame
+
+        if contentView.superview === view {
+            contentView.frame = contentRect
+            borderView.frame = contentView.frame
+        }
+        else {
+            borderView.frame = contentRect
+            contentView.frame = borderView.bounds
+        }
 
         layoutFloatingView()
     }
@@ -236,9 +244,18 @@ open class SheetViewController: UIViewController {
     private func updateBorderView() {
         borderView.frame = contentView.frame
         if borderView.materialStyle.isSystem {
-            view.insertSubview(borderView, belowSubview: contentView)
+            if #available(iOS 26, *) {
+                view.bringSubviewToFront(borderView)
+                borderView.isUserInteractionEnabled = borderView.materialStyle.isInteractive
+                borderView.contentView.addSubview(contentView)
+            }
+            else {
+                view.insertSubview(borderView, belowSubview: contentView)
+                borderView.isUserInteractionEnabled = false
+            }
         }
         else {
+            borderView.isUserInteractionEnabled = false
             view.bringSubviewToFront(borderView)
         }
     }
@@ -251,7 +268,7 @@ open class SheetViewController: UIViewController {
         floatingView.frame = .init(x: 0.0,
                                    y: 0.0,
                                    width: view.bounds.width,
-                                   height: contentView.frame.minY + 24.0)
+                                   height: borderView.frame.minY + 24.0)
     }
 
     open override func viewSafeAreaInsetsDidChange() {
@@ -349,6 +366,6 @@ open class SheetViewController: UIViewController {
 extension SheetViewController: UIGestureRecognizerDelegate {
     public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         let location = gestureRecognizer.location(in: view)
-        return contentView.frame.contains(location) == false
+        return borderView.frame.contains(location) == false
     }
 }

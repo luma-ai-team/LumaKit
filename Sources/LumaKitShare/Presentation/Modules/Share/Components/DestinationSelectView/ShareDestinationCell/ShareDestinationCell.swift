@@ -26,7 +26,7 @@ final class ShareDestinationCell: UICollectionViewCell, CollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        imageView.applyCornerRadius(value: 12.0)
+        applyCornerRadius(value: 12.0)
         materialBorderView.applyCornerRadius(value: 12.0)
     }
 
@@ -41,8 +41,9 @@ final class ShareDestinationCell: UICollectionViewCell, CollectionViewCell {
     }
 
     func update(with viewModel: ShareDestinationCellModel, attributes: CollectionViewItemAttributes) {
+        backgroundColor = viewModel.colorScheme.genericAction.active
+
         imageView.tintColor = viewModel.colorScheme.foreground.primary
-        imageView.backgroundColor = viewModel.colorScheme.genericAction.active
         titleLabel.textColor = viewModel.colorScheme.foreground.primary
 
         imageView.image = viewModel.destination.icon

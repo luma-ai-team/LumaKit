@@ -18,12 +18,12 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB">
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="PassiveContainerView" customModule="LumaKit">
             <rect key="frame" x="0.0" y="0.0" width="393" height="317"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="dFj-RN-Qsv" userLabel="stackView">
-                    <rect key="frame" x="0.0" y="40" width="393" height="175.66666666666669"/>
+                    <rect key="frame" x="0.0" y="40" width="393" height="175.66666666666666"/>
                     <subviews>
                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="I6v-yc-atE" userLabel="activityIndicatorView">
                             <rect key="frame" x="178" y="0.0" width="37" height="37"/>

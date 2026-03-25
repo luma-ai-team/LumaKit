@@ -13,7 +13,7 @@ protocol VariantSelectionViewDelegate: AnyObject {
     func variantSelectionViewDidSelect(_ sender: VariantSelectionView, variant: ShareContentFetchVariant)
 }
 
-final class VariantSelectionView: UIView, NibBackedView, SheetContent {
+final class VariantSelectionView: PassiveContainerView, NibBackedView, SheetContent {
     static var nib: ViewNib {
         return .init(name: "VariantSelectionView", bundle: .module)
     }

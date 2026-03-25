@@ -9,7 +9,7 @@ import UIKit
 import LumaKit
 import GenericModule
 
-final class ContentFetchProgressView: UIView, NibBackedView, SheetContent {
+final class ContentFetchProgressView: PassiveContainerView, NibBackedView, SheetContent {
     static var nib: ViewNib {
         return .init(name: "ContentFetchProgressView", bundle: .module)
     }

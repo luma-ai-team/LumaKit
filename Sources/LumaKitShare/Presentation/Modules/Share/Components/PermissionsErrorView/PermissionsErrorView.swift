@@ -13,7 +13,7 @@ protocol PermissionsErrorViewDelegate: AnyObject {
     func permissionsErrorViewDidRequestSettings(_ sender: PermissionsErrorView)
 }
 
-final class PermissionsErrorView: UIView, NibBackedView, SheetContent {
+final class PermissionsErrorView: PassiveContainerView, NibBackedView, SheetContent {
     static var nib: ViewNib {
         return .init(name: "PermissionsErrorView", bundle: .module)
     }

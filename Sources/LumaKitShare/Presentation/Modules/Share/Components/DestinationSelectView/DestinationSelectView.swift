@@ -14,7 +14,7 @@ protocol DestinationSelectViewDelegate: AnyObject {
     func destinationSelectViewDidRequestRateApp(_ sender: DestinationSelectView, rating: Int)
 }
 
-final class DestinationSelectView: UIView, NibBackedView, SheetContent {
+final class DestinationSelectView: PassiveContainerView, NibBackedView, SheetContent {
     final class Status {
         let icon: UIImage?
         let text: String

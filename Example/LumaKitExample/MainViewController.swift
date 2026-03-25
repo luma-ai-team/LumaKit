@@ -37,7 +37,7 @@ class MainViewController: UIViewController {
     @IBAction func mediaPickerExampleButtonPressed(_ sender: Any) {
         let coordinator = MediaPickerCoordinator(rootViewController: self, colorScheme: .system)
         coordinator.title = "Upload photo"
-        coordinator.sourcePickerBottomView = UIView()
+        coordinator.sourcePickerBottomView = PassiveContainerView()
         coordinator.sources = [.library, .files, .web(DummyWebSearchProvider())]
         coordinator.filter = .images
         coordinator.materialStyle = .systemInteractive()
@@ -94,7 +94,7 @@ class MainViewController: UIViewController {
         let state = ShareState(colorScheme: .system,
                                destinations: destinations,
                                contentFetchConfiguration: .variants(variants))
-        state.materialStyle = .system()
+        state.materialStyle = .systemInteractive()
         state.feedbackConfiguration.shouldResetRequestOnAppUpdate = true
         state.feedbackConfiguration.shouldTriggerSystemAppReviewRequest = true
         state.feedbackConfiguration.handler = { _, _ in

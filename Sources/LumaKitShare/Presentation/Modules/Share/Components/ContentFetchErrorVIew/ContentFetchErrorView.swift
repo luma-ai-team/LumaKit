@@ -9,7 +9,7 @@ import UIKit
 import LumaKit
 import GenericModule
 
-final class ContentFetchErrorView: UIView, NibBackedView, SheetContent {
+final class ContentFetchErrorView: PassiveContainerView, NibBackedView, SheetContent {
     static var nib: ViewNib {
         return .init(name: "ContentFetchErrorView", bundle: .module)
     }

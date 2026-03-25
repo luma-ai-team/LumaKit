@@ -21,6 +21,10 @@ public class VisualEffectView: UIView {
         }
     }
 
+    public var contentView: UIView {
+        return visualEffectView.contentView
+    }
+
     private lazy var visualEffectView: UIVisualEffectView = {
         let view = UIVisualEffectView()
         return view
