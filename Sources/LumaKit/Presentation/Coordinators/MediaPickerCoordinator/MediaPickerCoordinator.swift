@@ -90,8 +90,8 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
             content.delegate = self
 
             let controller = SheetViewController(content: content)
-            controller.backgroundColorOverride = colorScheme.background.secondary.withAlphaComponent(0.5)
             controller.materialStyle = materialStyle
+            controller.backgroundColorOverride = colorScheme.background.secondary.withAlphaComponent(0.5)
             if (materialStyle.isDefault == false) || isBackgroundBlurEnabled {
                 controller.blurOpacity = 0.15
             }
@@ -295,6 +295,11 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
 extension MediaPickerCoordinator: PHPickerViewControllerDelegate {
     public func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         guard results.isEmpty == false else {
+            guard sources.count < 2 else {
+                loadingViewController.presentingViewController?.dismiss(animated: true)
+                return
+            }
+
             output?.mediaPickerCoordinatorDidCancel(self)
             return dismiss()
         }
@@ -359,6 +364,11 @@ extension MediaPickerCoordinator: UIImagePickerControllerDelegate & UINavigation
     }
 
     public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        guard sources.count < 2 else {
+            picker.dismiss(animated: true)
+            return
+        }
+
         output?.mediaPickerCoordinatorDidCancel(self)
         return dismiss()
     }
@@ -376,6 +386,11 @@ extension MediaPickerCoordinator: MediaPickerSourceViewDelegate {
 
 extension MediaPickerCoordinator: UIDocumentPickerDelegate {
     public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        guard sources.count < 2 else {
+            controller.dismiss(animated: true)
+            return
+        }
+
         output?.mediaPickerCoordinatorDidCancel(self)
         return dismiss()
     }
@@ -396,6 +411,10 @@ extension MediaPickerCoordinator: UIDocumentPickerDelegate {
 
 extension MediaPickerCoordinator: WebSearchModuleOutput {
     func webSearchModuleDidDismiss(_ module: any WebSearchModuleInput) {
+        guard sources.count < 2 else {
+            return
+        }
+
         output?.mediaPickerCoordinatorDidCancel(self)
         return dismiss()
     }
