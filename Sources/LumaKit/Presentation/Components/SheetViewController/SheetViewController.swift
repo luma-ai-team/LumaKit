@@ -333,7 +333,7 @@ open class SheetViewController: UIViewController {
 
     @objc private func viewTapped() {
         let location = tapGestureRecognizer.location(in: view)
-        guard contentView.frame.contains(location) == false,
+        guard borderView.frame.contains(location) == false,
               isModalInPresentation == false else {
             return
         }
