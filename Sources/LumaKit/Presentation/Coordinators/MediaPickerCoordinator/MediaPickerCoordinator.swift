@@ -91,7 +91,9 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
 
             let controller = SheetViewController(content: content)
             controller.materialStyle = materialStyle
-            controller.backgroundColorOverride = colorScheme.background.secondary.withAlphaComponent(0.5)
+            if #available(iOS 26.0, *) {
+                controller.backgroundColorOverride = colorScheme.background.secondary.withAlphaComponent(0.5)
+            }
             if (materialStyle.isDefault == false) || isBackgroundBlurEnabled {
                 controller.blurOpacity = 0.15
             }
@@ -226,7 +228,11 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
     private func makeSheetViewController() -> SheetViewController {
         sheetContent = .init(colorScheme: colorScheme)
         sheetContent.state = .progress("Fetching", 0.0)
+
         let controller = SheetViewController(content: sheetContent)
+        if #available(iOS 26.0, *) {
+            controller.backgroundColorOverride = colorScheme.background.secondary.withAlphaComponent(0.5)
+        }
         controller.materialStyle = materialStyle
         controller.dismissHandler = { [weak self] in
             self?.sheetDismissHandler?()
