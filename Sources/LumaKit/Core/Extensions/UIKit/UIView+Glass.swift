@@ -20,7 +20,7 @@ public extension UIView {
                            cornerRadius: CGFloat? = nil) -> MaterialBorderView {
         let view = MaterialBorderView()
         view.materialStyle = style
-        view.isUserInteractionEnabled = false
+        view.isUserInteractionEnabled = style.isInteractive
         view.applyCornerRadius(value: layer.cornerRadius)
         view.translatesAutoresizingMaskIntoConstraints = false
         if let cornerRadius = cornerRadius {
