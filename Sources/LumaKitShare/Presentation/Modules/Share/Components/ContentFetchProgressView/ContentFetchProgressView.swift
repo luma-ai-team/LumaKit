@@ -76,7 +76,7 @@ final class ContentFetchProgressView: PassiveContainerView, NibBackedView, Sheet
 
         progressLabel.text = "\(Int(progress * 100))%"
         if progress != progressView.progress {
-            let animationDuration = TimeInterval(0.15 / (progress - progressView.progress))
+            let animationDuration = TimeInterval(0.35 * max(progress - progressView.progress, 0.5))
             UIView.defaultSpringAnimation(duration: animationDuration) {
                 self.progressView.setProgress(progress, animated: true)
             }
