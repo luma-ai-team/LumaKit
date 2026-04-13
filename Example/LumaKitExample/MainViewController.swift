@@ -81,11 +81,7 @@ class MainViewController: UIViewController {
             })),
             .init(title: "Fail", icon: .remove, provider: .init(isPhotoLibraryAutosaveEnabled: false,
                                                                 fetchHandler: { (sink: AsyncPipe<Float>) async throws in
-                await sink.send(0.25)
-                try await Task.sleep(for: .seconds(1.0))
-                await sink.send(0.5)
-                try await Task.sleep(for: .seconds(1.0))
-                await sink.send(0.75)
+                await sink.send(1.0)
                 try await Task.sleep(for: .seconds(1.0))
                 throw NSError(domain: "hello, I'm an error", code: 0)
             }))
