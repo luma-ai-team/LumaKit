@@ -49,10 +49,7 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
 
             for case let button as MediaPickerSourceButton in sourceStackView.arrangedSubviews {
                 button.materialStyle = materialStyle
-                button.backgroundColor = colorScheme.genericAction.active
-                button.tintColor = colorScheme.foreground.primary
-                button.setTitleColor(colorScheme.foreground.primary, for: .normal)
-                button.layer.borderColor = colorScheme.stroke.primary.cgColor
+                button.colorScheme = colorScheme
             }
         }
     }
@@ -136,6 +133,10 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
         case .web:
             button.setImage(.init(systemName: "globe"), for: .normal)
             button.setTitle("Browse Web", for: .normal)
+        case .custom(let provider):
+            button.setImage(provider.item.icon, for: .normal)
+            button.setTitle(provider.item.title, for: .normal)
+            button.badge = provider.item.badge
         }
 
         return button

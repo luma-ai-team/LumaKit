@@ -24,6 +24,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         case library
         case files
         case web(WebSearchProvider)
+        case custom(MediaProvider)
     }
 
     public let colorScheme: ColorScheme
@@ -117,6 +118,8 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
             startFilePicker(animated: animated, completion: completion)
         case .web(let provider):
             startWebPicker(with: provider, animated: animated, completion: completion)
+        case .custom(let provider):
+            startCustomMediaPicker(with: provider, animated: animated, completion: completion)
         }
     }
 
@@ -200,6 +203,18 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         let module = WebSearchModule(state: state, dependencies: provider, output: self)
         let appearance = StyledNavigationController.Appearance(barStyle: .opaque, color: colorScheme.background.primary)
         let navigationController = StyledNavigationController(rootViewController: module.viewController,
+                                                              appearance: appearance)
+        navigationController.modalPresentationStyle = .overFullScreen
+        topViewController.present(navigationController, animated: true)
+    }
+
+    private func startCustomMediaPicker(with provider: MediaProvider,
+                                        animated: Bool,
+                                        completion: (() -> Void)? = nil) {
+        provider.output = self
+
+        let appearance = StyledNavigationController.Appearance(barStyle: .opaque, color: colorScheme.background.primary)
+        let navigationController = StyledNavigationController(rootViewController: provider.viewController,
                                                               appearance: appearance)
         navigationController.modalPresentationStyle = .overFullScreen
         topViewController.present(navigationController, animated: true)
@@ -431,5 +446,26 @@ extension MediaPickerCoordinator: WebSearchModuleOutput {
 
     func webSearchModuleDidFinish(_ module: any WebSearchModuleInput, with image: UIImage) {
         output?.mediaPickerCoordinatorDidSelect(self, items: [.image(image)])
+    }
+}
+
+// MARK: - MediaProviderOutput
+
+extension MediaPickerCoordinator: MediaProviderOutput {
+    public func mediaProviderDidDismiss(_ provider: any MediaProvider) {
+        guard sources.count < 2 else {
+            return
+        }
+
+        output?.mediaPickerCoordinatorDidCancel(self)
+        return dismiss()
+    }
+
+    public func mediaProviderDidFail(_ provider: any MediaProvider, with error: any Error) {
+        show(error)
+    }
+
+    public func mediaProviderDidFinish(_ provider: any MediaProvider, with items: [MediaFetchService.Item]) {
+        output?.mediaPickerCoordinatorDidSelect(self, items: items)
     }
 }

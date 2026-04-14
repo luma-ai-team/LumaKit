@@ -35,10 +35,12 @@ class MainViewController: UIViewController {
     }
 
     @IBAction func mediaPickerExampleButtonPressed(_ sender: Any) {
+        let provider = DummyMediaProvider()
+
         let coordinator = MediaPickerCoordinator(rootViewController: self, colorScheme: .system)
         coordinator.title = "Upload photo"
-        coordinator.sourcePickerBottomView = PassiveContainerView()
-        coordinator.sources = [.library, .files, .web(DummyWebSearchProvider())]
+        //coordinator.sourcePickerBottomView = PassiveContainerView()
+        coordinator.sources = [.library, .files, .web(DummyWebSearchProvider()), .custom(provider)]
         coordinator.filter = .images
         coordinator.materialStyle = .systemInteractive()
         coordinator.selectionStyle = .ordered(4)

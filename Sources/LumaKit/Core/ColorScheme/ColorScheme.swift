@@ -99,7 +99,7 @@ public final class ColorScheme {
     public static var system: ColorScheme = {
         let colorScheme = ColorScheme()
         colorScheme.background = .init(primary: .systemBackground, secondary: .secondarySystemBackground)
-        colorScheme.foreground = .init(primary: .label, secondary: .secondaryLabel, tertiary: .tertiaryLabel)
+        colorScheme.foreground = .init(primary: .label, secondary: .secondaryLabel, tertiary: .systemBackground)
         colorScheme.genericAction = .init(color: .tertiarySystemBackground)
         colorScheme.primaryAction = colorScheme.genericAction.variant(with: .tintColor)
         colorScheme.destructiveAction = colorScheme.genericAction.variant(with: .systemRed)
