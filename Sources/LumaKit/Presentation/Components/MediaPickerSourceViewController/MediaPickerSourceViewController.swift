@@ -65,7 +65,6 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
     public var userContent: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
-            titleLabel.isHidden = userContent != nil
             guard let userContent = userContent else {
                 return
             }
