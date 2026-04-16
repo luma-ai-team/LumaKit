@@ -343,7 +343,8 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
     @discardableResult
     public func show(_ error: Error, dismissHandler: (() -> Void)? = nil) -> SheetViewController {
         self.sheetDismissHandler = dismissHandler
-        return errorHandler(error)
+        errorHandler(error)
+        return sheetViewController
     }
 
     @discardableResult
@@ -426,13 +427,11 @@ extension MediaPickerCoordinator: PHPickerViewControllerDelegate {
         sheetViewController.updateContent()
     }
 
-    @discardableResult
-    private func errorHandler(_ error: Error) -> SheetViewController {
+    private func errorHandler(_ error: Error) {
         presentSheetIfNeeded()
 
         sheetContent.state = .failure(error)
         sheetViewController.updateContent()
-        return sheetViewController
     }
 }
 
