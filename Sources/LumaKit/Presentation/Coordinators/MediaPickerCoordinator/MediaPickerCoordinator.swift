@@ -330,25 +330,30 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         }
     }
 
-    public func show(title: String, progress: Double, dismissHandler: (() -> Void)? = nil) {
+    @discardableResult
+    public func show(title: String, progress: Double, dismissHandler: (() -> Void)? = nil) -> SheetViewController {
         self.sheetDismissHandler = dismissHandler
         presentSheetIfNeeded()
 
         sheetContent.state = .progress(title, progress)
         sheetViewController.updateContent()
+        return sheetViewController
     }
 
-    public func show(_ error: Error, dismissHandler: (() -> Void)? = nil) {
+    @discardableResult
+    public func show(_ error: Error, dismissHandler: (() -> Void)? = nil) -> SheetViewController {
         self.sheetDismissHandler = dismissHandler
-        errorHandler(error)
+        return errorHandler(error)
     }
 
-    public func show(image: UIImage?, title: String, subtitle: String, dismissHandler: (() -> Void)? = nil) {
+    @discardableResult
+    public func show(image: UIImage?, title: String, subtitle: String, dismissHandler: (() -> Void)? = nil) -> SheetViewController {
         self.sheetDismissHandler = dismissHandler
         presentSheetIfNeeded()
 
         sheetContent.state = .custom(image, title, subtitle)
         sheetViewController.updateContent()
+        return sheetViewController
     }
 
     private func handleSelection(for items: [MediaFetchService.Item]) {
@@ -421,11 +426,13 @@ extension MediaPickerCoordinator: PHPickerViewControllerDelegate {
         sheetViewController.updateContent()
     }
 
-    private func errorHandler(_ error: Error) {
+    @discardableResult
+    private func errorHandler(_ error: Error) -> SheetViewController {
         presentSheetIfNeeded()
 
         sheetContent.state = .failure(error)
         sheetViewController.updateContent()
+        return sheetViewController
     }
 }
 
