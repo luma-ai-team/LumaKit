@@ -39,9 +39,9 @@ class MainViewController: UIViewController {
 
         let coordinator = MediaPickerCoordinator(rootViewController: self, colorScheme: .system)
         coordinator.title = "Upload photo"
-        coordinator.sourcePickerBottomView = UIImageView(image: .init(systemName: "xmark"))
+        //coordinator.sourcePickerBottomView = UIImageView(image: .init(systemName: "xmark"))
         coordinator.sources = [.library, .files, .web(DummyWebSearchProvider()), .custom(provider)]
-        coordinator.filter = .videos
+        coordinator.filter = .images
         coordinator.materialStyle = .systemInteractive()
         coordinator.selectionStyle = .ordered(4)
         coordinator.isHapticEnabled = true

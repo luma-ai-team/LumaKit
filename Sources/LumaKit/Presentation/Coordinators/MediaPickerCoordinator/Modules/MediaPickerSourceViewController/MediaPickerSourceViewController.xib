@@ -54,18 +54,18 @@
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="bJE-mS-9OQ" userLabel="userContentView" customClass="PassiveContainerView" customModule="LumaKit">
-                    <rect key="frame" x="0.0" y="24" width="393" height="239"/>
+                    <rect key="frame" x="0.0" y="16" width="393" height="283"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
                 <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M7o-TX-JJj" userLabel="recentsView">
-                    <rect key="frame" x="0.0" y="271" width="393" height="36"/>
+                    <rect key="frame" x="0.0" y="307" width="393" height="0.0"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EVR-00-MoP" userLabel="recentsContainerView">
-                            <rect key="frame" x="0.0" y="32" width="393" height="4"/>
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="0.0"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ozX-h1-yAI" userLabel="recentsButton">
-                            <rect key="frame" x="16" y="0.0" width="76.666666666666671" height="36"/>
+                            <rect key="frame" x="16" y="0.0" width="76.666666666666671" height="4"/>
                             <constraints>
                                 <constraint firstAttribute="height" priority="750" constant="36" id="flm-gk-L5C"/>
                             </constraints>
@@ -86,7 +86,7 @@
                         <constraint firstItem="ozX-h1-yAI" firstAttribute="leading" secondItem="M7o-TX-JJj" secondAttribute="leading" constant="16" id="5tH-Ra-hbJ"/>
                         <constraint firstItem="ozX-h1-yAI" firstAttribute="top" secondItem="M7o-TX-JJj" secondAttribute="top" id="NSg-9Z-mvs"/>
                         <constraint firstAttribute="bottom" secondItem="EVR-00-MoP" secondAttribute="bottom" id="QOr-la-xQJ"/>
-                        <constraint firstAttribute="height" constant="36" id="SGj-9A-dWu"/>
+                        <constraint firstAttribute="height" id="SGj-9A-dWu"/>
                         <constraint firstAttribute="trailing" secondItem="EVR-00-MoP" secondAttribute="trailing" id="YRj-54-anE"/>
                         <constraint firstItem="EVR-00-MoP" firstAttribute="top" secondItem="ozX-h1-yAI" secondAttribute="bottom" constant="-4" id="obo-kd-1W5"/>
                         <constraint firstItem="EVR-00-MoP" firstAttribute="leading" secondItem="M7o-TX-JJj" secondAttribute="leading" id="uph-kg-Ngg"/>
@@ -100,7 +100,7 @@
                 <constraint firstAttribute="trailing" secondItem="bJE-mS-9OQ" secondAttribute="trailing" id="7xO-h9-aSJ"/>
                 <constraint firstItem="bLm-21-VeV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="97Z-yX-cdF"/>
                 <constraint firstAttribute="trailing" secondItem="M7o-TX-JJj" secondAttribute="trailing" id="ANp-aE-9UO"/>
-                <constraint firstItem="bJE-mS-9OQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="24" id="AXz-Ir-fdu"/>
+                <constraint firstItem="bJE-mS-9OQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="AXz-Ir-fdu"/>
                 <constraint firstItem="QVN-d8-EaU" firstAttribute="top" secondItem="M7o-TX-JJj" secondAttribute="bottom" id="FOL-J8-eLl"/>
                 <constraint firstAttribute="trailing" secondItem="tpb-DL-Q8b" secondAttribute="trailing" constant="2" id="Glt-RB-QMw"/>
                 <constraint firstItem="bJE-mS-9OQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="HC4-Z0-v2f"/>

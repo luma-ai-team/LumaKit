@@ -136,6 +136,9 @@ final class MediaRecentsService {
 
     public func fetch(type: RecordType? = nil, limit: Int? = nil) async throws -> [MediaFetchService.Item] {
         var records = records
+        if let type = type {
+            records = records.filter(with: type, at: \.type)
+        }
         if let limit = limit {
             records = Array(records.prefix(limit))
         }
