@@ -320,9 +320,13 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         else if rootViewController.presentedViewController is UIImagePickerController {
             rootViewController.dismiss(animated: true)
         }
-        else if let sourcePickerViewController = self.sourcePickerViewController,
-                rootViewController.presentedViewController == sourcePickerViewController {
-            rootViewController.dismiss(animated: true)
+        else if let sourcePickerViewController = self.sourcePickerViewController {
+            if topViewController === sourcePickerViewController {
+                sourcePickerViewController.dismiss(animated: true)
+            }
+            else if rootViewController.presentedViewController == sourcePickerViewController {
+                rootViewController.dismiss(animated: true)
+            }
         }
     }
 
