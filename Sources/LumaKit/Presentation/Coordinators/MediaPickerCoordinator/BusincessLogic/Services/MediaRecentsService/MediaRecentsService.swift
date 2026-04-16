@@ -35,7 +35,7 @@ final class MediaRecentsService {
         static let storageLimit: Int = 100
     }
 
-    private let storageURL: URL = .home(path: "LumaKit/Storage/Media")
+    private let storageURL: URL = .documents(path: "LumaKit/Storage/Media")
     private let fileManager: FileManager = .default
 
     private var records: [ItemRecord] = []

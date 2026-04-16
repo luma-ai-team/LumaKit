@@ -41,18 +41,6 @@
                         <constraint firstAttribute="height" constant="76" id="15N-ty-RRS"/>
                     </constraints>
                 </stackView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tpb-DL-Q8b" userLabel="dismissButton">
-                    <rect key="frame" x="343" y="4" width="48" height="48"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="48" id="5Tl-yj-Bw5"/>
-                        <constraint firstAttribute="width" constant="48" id="tFF-zY-W98"/>
-                    </constraints>
-                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                    <state key="normal" image="xmark.circle.fill" catalog="system"/>
-                    <connections>
-                        <action selector="dismissButtonPressed:" destination="-1" eventType="touchUpInside" id="PQD-U5-UTt"/>
-                    </connections>
-                </button>
                 <view contentMode="scaleToFill" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="bJE-mS-9OQ" userLabel="userContentView" customClass="PassiveContainerView" customModule="LumaKit">
                     <rect key="frame" x="0.0" y="16" width="393" height="283"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -92,6 +80,18 @@
                         <constraint firstItem="EVR-00-MoP" firstAttribute="leading" secondItem="M7o-TX-JJj" secondAttribute="leading" id="uph-kg-Ngg"/>
                     </constraints>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tpb-DL-Q8b" userLabel="dismissButton">
+                    <rect key="frame" x="343" y="4" width="48" height="48"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="5Tl-yj-Bw5"/>
+                        <constraint firstAttribute="width" constant="48" id="tFF-zY-W98"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" image="xmark.circle.fill" catalog="system"/>
+                    <connections>
+                        <action selector="dismissButtonPressed:" destination="-1" eventType="touchUpInside" id="PQD-U5-UTt"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>

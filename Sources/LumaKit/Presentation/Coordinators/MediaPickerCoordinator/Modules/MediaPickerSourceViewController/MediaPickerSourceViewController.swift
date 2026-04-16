@@ -77,9 +77,7 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
             if let recentsContentView = recentsContentView {
                 recentsContainerView.addSubview(recentsContentView)
                 recentsContentView.bindMarginsToSuperview()
-
-                let size = RecentMediaCell.size(with: .empty(with: colorScheme), fitting: view.bounds.size, insets: .zero)
-                recentsViewHeightConstraint.constant = size.height + 64.0
+                view.setNeedsLayout()
             }
             else {
                 recentsViewHeightConstraint.constant = 0.0
@@ -117,6 +115,15 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
         super.viewDidLoad()
         updateDismissButton()
         updateSourceButtons()
+    }
+
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        if recentsView.isHidden == false {
+            let size = RecentMediaCell.size(with: .empty(with: colorScheme), fitting: view.bounds.size, insets: .zero)
+            recentsViewHeightConstraint.constant = size.height + 64.0
+        }
     }
 
     private func updateRecentsButton() {

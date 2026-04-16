@@ -9,6 +9,7 @@ import UIKit
 
 @MainActor
 final class RecentMediaCellItemFactory {
+    static var metadataCache: NSCache<NSString, RecentMediaCellModel.Metadata> = .init()
     var output: RecentMediaViewOutput?
 
     init(output: RecentMediaViewOutput?) {
@@ -18,17 +19,24 @@ final class RecentMediaCellItemFactory {
     func makeSectionItems(for cellModels: [RecentMediaCellModel]) -> [CollectionViewSection] {
         let items: [any CollectionViewItem] = cellModels.map { (cellModel: RecentMediaCellModel) in
             let item: LazyCollectionViewItem<RecentMediaCell> = .init(viewModel: cellModel)
+            cellModel.metadata = Self.metadataCache.object(forKey: cellModel.item.identifier as NSString)
             item.registerLazyKeyPath(\.metadata) {
+                let metadata: RecentMediaCellModel.Metadata
                 switch cellModel.item.content {
                 case .image(let image):
-                    return RecentMediaCellModel.Metadata(thumbnail: image, duration: nil)
+                    let canvasRect = CGRect(origin: .zero, size: .init(width: 240.0, height: 240.0))
+                    let thumbnailSize = CGRect(filling: canvasRect, aspect: image.size.aspect).size
+                    metadata = RecentMediaCellModel.Metadata(thumbnail: image.resizeLanczos(to: thumbnailSize), duration: nil)
                 case .asset(let asset):
                     let thumbnailer = CachingAssetThumbnailer(asset: asset)
                     thumbnailer.maximumSize = .init(width: 240.0, height: 240.0)
                     let thumbnail = UIImage(cgImage: try thumbnailer.fetchImage(at: .zero).unwrap())
                     let duration = try await asset.load(.duration).seconds
-                    return RecentMediaCellModel.Metadata(thumbnail: thumbnail, duration: duration)
+                    metadata = RecentMediaCellModel.Metadata(thumbnail: thumbnail, duration: duration)
                 }
+
+                Self.metadataCache.setObject(metadata, forKey: cellModel.item.identifier as NSString)
+                return metadata
             }
             item.selectionHandler = { [weak self] _ in
                 self?.output?.selectionEventTriggered(with: cellModel.item)

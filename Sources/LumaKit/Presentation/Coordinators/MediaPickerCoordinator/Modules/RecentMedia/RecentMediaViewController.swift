@@ -43,6 +43,10 @@ final class RecentMediaViewController: ViewController<RecentMediaViewModel,
             view.addSubview(collectionView)
             collectionView.bindMarginsToSuperview()
 
+            #if targetEnvironment(macCatalyst)
+            collectionViewManager.simulatesiOSMultiSelectionBehavior = true
+            #endif
+
             title = "Recents"
             if #available(iOS 26.0, *) {
                 var container = AttributeContainer()
@@ -55,6 +59,7 @@ final class RecentMediaViewController: ViewController<RecentMediaViewModel,
                                                      style: .plain,
                                                      target: self,
                                                      action: #selector(dismissButtonPressed))
+            navigationItem.leftBarButtonItem?.tintColor = viewModel.colorScheme.foreground.primary
         }
     }
 

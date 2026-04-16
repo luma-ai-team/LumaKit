@@ -66,6 +66,10 @@ extension URL {
         return homeURL.appendingPathComponent(path)
     }
 
+    public static func documents(path: String) -> URL {
+        return .home(path: "Documents").appendingPathComponent(path)
+    }
+
     public static func resolving(relativeURL: URL) -> URL {
         if relativeURL.scheme == bundleURLScheme {
             let bundleURL = Bundle.main.resourceURL ?? Bundle.main.bundleURL

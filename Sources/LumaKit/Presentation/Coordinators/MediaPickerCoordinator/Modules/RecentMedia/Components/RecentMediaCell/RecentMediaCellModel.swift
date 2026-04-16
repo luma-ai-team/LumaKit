@@ -8,9 +8,14 @@
 import UIKit
 
 final class RecentMediaCellModel: Equatable {
-    struct Metadata {
-        let thumbnail: UIImage
+    class Metadata {
+        let thumbnail: UIImage?
         let duration: TimeInterval?
+
+        init(thumbnail: UIImage?, duration: TimeInterval?) {
+            self.thumbnail = thumbnail
+            self.duration = duration
+        }
     }
 
     let item: MediaFetchService.Item
