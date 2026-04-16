@@ -60,7 +60,7 @@ extension WebSearchPresenter: WebSearchViewOutput {
             do {
                 let image = try await assetProvider.fetchImageAsset(at: result.url,
                                                                     identifier: result.identifier).resolve()
-                output?.webSearchModuleDidFinish(self, with: image)
+                output?.webSearchModuleDidFinish(self, with: image, from: result.url)
             }
             catch {
                 output?.webSearchModuleDidFail(self, with: error)

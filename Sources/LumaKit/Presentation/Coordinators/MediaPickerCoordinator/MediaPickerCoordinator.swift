@@ -17,6 +17,13 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
     public enum SelectionStyle {
         case basic(Int)
         case ordered(Int)
+
+        var limit: Int {
+            switch self {
+            case .basic(let limit), .ordered(let limit):
+                return limit
+            }
+        }
     }
 
     public enum Source {
@@ -45,6 +52,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
     public weak var output: MediaPickerCoordinatorOutput?
 
     private lazy var mediaFetchService: MediaFetchService = .init()
+    private lazy var mediaRecentsService: MediaRecentsService = .shared
 
     private lazy var loadingViewController: MediaPickerLoadingViewController = {
         let controller = MediaPickerLoadingViewController(colorScheme: colorScheme)
@@ -66,7 +74,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         }
         return configuration
     }()
-    
+
     public init(rootViewController: UIViewController, colorScheme: ColorScheme, filter: PHPickerFilter? = nil) {
         self.colorScheme = colorScheme
         self.filter = filter
@@ -76,7 +84,11 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
     public func start(completion: (() -> Void)? = nil) {
         retainedSelf = self
 
+        let recentsType: MediaRecentsService.RecordType? = makeRecentRecordType(for: filter)
+        let shouldShowRecentMedia = mediaRecentsService.hasRecords(type: recentsType)
+
         if sources.count == 1,
+           shouldShowRecentMedia == false,
            sourcePickerBottomView == nil {
             let source = sources.first ?? .library
             start(source: source, completion: completion)
@@ -89,6 +101,12 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
             content.userContent = sourcePickerBottomView
             content.colorScheme = colorScheme
             content.delegate = self
+
+            if shouldShowRecentMedia {
+                let module = makeRecentMediaModule(isInline: true)
+                content.add(child: module.viewController)
+                content.recentsContentView = module.viewController.view
+            }
 
             let controller = SheetViewController(content: content)
             controller.materialStyle = materialStyle
@@ -185,6 +203,34 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         default:
             return [.image, .video, .movie]
         }
+    }
+
+    private func makeRecentRecordType(for filter: PHPickerFilter?) -> MediaRecentsService.RecordType? {
+        guard let filter = filter else {
+            return nil
+        }
+
+        switch filter {
+        case .livePhotos, .panoramas, .screenshots, .images:
+            return .image
+        case .screenRecordings, .slomoVideos, .timelapseVideos, .videos:
+            return .video
+        default:
+            return nil
+        }
+    }
+
+    private func makeRecentMediaModule(isInline: Bool = false) -> RecentMediaModule {
+        let state = RecentMediaState(colorScheme: colorScheme)
+        state.filter = makeRecentRecordType(for: filter)
+        if isInline {
+            state.expectedItemCount = min(mediaRecentsService.recordCount(type: state.filter), 4)
+        }
+        else {
+            state.selectionLimit = selectionStyle.limit
+        }
+
+        return RecentMediaModule(state: state, dependencies: [], output: self)
     }
 
     private func startFilePicker(animated: Bool, completion: (() -> Void)? = nil) {
@@ -301,6 +347,20 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         sheetViewController.updateContent()
     }
 
+    private func handleSelection(for items: [MediaFetchService.Item]) {
+        guard items.isEmpty == false else {
+            return
+        }
+
+        Task {
+            for item in items.reversed() {
+                try await mediaRecentsService.store(item: item)
+            }
+        }
+
+        output?.mediaPickerCoordinatorDidSelect(self, items: items)
+    }
+
     public func dismissSheet() {
         if let controller = sheetViewController.presentingViewController {
             controller.dismiss(animated: true)
@@ -349,7 +409,7 @@ extension MediaPickerCoordinator: PHPickerViewControllerDelegate {
     private func completionHandler(_ items: [MediaFetchService.Item]) {
         sheetContent.state = .progress("Fetching", 1.0)
         sheetViewController.updateContent()
-        output?.mediaPickerCoordinatorDidSelect(self, items: items)
+        handleSelection(for: items)
     }
 
     private func progressHandler(_ progress: Double) {
@@ -381,7 +441,9 @@ extension MediaPickerCoordinator: UIImagePickerControllerDelegate & UINavigation
             image = flippedImage
         }
 
-        output?.mediaPickerCoordinatorDidSelect(self, items: [.image(image)])
+        let identifier = (info[.imageURL] as? URL)?.absoluteString ?? UUID().uuidString
+        let item = MediaFetchService.Item(identifier: identifier, content: .image(image))
+        handleSelection(for: [item])
     }
 
     public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -401,6 +463,14 @@ extension MediaPickerCoordinator: MediaPickerSourceViewDelegate {
     public func mediaPickerSourceViewDidRequest(_ sender: MediaPickerSourceViewController, source: Source) {
         start(source: source)
     }
+
+    public func mediaPickerSourceViewDidRequestRecents(_ sender: MediaPickerSourceViewController) {
+        let module = makeRecentMediaModule()
+        let appearance = StyledNavigationController.Appearance(barStyle: .opaque, color: colorScheme.background.primary)
+        let navigationController = StyledNavigationController(rootViewController: module.viewController,
+                                                              appearance: appearance)
+        topViewController.present(navigationController, animated: true)
+    }
 }
 
 // MARK: - UIDocumentPickerDelegate
@@ -418,13 +488,16 @@ extension MediaPickerCoordinator: UIDocumentPickerDelegate {
 
     public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         let items: [MediaFetchService.Item] = urls.compactMap { (url: URL) in
+            let identifier = url.absoluteString
             if let image = UIImage(contentsOfFile: url.path) {
-                return .image(image)
+                return MediaFetchService.Item(identifier: identifier, content: .image(image))
             }
 
-            return .asset(AVURLAsset(url: url))
+            let asset = AVURLAsset(url: url)
+            return MediaFetchService.Item(identifier: identifier, content: .asset(asset))
         }
-        output?.mediaPickerCoordinatorDidSelect(self, items: items)
+
+        handleSelection(for: items)
     }
 }
 
@@ -444,8 +517,9 @@ extension MediaPickerCoordinator: WebSearchModuleOutput {
         show(error)
     }
 
-    func webSearchModuleDidFinish(_ module: any WebSearchModuleInput, with image: UIImage) {
-        output?.mediaPickerCoordinatorDidSelect(self, items: [.image(image)])
+    func webSearchModuleDidFinish(_ module: any WebSearchModuleInput, with image: UIImage, from url: URL) {
+        let item = MediaFetchService.Item(identifier: url.absoluteString, content: .image(image))
+        handleSelection(for: [item])
     }
 }
 
@@ -466,6 +540,14 @@ extension MediaPickerCoordinator: MediaProviderOutput {
     }
 
     public func mediaProviderDidFinish(_ provider: any MediaProvider, with items: [MediaFetchService.Item]) {
-        output?.mediaPickerCoordinatorDidSelect(self, items: items)
+        handleSelection(for: items)
+    }
+}
+
+// MARK: - RecentMediaModuleOutput
+
+extension MediaPickerCoordinator: RecentMediaModuleOutput {
+    func recentMediaModuleDidFinish(_ moduleInput: any RecentMediaModuleInput, with items: [MediaFetchService.Item]) {
+        handleSelection(for: items)
     }
 }

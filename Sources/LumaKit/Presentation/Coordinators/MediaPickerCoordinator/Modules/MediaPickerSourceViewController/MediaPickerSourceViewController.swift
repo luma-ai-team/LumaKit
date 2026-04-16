@@ -11,6 +11,7 @@ import GenericModule
 @MainActor
 public protocol MediaPickerSourceViewDelegate: AnyObject {
     func mediaPickerSourceViewDidRequest(_ sender: MediaPickerSourceViewController, source: MediaPickerCoordinator.Source)
+    func mediaPickerSourceViewDidRequestRecents(_ sender: MediaPickerSourceViewController)
 }
 
 public final class MediaPickerSourceViewController: UIViewController, DismissableSheetContent {
@@ -27,7 +28,12 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var sourceStackView: UIStackView!
     @IBOutlet weak var userContentView: UIView!
+    @IBOutlet weak var recentsView: UIView!
+    @IBOutlet weak var recentsButton: UIButton!
+    @IBOutlet weak var recentsContainerView: UIView!
     @IBOutlet weak var dismissButton: UIButton!
+
+    @IBOutlet weak var recentsViewHeightConstraint: NSLayoutConstraint!
 
     public var materialStyle: MaterialStyle = .default {
         didSet {
@@ -45,6 +51,8 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
         didSet {
             view.backgroundColor = colorScheme.background.secondary
             titleLabel.textColor = colorScheme.foreground.primary
+
+            updateRecentsButton()
             updateDismissButton()
 
             for case let button as MediaPickerSourceButton in sourceStackView.arrangedSubviews {
@@ -59,6 +67,23 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
     public var sources: [MediaPickerCoordinator.Source] {
         didSet {
             updateSourceButtons()
+        }
+    }
+
+    public var recentsContentView: UIView? {
+        didSet {
+            oldValue?.removeFromSuperview()
+            recentsView.isHidden = false
+            if let recentsContentView = recentsContentView {
+                recentsContainerView.addSubview(recentsContentView)
+                recentsContentView.bindMarginsToSuperview()
+
+                let size = RecentMediaCell.size(with: .empty(with: colorScheme), fitting: view.bounds.size, insets: .zero)
+                recentsViewHeightConstraint.constant = size.height + 64.0
+            }
+            else {
+                recentsViewHeightConstraint.constant = 0.0
+            }
         }
     }
 
@@ -92,6 +117,16 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
         super.viewDidLoad()
         updateDismissButton()
         updateSourceButtons()
+    }
+
+    private func updateRecentsButton() {
+        recentsButton.semanticContentAttribute = .forceRightToLeft
+        recentsButton.tintColor = colorScheme.foreground.primary
+
+        let configuration = UIImage.SymbolConfiguration(pointSize: 13.0, weight: .semibold)
+        let image = UIImage(systemName: "chevron.right", withConfiguration: configuration)
+        recentsButton.setImage(image?.withRenderingMode(.alwaysOriginal).withTintColor(colorScheme.foreground.secondary),
+                               for: .normal)
     }
 
     private func updateDismissButton() {
@@ -150,6 +185,10 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
         delegate?.mediaPickerSourceViewDidRequest(self, source: sender.source)
     }
 
+    @IBAction func recentsButtonPressed(_ sender: Any) {
+        delegate?.mediaPickerSourceViewDidRequestRecents(self)
+    }
+    
     @IBAction func dismissButtonPressed(_ sender: Any) {
         if isHapticEnabled {
             Haptic.selection.generate()

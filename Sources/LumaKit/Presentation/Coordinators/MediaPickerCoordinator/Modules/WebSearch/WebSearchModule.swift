@@ -13,7 +13,7 @@ protocol WebSearchModuleInput {
 protocol WebSearchModuleOutput {
     func webSearchModuleDidDismiss(_ module: WebSearchModuleInput)
     func webSearchModuleDidFail(_ module: WebSearchModuleInput, with error: Error)
-    func webSearchModuleDidFinish(_ module: WebSearchModuleInput, with image: UIImage)
+    func webSearchModuleDidFinish(_ module: WebSearchModuleInput, with image: UIImage, from url: URL)
 }
 
 typealias WebSearchModuleDependencies = WebSearchProvider

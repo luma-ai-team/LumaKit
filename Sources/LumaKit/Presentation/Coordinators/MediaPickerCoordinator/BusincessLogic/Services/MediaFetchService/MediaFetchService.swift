@@ -16,17 +16,44 @@ public final class MediaFetchService {
         }
     }
 
-    public enum Item {
+    public enum Content {
         case image(UIImage)
         case asset(AVAsset)
+    }
+
+    public struct Item: Equatable {
+        public let identifier: String
+        public let content: Content
+
+        public init(identifier: String, content: Content) {
+            self.identifier = identifier
+            self.content = content
+        }
 
         public func content<T>(as type: T.Type) -> T? {
-            switch self {
+            switch content {
             case .image(let image):
                 return image as? T
             case .asset(let asset):
                 return asset as? T
             }
+        }
+
+        public func makeData() -> Data? {
+            switch content {
+            case .image(let image):
+                return image.pngData()
+            case .asset(let asset):
+                guard let url = (asset as? AVURLAsset)?.url else {
+                    return nil
+                }
+
+                return try? Data(contentsOf: url)
+            }
+        }
+
+        public static func == (lhs: Item, rhs: Item) -> Bool {
+            return lhs.identifier == rhs.identifier
         }
     }
 
@@ -56,7 +83,7 @@ public final class MediaFetchService {
 
     public func fetchAsset(for result: PHPickerResult,
                            progress: @escaping (Double) -> Void,
-                           success: @escaping (AVAsset) -> Void,
+                           success: @escaping (Item) -> Void,
                            failure: @escaping (Error) -> Void) {
         if canLoadLivePhoto(for: result) {
             return fetchLivePhotoContent(for: result, progress: progress, success: success, failure: failure)
@@ -67,7 +94,7 @@ public final class MediaFetchService {
 
     public func fetchImage(for result: PHPickerResult,
                            progress: @escaping (Double) -> Void,
-                           success: @escaping (UIImage) -> Void,
+                           success: @escaping (Item) -> Void,
                            failure: @escaping (Error) -> Void) {
         let provider = result.itemProvider
         guard provider.canLoadObject(ofClass: UIImage.self) else {
@@ -83,7 +110,9 @@ public final class MediaFetchService {
             self.invalidateTimer()
             DispatchQueue.main.async {
                 if let image = object as? UIImage {
-                    success(image)
+                    let identifier = result.assetIdentifier ?? provider.suggestedName ?? UUID().uuidString
+                    let item = Item(identifier: identifier, content: .image(image))
+                    success(item)
                 }
                 else {
                     failure(error ?? MediaFetchError.noContent)
@@ -139,25 +168,17 @@ public final class MediaFetchService {
                              failure: @escaping (Error) -> Void) {
         if canLoadLivePhoto(for: result) {
             if treatingLivePhotoAsVideo {
-                fetchLivePhotoContent(for: result, progress: progress, success: { (asset: AVAsset) in
-                    success(.asset(asset))
-                }, failure: failure)
+                fetchLivePhotoContent(for: result, progress: progress, success: success, failure: failure)
             }
             else {
-                fetchImage(for: result, progress: progress, success: { (image: UIImage) in
-                    success(.image(image))
-                }, failure: failure)
+                fetchImage(for: result, progress: progress, success: success, failure: failure)
             }
         }
         else if canLoadImage(for: result) {
-            fetchImage(for: result, progress: progress, success: { (image: UIImage) in
-                success(.image(image))
-            }, failure: failure)
+            fetchImage(for: result, progress: progress, success: success, failure: failure)
         }
         else {
-            fetchVideoAsset(for: result, progress: progress, success: { (asset: AVAsset) in
-                success(.asset(asset))
-            }, failure: failure)
+            fetchVideoAsset(for: result, progress: progress, success: success, failure: failure)
         }
     }
 
@@ -174,7 +195,7 @@ public final class MediaFetchService {
 
     private func fetchLivePhotoContent(for result: PHPickerResult,
                                        progress: @escaping (Double) -> Void,
-                                       success: @escaping (AVAsset) -> Void,
+                                       success: @escaping (Item) -> Void,
                                        failure: @escaping (Error) -> Void) {
         fetchProgress = result.itemProvider.loadObject(ofClass: PHLivePhoto.self) { [weak self] (object: NSItemProviderReading?,
                                                                                                  error: Swift.Error?) in
@@ -203,7 +224,7 @@ public final class MediaFetchService {
             let identifier = videoResource.assetLocalIdentifier.isEmpty ?
                 videoResource.originalFilename :
                 videoResource.assetLocalIdentifier
-            let url =  URL(fileURLWithPath: NSTemporaryDirectory())
+            let url = URL(fileURLWithPath: NSTemporaryDirectory())
                 .appendingPathComponent(identifier.replacingOccurrences(of: "/", with: "_"))
                 .appendingPathExtension("mov")
             try? FileManager.default.removeItem(at: url)
@@ -216,7 +237,8 @@ public final class MediaFetchService {
                                                        completionHandler: { _ in
                 DispatchQueue.main.async {
                     let asset = AVURLAsset(url: url, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
-                    success(asset)
+                    let item = Item(identifier: identifier, content: .asset(asset))
+                    success(item)
                 }
             })
         }
@@ -226,7 +248,7 @@ public final class MediaFetchService {
 
     private func fetchVideoAsset(for result: PHPickerResult,
                                  progress: @escaping (Double) -> Void,
-                                 success: @escaping (AVAsset) -> Void,
+                                 success: @escaping (Item) -> Void,
                                  failure: @escaping (Error) -> Void) {
         fetchProgress = result.itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.movie.identifier,
                                                                    completionHandler: { [weak self] (url: URL?, error: Error?) in
@@ -247,7 +269,8 @@ public final class MediaFetchService {
 
             DispatchQueue.main.async {
                 let asset = AVAsset(url: targetURL)
-                success(asset)
+                let item = Item(identifier: filename, content: .asset(asset))
+                success(item)
             }
         })
 

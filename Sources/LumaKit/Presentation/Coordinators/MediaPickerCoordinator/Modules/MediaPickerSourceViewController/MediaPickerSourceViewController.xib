@@ -4,12 +4,17 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MediaPickerSourceViewController" customModule="LumaKit">
             <connections>
                 <outlet property="dismissButton" destination="tpb-DL-Q8b" id="x4r-Ab-v5U"/>
+                <outlet property="recentsButton" destination="ozX-h1-yAI" id="li4-Dc-FRa"/>
+                <outlet property="recentsContainerView" destination="EVR-00-MoP" id="e5Q-IW-GcU"/>
+                <outlet property="recentsView" destination="M7o-TX-JJj" id="LN1-9g-VyX"/>
+                <outlet property="recentsViewHeightConstraint" destination="SGj-9A-dWu" id="fGY-hc-Y07"/>
                 <outlet property="sourceStackView" destination="bLm-21-VeV" id="fp5-no-ObU"/>
                 <outlet property="titleLabel" destination="QVN-d8-EaU" id="YNe-hK-nve"/>
                 <outlet property="userContentView" destination="bJE-mS-9OQ" id="F2k-za-x6r"/>
@@ -18,11 +23,11 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="PassiveContainerView" customModule="LumaKit">
-            <rect key="frame" x="0.0" y="0.0" width="393" height="295"/>
+            <rect key="frame" x="0.0" y="0.0" width="393" height="449"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Choose Source" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QVN-d8-EaU" userLabel="titleLabel">
-                    <rect key="frame" x="16" y="157" width="361" height="22"/>
+                    <rect key="frame" x="16" y="307" width="361" height="22"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="22" id="a0N-cI-OrD"/>
                     </constraints>
@@ -31,7 +36,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <stackView opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="bLm-21-VeV" userLabel="sourceStackView">
-                    <rect key="frame" x="16" y="187" width="361" height="76"/>
+                    <rect key="frame" x="16" y="341" width="361" height="76"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="76" id="15N-ty-RRS"/>
                     </constraints>
@@ -49,32 +54,74 @@
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="bJE-mS-9OQ" userLabel="userContentView" customClass="PassiveContainerView" customModule="LumaKit">
-                    <rect key="frame" x="0.0" y="32" width="393" height="117"/>
+                    <rect key="frame" x="0.0" y="24" width="393" height="239"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M7o-TX-JJj" userLabel="recentsView">
+                    <rect key="frame" x="0.0" y="271" width="393" height="36"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EVR-00-MoP" userLabel="recentsContainerView">
+                            <rect key="frame" x="0.0" y="32" width="393" height="4"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ozX-h1-yAI" userLabel="recentsButton">
+                            <rect key="frame" x="16" y="0.0" width="76.666666666666671" height="36"/>
+                            <constraints>
+                                <constraint firstAttribute="height" priority="750" constant="36" id="flm-gk-L5C"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                            <color key="tintColor" systemColor="labelColor"/>
+                            <inset key="imageEdgeInsets" minX="8" minY="0.0" maxX="4" maxY="0.0"/>
+                            <state key="normal" title="Recents" image="chevron.right" catalog="system">
+                                <color key="titleColor" systemColor="labelColor"/>
+                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="13" weight="semibold"/>
+                            </state>
+                            <connections>
+                                <action selector="recentsButtonPressed:" destination="-1" eventType="touchUpInside" id="CB1-Ek-GQt"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="ozX-h1-yAI" firstAttribute="leading" secondItem="M7o-TX-JJj" secondAttribute="leading" constant="16" id="5tH-Ra-hbJ"/>
+                        <constraint firstItem="ozX-h1-yAI" firstAttribute="top" secondItem="M7o-TX-JJj" secondAttribute="top" id="NSg-9Z-mvs"/>
+                        <constraint firstAttribute="bottom" secondItem="EVR-00-MoP" secondAttribute="bottom" id="QOr-la-xQJ"/>
+                        <constraint firstAttribute="height" constant="36" id="SGj-9A-dWu"/>
+                        <constraint firstAttribute="trailing" secondItem="EVR-00-MoP" secondAttribute="trailing" id="YRj-54-anE"/>
+                        <constraint firstItem="EVR-00-MoP" firstAttribute="top" secondItem="ozX-h1-yAI" secondAttribute="bottom" constant="-4" id="obo-kd-1W5"/>
+                        <constraint firstItem="EVR-00-MoP" firstAttribute="leading" secondItem="M7o-TX-JJj" secondAttribute="leading" id="uph-kg-Ngg"/>
+                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="M7o-TX-JJj" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="2oD-MJ-Ugd"/>
                 <constraint firstAttribute="bottom" secondItem="bLm-21-VeV" secondAttribute="bottom" constant="32" id="5Fs-rX-69n"/>
                 <constraint firstAttribute="trailing" secondItem="bJE-mS-9OQ" secondAttribute="trailing" id="7xO-h9-aSJ"/>
                 <constraint firstItem="bLm-21-VeV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="97Z-yX-cdF"/>
-                <constraint firstItem="bJE-mS-9OQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="32" id="AXz-Ir-fdu"/>
+                <constraint firstAttribute="trailing" secondItem="M7o-TX-JJj" secondAttribute="trailing" id="ANp-aE-9UO"/>
+                <constraint firstItem="bJE-mS-9OQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="24" id="AXz-Ir-fdu"/>
+                <constraint firstItem="QVN-d8-EaU" firstAttribute="top" secondItem="M7o-TX-JJj" secondAttribute="bottom" id="FOL-J8-eLl"/>
                 <constraint firstAttribute="trailing" secondItem="tpb-DL-Q8b" secondAttribute="trailing" constant="2" id="Glt-RB-QMw"/>
                 <constraint firstItem="bJE-mS-9OQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="HC4-Z0-v2f"/>
-                <constraint firstItem="QVN-d8-EaU" firstAttribute="top" secondItem="bJE-mS-9OQ" secondAttribute="bottom" constant="8" id="P6o-SN-6cj"/>
                 <constraint firstItem="bJE-mS-9OQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Sfa-YO-P9w"/>
                 <constraint firstAttribute="trailing" secondItem="bJE-mS-9OQ" secondAttribute="trailing" id="VAp-CK-0rp"/>
                 <constraint firstItem="tpb-DL-Q8b" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="4" id="ZdN-eD-yK1"/>
                 <constraint firstAttribute="trailing" secondItem="bLm-21-VeV" secondAttribute="trailing" constant="16" id="dx8-tF-kmb"/>
+                <constraint firstItem="M7o-TX-JJj" firstAttribute="top" secondItem="bJE-mS-9OQ" secondAttribute="bottom" constant="8" id="gha-h9-RVv"/>
                 <constraint firstItem="QVN-d8-EaU" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="sQg-y2-cQb"/>
-                <constraint firstItem="bLm-21-VeV" firstAttribute="top" secondItem="QVN-d8-EaU" secondAttribute="bottom" constant="8" id="y5j-e2-LmK"/>
+                <constraint firstItem="bLm-21-VeV" firstAttribute="top" secondItem="QVN-d8-EaU" secondAttribute="bottom" constant="12" id="y5j-e2-LmK"/>
                 <constraint firstAttribute="trailing" secondItem="QVN-d8-EaU" secondAttribute="trailing" constant="16" id="yIH-gO-TCG"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="96.946564885496173" y="300.35211267605638"/>
+            <point key="canvasLocation" x="96.946564885496173" y="246.12676056338029"/>
         </view>
     </objects>
     <resources>
+        <image name="chevron.right" catalog="system" width="97" height="128"/>
         <image name="xmark.circle.fill" catalog="system" width="128" height="123"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

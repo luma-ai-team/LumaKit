@@ -61,6 +61,11 @@ extension URL {
         return resolvingSymlinksInPath().bundleRelativeURL ?? resolvingSymlinksInPath().homeRelativeURL ?? self
     }
 
+    public static func home(path: String) -> URL {
+        let homeURL = URL(fileURLWithPath: NSHomeDirectory())
+        return homeURL.appendingPathComponent(path)
+    }
+
     public static func resolving(relativeURL: URL) -> URL {
         if relativeURL.scheme == bundleURLScheme {
             let bundleURL = Bundle.main.resourceURL ?? Bundle.main.bundleURL

@@ -43,6 +43,7 @@ final class DummyMediaProvider: MediaProvider, DummyMediaProviderModuleOutput {
     }
 
     func dummyMediaProviderDidFinish(_ moduleInput: any DummyMediaProviderModuleInput, with image: UIImage) {
-        output?.mediaProviderDidFinish(self, with: [.image(image)])
+        let item = MediaFetchService.Item(identifier: UUID().uuidString, content: .image(image))
+        output?.mediaProviderDidFinish(self, with: [item])
     }
 }
