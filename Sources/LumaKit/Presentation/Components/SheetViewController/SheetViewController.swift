@@ -43,7 +43,7 @@ open class SheetViewController: UIViewController {
         }
     }
 
-    public var maximalWidth: CGFloat = 640 {
+    public var maximalWidth: CGFloat = 560.0 {
         didSet {
             guard isViewLoaded else {
                 return
@@ -316,31 +316,8 @@ open class SheetViewController: UIViewController {
         dismiss(animated: true)
     }
 
-    open func dismissModalTree() {
-        var target: UIViewController? = focusedViewController
-        repeat {
-            guard let dismissTarget = target else {
-                break
-            }
-
-            defer {
-                target = dismissTarget.presentingViewController
-            }
-
-            if let sheetViewController = dismissTarget as? SheetViewController {
-                sheetViewController.dismiss()
-                continue
-            }
-
-            UIView.defaultSpringAnimation {
-                switch dismissTarget.modalTransitionStyle {
-                case .crossDissolve:
-                    dismissTarget.view.alpha = 0.0
-                default:
-                    dismissTarget.view.frame.origin.y = self.view.bounds.height
-                }
-            }
-        } while target !== self
+    open func dismissAll() {
+        super.dismiss(animated: true)
 
         isContentVisible = false
         UIView.defaultSpringAnimation(animations: {
@@ -348,6 +325,7 @@ open class SheetViewController: UIViewController {
             self.blurOverlayView.alpha = 0.0
             self.floatingView?.alpha = 0.0
             self.contentView.alpha = 0.0
+            self.borderView.alpha = 0.0
             self.view.layout()
         }, completion: { _ in
             self.presentingViewController?.dismiss(animated: false)

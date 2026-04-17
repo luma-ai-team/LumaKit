@@ -155,9 +155,9 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         let pickerViewController = PHPickerViewController(configuration: pickerConfiguration)
         pickerViewController.delegate = self
         pickerViewController.modalTransitionStyle = .crossDissolve
-        pickerViewController.modalPresentationStyle = .overFullScreen
+        pickerViewController.modalPresentationStyle = .currentContext
 
-        loadingViewController.modalPresentationStyle = .overFullScreen
+        loadingViewController.modalPresentationStyle = .formSheet
         topViewController.present(loadingViewController, animated: true) {
             self.loadingViewController.present(pickerViewController, animated: animated, completion: completion)
         }
@@ -184,6 +184,9 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         }
 
         let controller = CameraViewController()
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            controller.modalPresentationStyle = .formSheet
+        }
         controller.shouldApplyFrontCameraFlipWorkaround = shouldApplyFrontCameraFlipWorkaround
         controller.sourceType = .camera
         controller.delegate = self
@@ -247,10 +250,10 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         state.isHapticEnabled = isHapticEnabled
 
         let module = WebSearchModule(state: state, dependencies: provider, output: self)
-        let appearance = StyledNavigationController.Appearance(barStyle: .opaque, color: colorScheme.background.primary)
+        let appearance = StyledNavigationController.Appearance(barStyle: .opaque, color: colorScheme.background.secondary)
         let navigationController = StyledNavigationController(rootViewController: module.viewController,
                                                               appearance: appearance)
-        navigationController.modalPresentationStyle = .overFullScreen
+        navigationController.modalPresentationStyle = .formSheet
         topViewController.present(navigationController, animated: true)
     }
 
@@ -259,10 +262,10 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
                                         completion: (() -> Void)? = nil) {
         provider.output = self
 
-        let appearance = StyledNavigationController.Appearance(barStyle: .opaque, color: colorScheme.background.primary)
+        let appearance = StyledNavigationController.Appearance(barStyle: .opaque, color: colorScheme.background.secondary)
         let navigationController = StyledNavigationController(rootViewController: provider.viewController,
                                                               appearance: appearance)
-        navigationController.modalPresentationStyle = .overFullScreen
+        navigationController.modalPresentationStyle = .formSheet
         topViewController.present(navigationController, animated: true)
     }
 
@@ -291,6 +294,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         sheetContent.state = .progress("Fetching", 0.0)
 
         let controller = SheetViewController(content: sheetContent)
+        controller.maximalWidth = 480.0
         if #available(iOS 26.0, *) {
             controller.backgroundColorOverride = colorScheme.background.secondary.withAlphaComponent(0.5)
         }
@@ -314,22 +318,11 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
 
     public func dismiss() {
         retainedSelf = nil
-        if rootViewController.presentedViewController === loadingViewController {
-            rootViewController.dismiss(animated: true)
+        if let sourcePickerViewController = sourcePickerViewController {
+            sourcePickerViewController.dismissAll()
         }
-        else if rootViewController.presentedViewController is UIImagePickerController {
+        else {
             rootViewController.dismiss(animated: true)
-        }
-        else if let sourcePickerViewController = self.sourcePickerViewController {
-            if topViewController === sourcePickerViewController {
-                sourcePickerViewController.dismiss(animated: true)
-            }
-            else if topViewController === sheetViewController {
-                sourcePickerViewController.dismissModalTree()
-            }
-            else if rootViewController.presentedViewController == sourcePickerViewController {
-                rootViewController.dismiss(animated: true)
-            }
         }
     }
 
@@ -479,9 +472,10 @@ extension MediaPickerCoordinator: MediaPickerSourceViewDelegate {
 
     public func mediaPickerSourceViewDidRequestRecents(_ sender: MediaPickerSourceViewController) {
         let module = makeRecentMediaModule()
-        let appearance = StyledNavigationController.Appearance(barStyle: .opaque, color: colorScheme.background.primary)
+        let appearance = StyledNavigationController.Appearance(barStyle: .opaque, color: colorScheme.background.secondary)
         let navigationController = StyledNavigationController(rootViewController: module.viewController,
                                                               appearance: appearance)
+        navigationController.modalPresentationStyle = .formSheet
         topViewController.present(navigationController, animated: true)
     }
 }
