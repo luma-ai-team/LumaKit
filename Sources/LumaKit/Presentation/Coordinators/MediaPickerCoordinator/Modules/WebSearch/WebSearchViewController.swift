@@ -65,8 +65,7 @@ final class WebSearchViewController: ViewController<WebSearchViewModel, Any, Web
         super.viewDidLoad {
             title = "Browse Web"
             navigationItem.leftBarButtonItem = .init(customView: dismissButton)
-
-            view.backgroundColor = viewModel.colorScheme.background.primary
+            view.backgroundColor = viewModel.colorScheme.background.secondary
 
             searchBar.tintColor = viewModel.colorScheme.foreground.primary
             searchBar.placeholder = "Search images on \(viewModel.searchSource)"

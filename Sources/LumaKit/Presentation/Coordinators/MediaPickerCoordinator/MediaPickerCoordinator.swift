@@ -264,8 +264,8 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
 
         let appearance = StyledNavigationController.Appearance(barStyle: .opaque, color: colorScheme.background.secondary)
         let navigationController = StyledNavigationController(rootViewController: provider.viewController,
-                                                              appearance: appearance)
-        navigationController.modalPresentationStyle = .formSheet
+                                                              appearance: provider.navigationAppearance ?? appearance)
+        navigationController.modalPresentationStyle = provider.modalPresentationStyle
         topViewController.present(navigationController, animated: true)
     }
 

@@ -19,7 +19,19 @@ public protocol MediaProviderOutput: AnyObject {
 public protocol MediaProvider: AnyObject {
     var item: MediaProviderItem { get }
     var viewController: UIViewController { get }
+    var modalPresentationStyle: UIModalPresentationStyle { get }
+    var navigationAppearance: StyledNavigationController.Appearance? { get }
     var output: (any MediaProviderOutput)? { get set }
+}
+
+extension MediaProvider {
+    public var modalPresentationStyle: UIModalPresentationStyle {
+        return .formSheet
+    }
+
+    public var navigationAppearance: StyledNavigationController.Appearance? {
+        return nil
+    }
 }
 
 public class CustomMediaProvider: MediaProvider {
