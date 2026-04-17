@@ -166,8 +166,9 @@ final class WebSearchViewController: ViewController<WebSearchViewModel, Any, Web
             bottomCollectionViewConstraint.constant = 0.0
         }
         else {
-            let inset = view.bounds.height - rect.minY
-            bottomCollectionViewConstraint.constant = inset
+            let keyboardRect = view.convert(rect, from: nil)
+            let inset = view.bounds.height - keyboardRect.minY
+            bottomCollectionViewConstraint.constant = max(inset, 0.0)
         }
 
         view.layout()

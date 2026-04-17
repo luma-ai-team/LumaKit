@@ -109,6 +109,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
             }
 
             let controller = SheetViewController(content: content)
+            controller.isKeyboardTrackingEnabled = false
             controller.materialStyle = materialStyle
             if #available(iOS 26.0, *) {
                 controller.backgroundColorOverride = colorScheme.background.secondary.withAlphaComponent(0.5)

@@ -358,7 +358,8 @@ open class SheetViewController: UIViewController {
     }
 
     @objc private func keyboardFrameWillChange(_ notification: Notification) {
-        guard let rect = notification.userInfo?[UIApplication.keyboardFrameEndUserInfoKey] as? CGRect else {
+        guard let rect = notification.userInfo?[UIApplication.keyboardFrameEndUserInfoKey] as? CGRect,
+              isKeyboardTrackingEnabled else {
             return
         }
 
