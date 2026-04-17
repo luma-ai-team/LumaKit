@@ -48,6 +48,7 @@
                     <subviews>
                         <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search Images on google photos" translatesAutoresizingMaskIntoConstraints="NO" id="G7i-e7-Dhc" userLabel="searchBar">
                             <rect key="frame" x="0.0" y="8" width="377" height="44"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="Nn3-sJ-2Fy"/>
                             </constraints>

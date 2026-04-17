@@ -77,7 +77,7 @@ final class WebSearchViewController: ViewController<WebSearchViewModel, Any, Web
                 collectionView.topEdgeEffect.isHidden = false
             }
             else {
-                searchView.backgroundColor = viewModel.colorScheme.background.primary
+                searchView.backgroundColor = viewModel.colorScheme.background.secondary
             }
 
             #if targetEnvironment(macCatalyst)
