@@ -155,9 +155,9 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         let pickerViewController = PHPickerViewController(configuration: pickerConfiguration)
         pickerViewController.delegate = self
         pickerViewController.modalTransitionStyle = .crossDissolve
-        pickerViewController.modalPresentationStyle = .fullScreen
+        pickerViewController.modalPresentationStyle = .overFullScreen
 
-        loadingViewController.modalPresentationStyle = .fullScreen
+        loadingViewController.modalPresentationStyle = .overFullScreen
         topViewController.present(loadingViewController, animated: true) {
             self.loadingViewController.present(pickerViewController, animated: animated, completion: completion)
         }
@@ -323,6 +323,9 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         else if let sourcePickerViewController = self.sourcePickerViewController {
             if topViewController === sourcePickerViewController {
                 sourcePickerViewController.dismiss(animated: true)
+            }
+            else if topViewController === sheetViewController {
+                sourcePickerViewController.dismissModalTree()
             }
             else if rootViewController.presentedViewController == sourcePickerViewController {
                 rootViewController.dismiss(animated: true)

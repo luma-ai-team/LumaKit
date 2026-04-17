@@ -220,9 +220,9 @@ open class SheetViewController: UIViewController {
                                 height: contentHeight)
         }
         else {
-            let offset = isContentVisible ? (contentHeight + keyboardInset + edgeInset) : 0.0
+            let offset = isContentVisible ? (contentHeight + keyboardInset + edgeInset + view.safeAreaInsets.bottom) : 0.0
             contentRect = .init(x: 0.5 * (view.bounds.width - contentWidth),
-                                y: view.bounds.height - offset - view.safeAreaInsets.bottom,
+                                y: view.bounds.height - offset,
                                 width: contentWidth,
                                 height: contentHeight + view.safeAreaInsets.bottom)
         }
@@ -314,6 +314,44 @@ open class SheetViewController: UIViewController {
 
     open func dismiss() {
         dismiss(animated: true)
+    }
+
+    open func dismissModalTree() {
+        var target: UIViewController? = focusedViewController
+        repeat {
+            guard let dismissTarget = target else {
+                break
+            }
+
+            defer {
+                target = dismissTarget.presentingViewController
+            }
+
+            if let sheetViewController = dismissTarget as? SheetViewController {
+                sheetViewController.dismiss()
+                continue
+            }
+
+            UIView.defaultSpringAnimation {
+                switch dismissTarget.modalTransitionStyle {
+                case .crossDissolve:
+                    dismissTarget.view.alpha = 0.0
+                default:
+                    dismissTarget.view.frame.origin.y = self.view.bounds.height
+                }
+            }
+        } while target !== self
+
+        isContentVisible = false
+        UIView.defaultSpringAnimation(animations: {
+            self.view.backgroundColor = .black.withAlphaComponent(0.0)
+            self.blurOverlayView.alpha = 0.0
+            self.floatingView?.alpha = 0.0
+            self.contentView.alpha = 0.0
+            self.view.layout()
+        }, completion: { _ in
+            self.presentingViewController?.dismiss(animated: false)
+        })
     }
 
     open override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {

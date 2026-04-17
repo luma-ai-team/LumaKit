@@ -9,6 +9,8 @@ import UIKit
 import AVFoundation
 
 final class MediaRecentsService {
+    public class RecentsUpdateEvent {}
+
     public enum RecordType: String, Codable {
         case image
         case video
@@ -34,6 +36,8 @@ final class MediaRecentsService {
         static let metadata: String = "contents.json"
         static let storageLimit: Int = 100
     }
+
+    public var recentsUpdatePipe: AsyncPipe<RecentsUpdateEvent> = .init(value: .init())
 
     private let storageURL: URL = .documents(path: "LumaKit/Storage/Media")
     private let fileManager: FileManager = .default
@@ -66,10 +70,12 @@ final class MediaRecentsService {
         return storageURL.appendingPathComponent(path).appendingPathExtension(pathExtension)
     }
 
-    private func updateRecordsCache() throws {
+    private func updateRecordsCache() async throws {
         let recordsURL = storageURL.appendingPathComponent(Constants.metadata)
         let metadata = try JSONEncoder().encode(records)
         try metadata.write(to: recordsURL)
+
+        await recentsUpdatePipe.send(.init())
     }
 
     public func store(item: MediaFetchService.Item) async throws {
@@ -103,14 +109,14 @@ final class MediaRecentsService {
             records = Array(records.prefix(Constants.storageLimit))
         }
 
-        try updateRecordsCache()
+        try await updateRecordsCache()
     }
 
     public func remove(item: MediaFetchService.Item) async throws {
         records.removeAll { (record: ItemRecord) in
             return record.identifier == item.identifier
         }
-        try updateRecordsCache()
+        try await updateRecordsCache()
 
         let url = makeURL(for: item)
         try fileManager.removeItem(at: url)
