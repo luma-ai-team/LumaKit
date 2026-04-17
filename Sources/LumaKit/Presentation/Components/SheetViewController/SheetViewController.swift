@@ -317,7 +317,9 @@ open class SheetViewController: UIViewController {
     }
 
     open func dismissAll() {
-        super.dismiss(animated: true)
+        if presentedViewController != nil {
+            super.dismiss(animated: true)
+        }
 
         isContentVisible = false
         UIView.defaultSpringAnimation(animations: {
