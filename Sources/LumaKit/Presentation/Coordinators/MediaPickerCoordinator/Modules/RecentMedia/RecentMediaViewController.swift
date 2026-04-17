@@ -100,10 +100,12 @@ final class RecentMediaViewController: ViewController<RecentMediaViewModel,
 
         viewUpdate(\.cellModels) { (cellModels: [RecentMediaCellModel]) in
             if cellModels.isEmpty {
+                collectionView.isUserInteractionEnabled = false
                 collectionViewManager.sections = factory.makePlaceholderSectionItems(count: viewModel.expectedItemCount,
                                                                                      colorScheme: viewModel.colorScheme)
             }
             else {
+                collectionView.isUserInteractionEnabled = true
                 collectionViewManager.sections = factory.makeSectionItems(for: cellModels)
             }
         }
