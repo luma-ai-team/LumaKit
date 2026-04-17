@@ -38,8 +38,7 @@ final class RecentMediaViewController: ViewController<RecentMediaViewModel,
 
     override func viewDidLoad() {
         super.viewDidLoad {
-            navigationController?.view.backgroundColor = viewModel.colorScheme.background.primary
-
+            view.backgroundColor = viewModel.colorScheme.background.secondary
             view.addSubview(collectionView)
             collectionView.bindMarginsToSuperview()
 

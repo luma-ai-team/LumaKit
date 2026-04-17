@@ -75,6 +75,7 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
             oldValue?.removeFromSuperview()
             recentsView.isHidden = false
             if let recentsContentView = recentsContentView {
+                recentsContentView.backgroundColor = .clear
                 recentsContainerView.addSubview(recentsContentView)
                 recentsContentView.bindMarginsToSuperview()
                 view.setNeedsLayout()
