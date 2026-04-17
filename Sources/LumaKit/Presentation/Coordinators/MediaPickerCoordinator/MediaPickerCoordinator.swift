@@ -454,7 +454,7 @@ extension MediaPickerCoordinator: UIImagePickerControllerDelegate & UINavigation
             image = flippedImage
         }
 
-        let identifier = (info[.imageURL] as? URL)?.absoluteString ?? UUID().uuidString
+        let identifier = UUID().uuidString
         let item = MediaFetchService.Item(identifier: identifier, content: .image(image))
         handleSelection(for: [item])
     }
@@ -501,7 +501,7 @@ extension MediaPickerCoordinator: UIDocumentPickerDelegate {
 
     public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         let items: [MediaFetchService.Item] = urls.compactMap { (url: URL) in
-            let identifier = url.absoluteString
+            let identifier = url.relativeURL.absoluteString
             if let image = UIImage(contentsOfFile: url.path) {
                 return MediaFetchService.Item(identifier: identifier, content: .image(image))
             }
@@ -531,7 +531,7 @@ extension MediaPickerCoordinator: WebSearchModuleOutput {
     }
 
     func webSearchModuleDidFinish(_ module: any WebSearchModuleInput, with image: UIImage, from url: URL) {
-        let item = MediaFetchService.Item(identifier: url.absoluteString, content: .image(image))
+        let item = MediaFetchService.Item(identifier: url.relativeURL.absoluteString, content: .image(image))
         handleSelection(for: [item])
     }
 }

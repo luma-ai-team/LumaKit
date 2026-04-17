@@ -115,7 +115,9 @@ extension MainViewController: MediaPickerCoordinatorOutput {
     func mediaPickerCoordinatorDidSelect(_ coordinator: MediaPickerCoordinator, items: [MediaFetchService.Item]) {
         print(items)
 
-        coordinator.show(image: nil, title: "hello", subtitle: "world") {
+        coordinator.show(image: nil, title: "hello", subtitle: "world")
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             coordinator.dismiss()
         }
     }
