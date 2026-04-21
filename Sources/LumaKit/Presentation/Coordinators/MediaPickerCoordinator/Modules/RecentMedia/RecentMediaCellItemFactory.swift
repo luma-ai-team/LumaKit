@@ -10,9 +10,11 @@ import UIKit
 @MainActor
 final class RecentMediaCellItemFactory {
     static var metadataCache: NSCache<NSString, RecentMediaCellModel.Metadata> = .init()
+    weak var collectionView: UICollectionView?
     var output: RecentMediaViewOutput?
 
-    init(output: RecentMediaViewOutput?) {
+    init(collectionView: UICollectionView, output: RecentMediaViewOutput?) {
+        self.collectionView = collectionView
         self.output = output
     }
 
@@ -35,6 +37,9 @@ final class RecentMediaCellItemFactory {
                     metadata = RecentMediaCellModel.Metadata(thumbnail: thumbnail, duration: duration)
                 }
 
+                if #available(iOS 16.0, *) {
+                    try await Task.sleep(for: .seconds(2.0))
+                }
                 Self.metadataCache.setObject(metadata, forKey: cellModel.item.identifier as NSString)
                 return metadata
             }
@@ -47,7 +52,11 @@ final class RecentMediaCellItemFactory {
             if cellModel.isEditable {
                 item.contextActions = [
                     .init(title: "Delete", image: .init(systemName: "trash"), attributes: .destructive, handler: { [weak self] _ in
-                        self?.output?.deleteEventTriggered(with: cellModel.item)
+                        let indexPath = IndexPath(item: cellModels.firstIndex(of: cellModel) ?? 0, section: 0)
+                        self?.collectionView?.performBatchUpdates {
+                            self?.collectionView?.deleteItems(at: [indexPath])
+                            self?.output?.deleteEventTriggered(with: cellModel.item)
+                        }
                     })
                 ]
             }

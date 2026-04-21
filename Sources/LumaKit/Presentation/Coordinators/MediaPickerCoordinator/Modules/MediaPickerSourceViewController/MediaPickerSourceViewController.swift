@@ -73,16 +73,20 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
     public var recentsContentView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
-            recentsView.isHidden = false
+            recentsView.isHidden = recentsContentView == nil
             if let recentsContentView = recentsContentView {
                 recentsContentView.backgroundColor = .clear
                 recentsContainerView.addSubview(recentsContentView)
                 recentsContentView.bindMarginsToSuperview()
-                view.setNeedsLayout()
             }
-            else {
-                recentsViewHeightConstraint.constant = 0.0
-            }
+            view.setNeedsLayout()
+            view.layoutIfNeeded()
+        }
+    }
+
+    public var isExpandedRecentsStateAvailable: Bool = true {
+        didSet {
+            updateRecentsButton()
         }
     }
 
@@ -125,16 +129,25 @@ public final class MediaPickerSourceViewController: UIViewController, Dismissabl
             let size = RecentMediaCell.size(with: .empty(with: colorScheme), fitting: view.bounds.size, insets: .zero)
             recentsViewHeightConstraint.constant = size.height + 64.0
         }
+        else {
+            recentsViewHeightConstraint.constant = 0.0
+        }
     }
 
     private func updateRecentsButton() {
         recentsButton.semanticContentAttribute = .forceRightToLeft
         recentsButton.tintColor = colorScheme.foreground.primary
+        recentsButton.isEnabled = isExpandedRecentsStateAvailable
 
-        let configuration = UIImage.SymbolConfiguration(pointSize: 13.0, weight: .semibold)
-        let image = UIImage(systemName: "chevron.right", withConfiguration: configuration)
-        recentsButton.setImage(image?.withRenderingMode(.alwaysOriginal).withTintColor(colorScheme.foreground.secondary),
-                               for: .normal)
+        if isExpandedRecentsStateAvailable {
+            let configuration = UIImage.SymbolConfiguration(pointSize: 13.0, weight: .semibold)
+            let image = UIImage(systemName: "chevron.right", withConfiguration: configuration)
+            recentsButton.setImage(image?.withRenderingMode(.alwaysOriginal).withTintColor(colorScheme.foreground.secondary),
+                                   for: .normal)
+        }
+        else {
+            recentsButton.setImage(nil, for: .normal)
+        }
     }
 
     private func updateDismissButton() {

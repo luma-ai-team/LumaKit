@@ -11,6 +11,7 @@ final class RecentMediaCell: UICollectionViewCell, CollectionViewCell {
     typealias ViewModel = RecentMediaCellModel
 
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var shimmerView: ShimmerView!
     @IBOutlet weak var videoOverlayView: GradientView!
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var selectionView: UIView!
@@ -60,11 +61,20 @@ final class RecentMediaCell: UICollectionViewCell, CollectionViewCell {
     }
 
     func update(with viewModel: RecentMediaCellModel, attributes: CollectionViewItemAttributes) {
-        backgroundColor = viewModel.colorScheme.background.secondary
+        backgroundColor = viewModel.colorScheme.background.primary
         isSelectable = viewModel.isSelectable
         imageView.image = viewModel.metadata?.thumbnail
         videoOverlayView.isHidden = viewModel.metadata?.duration == nil
         durationLabel.text = viewModel.metadata?.duration?.toShortTimecodeString()
+        imageView.alpha = viewModel.isEnabled ? 1.0 : 0.4
+        isUserInteractionEnabled = viewModel.isEnabled
+
+        if viewModel.metadata?.thumbnail == nil {
+            shimmerView.startAnimating()
+        }
+        else {
+            shimmerView.stopAnimating()
+        }
 
         videoOverlayView.gradient = .vertical(colors: [
             viewModel.colorScheme.background.primary.withAlphaComponent(0.0),
@@ -75,5 +85,6 @@ final class RecentMediaCell: UICollectionViewCell, CollectionViewCell {
         shadeView.backgroundColor = viewModel.colorScheme.background.primary.withAlphaComponent(0.6)
         markerView.backgroundColor = viewModel.colorScheme.foreground.primary
         markerView.layer.borderColor = viewModel.colorScheme.stroke.secondary.cgColor
+        shimmerView.tintColor = viewModel.colorScheme.foreground.primary
     }
 }

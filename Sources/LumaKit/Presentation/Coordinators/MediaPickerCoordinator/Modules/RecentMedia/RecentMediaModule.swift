@@ -12,6 +12,7 @@ protocol RecentMediaModuleInput {
 
 @MainActor
 protocol RecentMediaModuleOutput {
+    func recentMediaModuleDidUpdateRecents(_ moduleInput: RecentMediaModuleInput)
     func recentMediaModuleDidFinish(_ moduleInput: RecentMediaModuleInput, with items: [MediaFetchService.Item])
 }
 

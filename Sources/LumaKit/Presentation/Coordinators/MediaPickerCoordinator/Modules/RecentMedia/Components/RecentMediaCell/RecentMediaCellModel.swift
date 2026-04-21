@@ -22,6 +22,7 @@ final class RecentMediaCellModel: Equatable {
     let colorScheme: ColorScheme
     var metadata: Metadata?
     var isEditable: Bool = false
+    var isEnabled: Bool = true
     var isSelectable: Bool = true
 
     init(item: MediaFetchService.Item, colorScheme: ColorScheme) {
@@ -35,6 +36,7 @@ final class RecentMediaCellModel: Equatable {
     }
 
     static func == (lhs: RecentMediaCellModel, rhs: RecentMediaCellModel) -> Bool {
-        return (lhs.item.identifier == rhs.item.identifier)
+        return (lhs.item.identifier == rhs.item.identifier) &&
+               (lhs.isEnabled == rhs.isEnabled)
     }
 }

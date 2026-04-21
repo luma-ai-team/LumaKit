@@ -18,13 +18,16 @@ final class RecentMediaViewModel: ViewModel {
     let expectedItemCount: Int
     let selectionLimit: Int
     let isEditingAllowed: Bool
+    let isLoading: Bool
 
     init(delegate: RecentMediaViewModelDelegate) {
         colorScheme = delegate.state.colorScheme
+        let isSelectionLimitReached = delegate.state.selectedItems.count >= delegate.state.selectionLimit
         cellModels = delegate.state.items.map { (item: MediaFetchService.Item) in
             let model = RecentMediaCellModel(item: item, colorScheme: delegate.state.colorScheme)
             model.isEditable = delegate.state.isEditingAllowed
             model.isSelectable = delegate.state.selectionLimit > 1
+            model.isEnabled = (isSelectionLimitReached == false) || (delegate.state.selectedItems.contains(item))
             return model
         }
         selectedIndexPaths = delegate.state.selectedItems.compactMap { (item: MediaFetchService.Item) in
@@ -39,5 +42,6 @@ final class RecentMediaViewModel: ViewModel {
         expectedItemCount = delegate.state.expectedItemCount
         selectionLimit = delegate.state.selectionLimit
         isEditingAllowed = delegate.state.isEditingAllowed
+        isLoading = delegate.state.isLoading
     }
 }

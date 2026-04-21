@@ -17,6 +17,10 @@
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Il5-fR-6Oe" userLabel="imageView">
                     <rect key="frame" x="0.0" y="0.0" width="393" height="295"/>
                 </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="whm-gB-QYC" userLabel="shimmerView" customClass="ShimmerView" customModule="LumaKit">
+                    <rect key="frame" x="0.0" y="0.0" width="393" height="295"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ED5-nK-q4h" userLabel="videoOverlayView" customClass="GradientView" customModule="LumaKit">
                     <rect key="frame" x="0.0" y="0.0" width="393" height="295"/>
                     <subviews>
@@ -62,12 +66,16 @@
             </subviews>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="whm-gB-QYC" secondAttribute="trailing" id="26P-xH-T29"/>
+                <constraint firstItem="whm-gB-QYC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="FAO-O1-7Pw"/>
                 <constraint firstAttribute="trailing" secondItem="ED5-nK-q4h" secondAttribute="trailing" id="I3t-mt-bwM"/>
                 <constraint firstItem="ED5-nK-q4h" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="IVJ-Bp-S4x"/>
                 <constraint firstItem="kSX-5g-ntz" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="P3f-CB-Yib"/>
                 <constraint firstAttribute="trailing" secondItem="Il5-fR-6Oe" secondAttribute="trailing" id="UmI-qX-5tG"/>
+                <constraint firstItem="whm-gB-QYC" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="aSQ-UW-uuO"/>
                 <constraint firstItem="kSX-5g-ntz" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="fIe-EM-Feu"/>
                 <constraint firstAttribute="bottom" secondItem="kSX-5g-ntz" secondAttribute="bottom" id="ian-ra-WMU"/>
+                <constraint firstAttribute="bottom" secondItem="whm-gB-QYC" secondAttribute="bottom" id="jIE-7b-yVA"/>
                 <constraint firstItem="Il5-fR-6Oe" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="kl1-B0-Qpr"/>
                 <constraint firstAttribute="trailing" secondItem="kSX-5g-ntz" secondAttribute="trailing" id="mko-4O-5vw"/>
                 <constraint firstItem="ED5-nK-q4h" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="oJR-yx-ZcP"/>
@@ -82,6 +90,7 @@
                 <outlet property="markerView" destination="kEM-tq-I8g" id="CDW-9O-yLE"/>
                 <outlet property="selectionView" destination="kSX-5g-ntz" id="9kB-fD-8mX"/>
                 <outlet property="shadeView" destination="xL8-2T-Gqq" id="rGn-jt-Qla"/>
+                <outlet property="shimmerView" destination="whm-gB-QYC" id="dTc-D8-hoP"/>
                 <outlet property="videoOverlayView" destination="ED5-nK-q4h" id="6v8-ko-DAF"/>
             </connections>
             <point key="canvasLocation" x="136.64122137404578" y="308.0985915492958"/>

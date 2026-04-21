@@ -18,7 +18,7 @@ protocol RecentMediaViewOutput: ViewOutput {
 final class RecentMediaViewController: ViewController<RecentMediaViewModel,
                                                       RecentMediaViewInput,
                                                       RecentMediaViewOutput>, RecentMediaViewInput {
-    private lazy var factory: RecentMediaCellItemFactory = .init(output: output)
+    private lazy var factory: RecentMediaCellItemFactory = .init(collectionView: collectionView, output: output)
     private lazy var collectionViewManager: CollectionViewManager = .init(collectionView: collectionView)
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
@@ -97,15 +97,15 @@ final class RecentMediaViewController: ViewController<RecentMediaViewModel,
             }
         }
 
-        viewUpdate(\.cellModels) { (cellModels: [RecentMediaCellModel]) in
-            if cellModels.isEmpty {
+        viewUpdate(\.cellModels, \.isLoading) {
+            if viewModel.isLoading {
                 collectionView.isUserInteractionEnabled = false
                 collectionViewManager.sections = factory.makePlaceholderSectionItems(count: viewModel.expectedItemCount,
                                                                                      colorScheme: viewModel.colorScheme)
             }
             else {
                 collectionView.isUserInteractionEnabled = true
-                collectionViewManager.sections = factory.makeSectionItems(for: cellModels)
+                collectionViewManager.sections = factory.makeSectionItems(for: viewModel.cellModels)
             }
         }
 

@@ -22,6 +22,7 @@ final class RecentMediaPresenter: Presenter<RecentMediaState,
         if state.expectedItemCount == 0 {
             state.expectedItemCount = provider.recordCount(type: state.filter)
         }
+
         super.viewDidLoad()
         recentsUpdateTask()
     }
@@ -29,6 +30,7 @@ final class RecentMediaPresenter: Presenter<RecentMediaState,
     private func updateRecents() {
         Task {
             state.items = try await provider.fetch(type: state.filter, limit: state.expectedItemCount)
+            state.isLoading = false
             update(animated: false)
         }
     }
@@ -47,20 +49,24 @@ extension RecentMediaPresenter: RecentMediaViewOutput {
         if state.selectedItems.contains(item) {
             state.selectedItems.removeAll(matching: item)
         }
-        else {
+        else if state.selectedItems.count < state.selectionLimit {
             state.selectedItems.append(item)
         }
+
         update(animated: false)
     }
     
     func deleteEventTriggered(with item: MediaFetchService.Item) {
         state.items.removeAll(matching: item)
-        if state.items.isEmpty {
-            viewInput.dismiss()
-        }
+        update(animated: false)
 
         Task {
             try await provider.remove(item: item)
+            output?.recentMediaModuleDidUpdateRecents(self)
+        }
+
+        if state.items.isEmpty {
+            viewInput.dismiss()
         }
     }
 

@@ -85,7 +85,8 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         retainedSelf = self
 
         let recentsType: MediaRecentsService.RecordType? = makeRecentRecordType(for: filter)
-        let shouldShowRecentMedia = mediaRecentsService.hasRecords(type: recentsType)
+        let recentsCount = mediaRecentsService.recordCount(type: recentsType)
+        let shouldShowRecentMedia = recentsCount > 0
 
         if sources.count == 1,
            shouldShowRecentMedia == false,
@@ -106,6 +107,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
                 let module = makeRecentMediaModule(isInline: true)
                 content.add(child: module.viewController)
                 content.recentsContentView = module.viewController.view
+                content.isExpandedRecentsStateAvailable = recentsCount > 4
             }
 
             let controller = SheetViewController(content: content)
@@ -557,5 +559,14 @@ extension MediaPickerCoordinator: MediaProviderOutput {
 extension MediaPickerCoordinator: RecentMediaModuleOutput {
     func recentMediaModuleDidFinish(_ moduleInput: any RecentMediaModuleInput, with items: [MediaFetchService.Item]) {
         handleSelection(for: items)
+    }
+
+    func recentMediaModuleDidUpdateRecents(_ moduleInput: any RecentMediaModuleInput) {
+        guard mediaRecentsService.hasRecords(type: makeRecentRecordType(for: filter)) == false else {
+            return
+        }
+
+        (sourcePickerViewController?.content as? MediaPickerSourceViewController)?.recentsContentView = nil
+        sourcePickerViewController?.updateContent()
     }
 }
