@@ -45,6 +45,7 @@ final class RecentMediaCell: UICollectionViewCell, CollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        shimmerView.shimmerAlpha = 0.3
         durationLabel.font = .compatibleSystemFont(ofSize: 12.0, weight: .semibold, design: .rounded)
 
         selectionView.layer.borderWidth = 2.0
