@@ -182,6 +182,7 @@ public final class ShareCoordinator: Coordinator<UIViewController> {
         let confettiView = LottieAnimationView()
         confettiView.animation = LottieAnimation.asset("lottie-confetti-anim", bundle: .module)
         confettiView.contentMode = .scaleAspectFill
+        confettiView.animationSpeed = 2.5
         confettiView.play()
         sheetViewController.floatingView = confettiView
     }

@@ -49,6 +49,7 @@ public final class ShareCoordinator: ModalCoordinator<ShareModule, SharePresente
         }
 
         let confettiView = LottieAnimationView()
+        confettiView.animationSpeed = 2.5
         confettiView.animation = .confetti
         confettiView.contentMode = .scaleAspectFill
         confettiView.play()

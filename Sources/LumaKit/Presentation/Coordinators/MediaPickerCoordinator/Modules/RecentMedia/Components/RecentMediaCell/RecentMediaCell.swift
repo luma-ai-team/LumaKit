@@ -70,6 +70,7 @@ final class RecentMediaCell: UICollectionViewCell, CollectionViewCell {
         imageView.alpha = viewModel.isEnabled ? 1.0 : 0.4
         isUserInteractionEnabled = viewModel.isEnabled
 
+        shimmerView.isHidden = viewModel.metadata?.thumbnail != nil
         if viewModel.metadata?.thumbnail == nil {
             shimmerView.startAnimating()
         }
