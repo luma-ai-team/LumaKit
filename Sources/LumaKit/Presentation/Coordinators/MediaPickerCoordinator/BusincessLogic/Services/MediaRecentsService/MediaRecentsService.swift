@@ -8,7 +8,7 @@
 import UIKit
 import AVFoundation
 
-final class MediaRecentsService {
+public final class MediaRecentsService {
     public class RecentsUpdateEvent {}
 
     public enum RecordType: String, Codable {
@@ -27,7 +27,7 @@ final class MediaRecentsService {
             self.url = url
         }
 
-        static func == (lhs: ItemRecord, rhs: ItemRecord) -> Bool {
+        public static func == (lhs: ItemRecord, rhs: ItemRecord) -> Bool {
             return lhs.identifier == rhs.identifier
         }
     }
@@ -44,7 +44,7 @@ final class MediaRecentsService {
 
     private var records: [ItemRecord] = []
 
-    static var shared: MediaRecentsService = .init()
+    public static var shared: MediaRecentsService = .init()
 
     private init() {
         if fileManager.fileExists(atPath: storageURL.path) == false {

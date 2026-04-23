@@ -80,7 +80,24 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
         self.filter = filter
         super.init(rootViewController: rootViewController)
     }
-    
+
+    public func start(with contentFetchHandler: @escaping () async throws -> [MediaFetchService.Item]) {
+        sheetViewController = makeSheetViewController()
+        rootViewController.present(sheetViewController, animated: true)
+
+        Task.do({
+            let items = try await contentFetchHandler()
+            if items.isEmpty {
+                await self.dismiss()
+            }
+            else {
+                await self.handleSelection(for: items)
+            }
+        }, catch: { (error: Error) in
+            await self.errorHandler(error)
+        })
+    }
+
     public func start(completion: (() -> Void)? = nil) {
         retainedSelf = self
 

@@ -11,10 +11,12 @@ import LumaKitShare
 import AVFoundation
 
 class MainViewController: UIViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Example"
+
+        let interaction = UIDropInteraction(delegate: self)
+        view.interactions.append(interaction)
     }
 
     // MARK: - Actions
@@ -124,5 +126,29 @@ extension MainViewController: MediaPickerCoordinatorOutput {
     
     func mediaPickerCoordinatorDidCancel(_ coordinator: MediaPickerCoordinator) {
         coordinator.dismiss()
+    }
+}
+
+// MARK: - UIDropInteractionDelegate
+
+extension MainViewController: UIDropInteractionDelegate {
+    func dropInteraction(_ interaction: UIDropInteraction, canHandle session: UIDropSession) -> Bool {
+        return true
+    }
+
+    func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
+        return .init(operation: .copy)
+    }
+
+    func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
+        let coordinator = MediaPickerCoordinator(rootViewController: self, colorScheme: .system)
+        coordinator.output = self
+        coordinator.start() {
+            guard let image = UIImage(systemName: "xmark") else {
+                return []
+            }
+
+            return [.init(identifier: UUID().uuidString, content: .image(image))]
+        }
     }
 }

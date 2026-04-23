@@ -2,7 +2,7 @@
 //  Copyright © 2024 Luma AI. All rights reserved.
 //
 
-import PhotosUI
+@preconcurrency import PhotosUI
 
 public final class MediaFetchService {
     class RecursiveFetchContext {
@@ -16,12 +16,12 @@ public final class MediaFetchService {
         }
     }
 
-    public enum Content {
+    public enum Content: Sendable {
         case image(UIImage)
         case asset(AVAsset)
     }
 
-    public struct Item: Equatable {
+    public struct Item: Equatable, Sendable {
         public let identifier: String
         public let content: Content
 
