@@ -82,6 +82,7 @@ public final class MediaPickerCoordinator: Coordinator<UIViewController> {
     }
 
     public func start(with contentFetchHandler: @escaping () async throws -> [MediaFetchService.Item]) {
+        retainedSelf = self
         sheetViewController = makeSheetViewController()
         rootViewController.present(sheetViewController, animated: true)
 
